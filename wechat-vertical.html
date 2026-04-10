@@ -969,7 +969,87 @@ body::after{right:0;border-left:2px solid rgba(253,203,110,0.2)}
   </div>
 </section>
 
+<!-- Music floating button -->
+<div id="musicBtn" onclick="toggleMusic()" style="position:fixed;bottom:24px;right:24px;z-index:999;width:52px;height:52px;border-radius:50%;background:rgba(26,16,64,0.85);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid rgba(253,203,110,0.5);box-shadow:0 4px 20px rgba(0,0,0,0.4);transition:transform 0.3s">
+  <span id="musicIcon" style="font-size:22px;color:#fdcb6e">♪</span>
+</div>
+<div id="musicLabel" style="position:fixed;bottom:82px;right:16px;z-index:999;font-family:'ZCOOL XiaoWei',serif;font-size:12px;color:rgba(253,203,110,0.8);background:rgba(26,16,64,0.8);padding:4px 12px;border-radius:12px;pointer-events:none;opacity:1;transition:opacity 1s">点击播放配乐</div>
+
 <script>
+// ========== MUSIC SYSTEM ==========
+let audioCtx=null, masterGain=null, musicPlaying=false, noteIdx=0;
+
+function toggleMusic(){
+  if(!musicPlaying) startMusic();
+  else stopMusic();
+}
+
+function startMusic(){
+  if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  if(audioCtx.state==='suspended') audioCtx.resume();
+
+  // Reverb
+  const rate=audioCtx.sampleRate, len=rate*2.5;
+  const impulse=audioCtx.createBuffer(2,len,rate);
+  for(let ch=0;ch<2;ch++){const d=impulse.getChannelData(ch);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.8);}
+  const conv=audioCtx.createConvolver();conv.buffer=impulse;conv.connect(audioCtx.destination);
+  masterGain=audioCtx.createGain();masterGain.gain.value=0.18;
+  masterGain.connect(conv);masterGain.connect(audioCtx.destination);
+
+  musicPlaying=true;
+  document.getElementById('musicIcon').textContent='♫';
+  document.getElementById('musicBtn').style.transform='scale(1.1)';
+  document.getElementById('musicLabel').style.opacity='0';
+  playNote();
+}
+
+function stopMusic(){
+  musicPlaying=false;
+  if(masterGain) masterGain.gain.linearRampToValueAtTime(0,audioCtx.currentTime+0.5);
+  document.getElementById('musicIcon').textContent='♪';
+  document.getElementById('musicBtn').style.transform='scale(1)';
+}
+
+function getScrollProgress(){
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  return h>0? window.scrollY/h : 0;
+}
+
+function getMusicParams(p){
+  // Emotional progression: melancholic → transitioning → rising → triumphant
+  if(p<0.15) return{freqs:[110,131,165,220],tempo:0.3,vol:0.12,type:'sine'};       // Am melancholic
+  if(p<0.3)  return{freqs:[131,165,196,262],tempo:0.35,vol:0.14,type:'sine'};      // C transitioning
+  if(p<0.5)  return{freqs:[147,185,220,294],tempo:0.45,vol:0.16,type:'triangle'};  // D rising
+  if(p<0.7)  return{freqs:[165,196,247,330],tempo:0.5,vol:0.18,type:'triangle'};   // E intense
+  if(p<0.85) return{freqs:[185,220,277,370],tempo:0.55,vol:0.2,type:'triangle'};   // rising more
+  return{freqs:[196,247,294,392],tempo:0.4,vol:0.15,type:'sine'};                   // G triumphant, peaceful
+}
+
+function playNote(){
+  if(!musicPlaying||!audioCtx||audioCtx.state==='closed') return;
+  const prog=getScrollProgress();
+  const pm=getMusicParams(prog);
+
+  const osc=audioCtx.createOscillator(),g=audioCtx.createGain();
+  osc.type=pm.type;
+  osc.frequency.value=pm.freqs[noteIdx%pm.freqs.length];
+  g.gain.setValueAtTime(pm.vol,audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+3);
+  osc.connect(g);g.connect(masterGain);osc.start();osc.stop(audioCtx.currentTime+3);
+
+  // Bass drone every 4 notes
+  if(noteIdx%4===0){
+    const dr=audioCtx.createOscillator(),dg=audioCtx.createGain();
+    dr.type='sine';dr.frequency.value=pm.freqs[0]/2;
+    dg.gain.setValueAtTime(pm.vol*0.35,audioCtx.currentTime);
+    dg.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+5);
+    dr.connect(dg);dg.connect(masterGain);dr.start();dr.stop(audioCtx.currentTime+5);
+  }
+
+  noteIdx++;
+  setTimeout(playNote, 1000/pm.tempo);
+}
+
 // Generate film strip perforation holes
 function generateHoles(){
   const h=document.documentElement.scrollHeight;
