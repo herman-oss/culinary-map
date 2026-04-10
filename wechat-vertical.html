@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- WeChat sharing meta -->
+<meta property="og:title" content="中餐全球化地图 · 从唐人街到米其林">
+<meta property="og:description" content="中餐如何从最被看不起的菜系变成下一个寿司？一幅关于食物、身份与尊严的长卷。">
+<meta property="og:type" content="article">
+<meta property="og:image" content="">
+<title>中餐全球化地图 · 从唐人街到米其林</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=ZCOOL+QingKe+HuangYou&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --pool-blue:#0984e3;
+  --coral:#ff6b6b;
+  --vermillion:#d63031;
+  --gold:#fdcb6e;
+  --green:#00b894;
+  --teal:#00cec9;
+  --pink:#fd79a8;
+  --orange:#e17055;
+  --dark:#1a1040;
+  --cream:#ffeaa7;
+  --bg-dark:#1a1040;
+  --bg-cream:#fdf6e3;
+}
+
+html{
+  scroll-snap-type:y proximity;
+  overflow-x:hidden;
+}
+@media(min-height:600px){
+  html{scroll-behavior:smooth}
+}
+body{
+  font-family:'ZCOOL XiaoWei','PingFang SC','Hiragino Sans GB',serif;
+  background:var(--bg-dark);
+  color:#fff;
+  overflow-x:hidden;
+  max-width:100vw;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* Film strip perforations on left and right */
+body::before,body::after{
+  content:'';
+  position:fixed;
+  top:0;bottom:0;
+  width:18px;
+  z-index:100;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 20px,
+      rgba(253,203,110,0.15) 20px,
+      rgba(253,203,110,0.15) 22px,
+      transparent 22px,
+      transparent 30px,
+      var(--bg-dark) 30px,
+      var(--bg-dark) 32px,
+      transparent 32px,
+      transparent 38px
+    );
+  pointer-events:none;
+}
+body::before{left:0;border-right:2px solid rgba(253,203,110,0.2)}
+body::after{right:0;border-left:2px solid rgba(253,203,110,0.2)}
+
+/* Film perforations - the holes */
+.film-left,.film-right{
+  position:fixed;
+  top:0;bottom:0;
+  width:18px;
+  z-index:101;
+  pointer-events:none;
+}
+.film-left{left:0}
+.film-right{right:0}
+.film-hole{
+  position:absolute;
+  width:8px;height:8px;
+  border-radius:2px;
+  background:rgba(26,16,64,0.8);
+  border:1px solid rgba(253,203,110,0.3);
+  left:5px;
+}
+
+/* Sections */
+.panel{
+  min-height:100vh;
+  padding:60px 32px 60px 32px;
+  position:relative;
+  scroll-snap-align:start;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  overflow:hidden;
+}
+
+/* Section number */
+.panel-num{
+  font-family:'Playfair Display',serif;
+  font-size:13px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--gold);
+  opacity:0.7;
+  margin-bottom:8px;
+}
+
+/* Chinese title */
+.panel-title{
+  font-family:'ZCOOL QingKe HuangYou',sans-serif;
+  font-size:32px;
+  line-height:1.2;
+  margin-bottom:6px;
+  color:#fff;
+}
+
+/* English subtitle */
+.panel-en{
+  font-family:'Playfair Display',serif;
+  font-size:14px;
+  font-style:italic;
+  color:var(--cream);
+  margin-bottom:16px;
+  letter-spacing:1px;
+}
+
+/* Body text */
+.panel-body{
+  font-size:17px;
+  line-height:1.8;
+  color:rgba(255,255,255,0.92);
+}
+.panel-body p{margin-bottom:12px}
+.panel-body .stat{
+  font-family:'ZCOOL QingKe HuangYou',sans-serif;
+  font-size:36px;
+  color:var(--gold);
+  display:block;
+  margin:16px 0 8px;
+  line-height:1.1;
+}
+.panel-body .stat-label{
+  font-size:14px;
+  color:var(--cream);
+  display:block;
+  margin-bottom:12px;
+}
+.panel-body .highlight{
+  color:var(--gold);
+  font-weight:bold;
+}
+.panel-body .tag{
+  display:inline-block;
+  background:rgba(253,203,110,0.15);
+  color:var(--gold);
+  padding:2px 10px;
+  border-radius:3px;
+  font-size:14px;
+  margin:2px 4px 2px 0;
+  border:1px solid rgba(253,203,110,0.2);
+}
+.panel-body .quote{
+  border-left:3px solid var(--gold);
+  padding:8px 0 8px 16px;
+  margin:16px 0;
+  font-style:italic;
+  color:var(--cream);
+  font-size:16px;
+}
+.panel-body ul{
+  list-style:none;
+  padding:0;
+}
+.panel-body li{
+  padding:6px 0;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  font-size:16px;
+  line-height:1.6;
+}
+.panel-body li:last-child{border-bottom:none}
+.panel-body li::before{
+  content:'·';
+  color:var(--gold);
+  margin-right:6px;
+  font-weight:bold;
+}
+
+/* SVG illustrations */
+.panel-svg{
+  margin:20px auto;
+  display:block;
+  max-width:240px;
+}
+
+/* Divider between panels */
+.divider{
+  height:2px;
+  background:linear-gradient(90deg,transparent,rgba(253,203,110,0.3),transparent);
+  margin:0 32px;
+}
+
+/* Color themes for panels */
+.theme-dark{background:var(--bg-dark)}
+.theme-vermillion{background:linear-gradient(170deg,#2d0a0a 0%,#1a1040 100%)}
+.theme-blue{background:linear-gradient(170deg,#0a1a2d 0%,#1a1040 100%)}
+.theme-green{background:linear-gradient(170deg,#0a2d1a 0%,#1a1040 100%)}
+.theme-teal{background:linear-gradient(170deg,#0a2d2d 0%,#1a1040 100%)}
+.theme-orange{background:linear-gradient(170deg,#2d1a0a 0%,#1a1040 100%)}
+.theme-pink{background:linear-gradient(170deg,#2d0a1a 0%,#1a1040 100%)}
+.theme-purple{background:linear-gradient(170deg,#1a0a2d 0%,#1a1040 100%)}
+.theme-gold{background:linear-gradient(170deg,#2d2a0a 0%,#1a1040 100%)}
+.theme-cream{background:var(--bg-cream);color:var(--dark)}
+.theme-cream .panel-title{color:var(--dark)}
+.theme-cream .panel-en{color:var(--vermillion)}
+.theme-cream .panel-num{color:var(--vermillion)}
+.theme-cream .panel-body{color:rgba(26,16,64,0.9)}
+.theme-cream .panel-body .highlight{color:var(--vermillion)}
+.theme-cream .panel-body .stat{color:var(--vermillion)}
+.theme-cream .panel-body .stat-label{color:rgba(26,16,64,0.6)}
+.theme-cream .panel-body .tag{background:rgba(214,48,49,0.1);color:var(--vermillion);border-color:rgba(214,48,49,0.2)}
+.theme-cream .panel-body .quote{border-color:var(--vermillion);color:rgba(26,16,64,0.7)}
+.theme-cream .panel-body li{border-bottom-color:rgba(26,16,64,0.08)}
+.theme-cream .panel-body li::before{color:var(--vermillion)}
+
+/* Woodblock outline elements */
+.woodblock-border{
+  border:3px solid var(--dark);
+  border-radius:4px;
+  padding:16px;
+  margin:16px 0;
+  position:relative;
+}
+.woodblock-border::after{
+  content:'';
+  position:absolute;
+  top:3px;left:3px;right:-3px;bottom:-3px;
+  border:1px solid rgba(253,203,110,0.15);
+  border-radius:4px;
+  pointer-events:none;
+}
+.theme-cream .woodblock-border{border-color:rgba(26,16,64,0.3)}
+.theme-cream .woodblock-border::after{border-color:rgba(26,16,64,0.08)}
+
+/* Grid for items */
+.card-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:16px 0;
+}
+.card{
+  background:rgba(255,255,255,0.05);
+  border:2px solid rgba(253,203,110,0.15);
+  border-radius:4px;
+  padding:12px;
+  text-align:center;
+}
+.card-emoji{font-size:28px;margin-bottom:4px}
+.card-label{
+  font-family:'ZCOOL QingKe HuangYou',sans-serif;
+  font-size:15px;
+  color:var(--cream);
+}
+.card-desc{font-size:13px;color:rgba(255,255,255,0.6);margin-top:2px}
+.theme-cream .card{background:rgba(26,16,64,0.03);border-color:rgba(26,16,64,0.12)}
+.theme-cream .card-label{color:var(--dark)}
+.theme-cream .card-desc{color:rgba(26,16,64,0.5)}
+
+/* Person cards */
+.person{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:10px 0;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.person:last-child{border-bottom:none}
+.person-icon{
+  width:36px;height:36px;
+  border-radius:50%;
+  border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+  flex-shrink:0;
+  background:rgba(253,203,110,0.1);
+}
+.person-info{flex:1}
+.person-name{
+  font-family:'ZCOOL QingKe HuangYou',sans-serif;
+  font-size:17px;
+  color:var(--cream);
+}
+.person-desc{font-size:14px;color:rgba(255,255,255,0.65);line-height:1.5;margin-top:2px}
+
+@media(max-width:375px){
+  .panel{padding:48px 24px 48px 24px}
+  .panel-title{font-size:28px}
+  .panel-body .stat{font-size:30px}
+  .card-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- Film strip perforations -->
+<div class="film-left" id="filmLeft"></div>
+<div class="film-right" id="filmRight"></div>
+
+<!-- ========== 1. 序曲 ========== -->
+<section class="panel theme-dark" style="justify-content:center;text-align:center">
+  <svg class="panel-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+    <rect x="20" y="60" width="160" height="50" rx="4" fill="none" stroke="#fdcb6e" stroke-width="2.5"/>
+    <rect x="25" y="65" width="150" height="40" rx="2" fill="none" stroke="#ffeaa7" stroke-width="1" opacity="0.4"/>
+    <circle cx="60" cy="40" r="18" fill="none" stroke="#ff6b6b" stroke-width="2.5"/>
+    <circle cx="100" cy="30" r="22" fill="none" stroke="#0984e3" stroke-width="2.5"/>
+    <circle cx="140" cy="38" r="16" fill="none" stroke="#00b894" stroke-width="2.5"/>
+    <path d="M50 85 Q100 70 150 85" fill="none" stroke="#fdcb6e" stroke-width="1.5" opacity="0.5"/>
+    <line x1="70" y1="50" x2="70" y2="60" stroke="#e17055" stroke-width="2"/>
+    <line x1="100" y1="52" x2="100" y2="60" stroke="#e17055" stroke-width="2"/>
+    <line x1="130" y1="48" x2="130" y2="60" stroke="#e17055" stroke-width="2"/>
+  </svg>
+  <div class="panel-num">OVERTURE</div>
+  <div class="panel-title" style="font-size:36px;color:var(--gold)">中餐全球化地图</div>
+  <div class="panel-en" style="font-size:16px">The Globalization of Chinese Cuisine</div>
+  <div class="panel-en" style="font-size:14px;margin-top:4px">从唐人街到米其林 · 从外卖盒到黑珍珠</div>
+  <div style="width:60px;height:2px;background:var(--gold);margin:20px auto"></div>
+  <div class="panel-body" style="text-align:center;max-width:320px;margin:0 auto">
+    <p style="font-size:18px;color:var(--cream)">核心命题</p>
+    <p style="font-size:20px;line-height:1.6">中餐如何从<span class="highlight">"最被看不起的菜系"</span>变成<span class="highlight">"下一个寿司"</span>？</p>
+    <p style="font-size:14px;color:rgba(255,255,255,0.5);margin-top:16px">向下滑动 ↓</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 2. 唐人街 ========== -->
+<section class="panel theme-vermillion">
+  <svg class="panel-svg" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Paifang gate -->
+    <rect x="30" y="30" width="8" height="60" fill="none" stroke="#d63031" stroke-width="2.5"/>
+    <rect x="162" y="30" width="8" height="60" fill="none" stroke="#d63031" stroke-width="2.5"/>
+    <rect x="20" y="20" width="160" height="14" rx="2" fill="none" stroke="#d63031" stroke-width="2.5"/>
+    <path d="M20 20 Q100 5 180 20" fill="none" stroke="#fdcb6e" stroke-width="2"/>
+    <!-- Lantern -->
+    <ellipse cx="100" cy="52" rx="12" ry="16" fill="none" stroke="#ff6b6b" stroke-width="2.5"/>
+    <line x1="100" y1="36" x2="100" y2="20" stroke="#fdcb6e" stroke-width="1.5"/>
+    <rect x="92" y="36" width="16" height="3" rx="1" fill="none" stroke="#ff6b6b" stroke-width="1.5"/>
+    <line x1="100" y1="68" x2="100" y2="76" stroke="#ff6b6b" stroke-width="1.5"/>
+  </svg>
+  <div class="panel-num">01 / 20</div>
+  <div class="panel-title">唐人街</div>
+  <div class="panel-en">Chinatown · 1849 — 1990s</div>
+  <div class="panel-body">
+    <p>1849年淘金热，第一批华人抵达旧金山。1882年排华法案，华人被隔离，只能开餐馆和洗衣店。</p>
+    <span class="stat">45,000+</span>
+    <span class="stat-label">美国中餐馆数量 > 麦当劳+汉堡王+温蒂之和</span>
+    <p>视觉符号：红灯笼 · 金龙浮雕 · 牌坊 · 霓虹 "CHINESE FOOD"</p>
+    <p><span class="highlight">70%</span> 夫妻经营 · <span class="highlight">$200亿+</span> 年市场</p>
+    <div class="quote">不是中国人选择了这种美学，是生存在种族歧视下的唯一出路选择了它。</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 3. 经典菜品 ========== -->
+<section class="panel theme-gold">
+  <svg class="panel-svg" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Fortune cookie -->
+    <path d="M60 60 Q80 30 100 60 Q120 30 140 60" fill="none" stroke="#fdcb6e" stroke-width="2.5"/>
+    <path d="M60 60 Q100 80 140 60" fill="none" stroke="#fdcb6e" stroke-width="2.5"/>
+    <!-- Paper slip -->
+    <rect x="80" y="25" width="40" height="8" rx="1" fill="none" stroke="#ffeaa7" stroke-width="1.5"/>
+    <line x1="85" y1="29" x2="115" y2="29" stroke="#ffeaa7" stroke-width="0.8"/>
+  </svg>
+  <div class="panel-num">02 / 20</div>
+  <div class="panel-title">经典菜品</div>
+  <div class="panel-en">Cultural Translations</div>
+  <div class="panel-body">
+    <ul>
+      <li><span class="highlight">左宗棠鸡</span> — 彭长贵1970s台湾发明，纽约改造，全美之王</li>
+      <li><span class="highlight">Orange Chicken</span> — Panda Express灵魂，年耗鸡肉近亿磅</li>
+      <li>咕咾肉 · 宫保鸡丁(变甜版) · 西兰花牛肉</li>
+      <li><span class="highlight">Fortune Cookie</span> — 日裔发明，中国没有</li>
+      <li><span class="highlight">Crab Rangoon</span> — 含奶油奶酪，完全美国发明</li>
+    </ul>
+    <div class="quote">美国版太甜了，左宗棠大概会不高兴。 —— 发明者彭长贵</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 4. 四种原型 ========== -->
+<section class="panel theme-orange">
+  <svg class="panel-svg" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Takeout box -->
+    <path d="M70 35 L60 80 L140 80 L130 35 Z" fill="none" stroke="#e17055" stroke-width="2.5"/>
+    <path d="M70 35 L80 20 L120 20 L130 35" fill="none" stroke="#e17055" stroke-width="2.5"/>
+    <line x1="85" y1="50" x2="115" y2="50" stroke="#fdcb6e" stroke-width="1.5"/>
+    <line x1="88" y1="58" x2="112" y2="58" stroke="#fdcb6e" stroke-width="1.5"/>
+    <!-- Wire handle -->
+    <path d="M80 20 Q100 8 120 20" fill="none" stroke="#e17055" stroke-width="2"/>
+  </svg>
+  <div class="panel-num">03 / 20</div>
+  <div class="panel-title">四种原型</div>
+  <div class="panel-en">Four Archetypes of Chinese Restaurants</div>
+  <div class="panel-body">
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-emoji">🥡</div>
+        <div class="card-label">郊区外卖店</div>
+        <div class="card-desc">柜台点餐 · 编号点菜</div>
+      </div>
+      <div class="card">
+        <div class="card-emoji">🏮</div>
+        <div class="card-label">唐人街大酒楼</div>
+        <div class="card-desc">圆桌10人 · 推车点心</div>
+      </div>
+      <div class="card">
+        <div class="card-emoji">🍽️</div>
+        <div class="card-label">中式自助餐</div>
+        <div class="card-desc">$8无限取 · 文化奇观</div>
+      </div>
+      <div class="card">
+        <div class="card-emoji">🐼</div>
+        <div class="card-label">Panda Express</div>
+        <div class="card-desc">2500+店 · $50亿</div>
+      </div>
+    </div>
+    <p>年消耗 <span class="highlight">30亿</span> 外卖纸盒。利润微薄，却构成了全美最大的中式餐饮基础设施。</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 5. 拐点 ========== -->
+<section class="panel theme-blue">
+  <svg class="panel-svg" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Rising wave -->
+    <path d="M10 70 Q40 30 70 60 Q100 90 130 40 Q160 10 190 50" fill="none" stroke="#0984e3" stroke-width="3"/>
+    <path d="M10 80 Q50 50 90 75 Q130 95 170 55 Q190 40 200 50" fill="none" stroke="#00cec9" stroke-width="2" opacity="0.5"/>
+    <!-- Arrow up -->
+    <polygon points="175,25 185,40 180,40 180,55 170,55 170,40 165,40" fill="none" stroke="#fdcb6e" stroke-width="2"/>
+  </svg>
+  <div class="panel-num">04 / 20</div>
+  <div class="panel-title">拐点 · 新中餐崛起</div>
+  <div class="panel-en">The Turning Point</div>
+  <div class="panel-body">
+    <p>1978年改革开放，人群开始迭代。五代移民带来五种对"中餐"的定义。</p>
+    <div class="woodblock-border">
+      <p style="font-size:15px;color:var(--cream)">寿司路径启示</p>
+      <p>1970s 便宜怪鱼 → 1990s 时尚健康 → 2010s omakase <span class="highlight">$500/位</span></p>
+      <p style="margin-top:8px">中餐大概在1990s的寿司阶段。但复杂度是100倍。</p>
+    </div>
+    <p>社交媒体翻转：TikTok / 小红书让中国美食视觉化传播，算法替代口碑。</p>
+    <div class="quote">在算法时代，一碗好看的酸辣粉的传播力 > 100个孔子学院。</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 6. 人变了 ========== -->
+<section class="panel theme-cream">
+  <svg class="panel-svg" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Five figures in a row -->
+    <g stroke="#1a1040" stroke-width="2.5" fill="none">
+      <circle cx="30" cy="30" r="8"/><line x1="30" y1="38" x2="30" y2="65"/><line x1="30" y1="48" x2="20" y2="55"/><line x1="30" y1="48" x2="40" y2="55"/>
+      <circle cx="65" cy="28" r="8"/><line x1="65" y1="36" x2="65" y2="63"/><line x1="65" y1="46" x2="55" y2="53"/><line x1="65" y1="46" x2="75" y2="53"/>
+      <circle cx="100" cy="25" r="8"/><line x1="100" y1="33" x2="100" y2="60"/><line x1="100" y1="43" x2="90" y2="50"/><line x1="100" y1="43" x2="110" y2="50"/>
+      <circle cx="135" cy="28" r="8"/><line x1="135" y1="36" x2="135" y2="63"/><line x1="135" y1="46" x2="125" y2="53"/><line x1="135" y1="46" x2="145" y2="53"/>
+      <circle cx="170" cy="30" r="8"/><line x1="170" y1="38" x2="170" y2="65"/><line x1="170" y1="48" x2="160" y2="55"/><line x1="170" y1="48" x2="180" y2="55"/>
+    </g>
+    <!-- Arrow from left to right -->
+    <path d="M20 82 L180 82" stroke="#d63031" stroke-width="1.5" fill="none"/>
+    <polygon points="180,82 172,78 172,86" fill="#d63031"/>
+  </svg>
+  <div class="panel-num">05 / 20</div>
+  <div class="panel-title" style="color:var(--dark)">人变了</div>
+  <div class="panel-en">Five Generations of Chinese Immigrants</div>
+  <div class="panel-body">
+    <ul>
+      <li><span class="tag">第一代</span> 唐人街移民 · 福建/广东 · 开出45,000家店</li>
+      <li><span class="tag">第二代</span> 技术移民 · 硅谷/华尔街 · 第一批说"不正宗"的人</li>
+      <li><span class="tag">第三代</span> 投资移民 · 带着资本 · 中餐升级的推手</li>
+      <li><span class="tag">第四代</span> 跨国精英 · 在纽约吃omakase也在家包饺子</li>
+      <li><span class="tag">第五代</span> 新中产/留学生 · 喝霸王茶姬长大 · 吃海底捞约会 · 用小红书选餐厅</li>
+    </ul>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 7. Panda Express ========== -->
+<section class="panel theme-green">
+  <svg class="panel-svg" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Panda face -->
+    <circle cx="100" cy="55" r="30" fill="none" stroke="#00b894" stroke-width="2.5"/>
+    <ellipse cx="82" cy="42" rx="10" ry="8" fill="none" stroke="#1a1040" stroke-width="2.5"/>
+    <ellipse cx="118" cy="42" rx="10" ry="8" fill="none" stroke="#1a1040" stroke-width="2.5"/>
+    <circle cx="82" cy="42" r="3" fill="#1a1040"/>
+    <circle cx="118" cy="42" r="3" fill="#1a1040"/>
+    <ellipse cx="100" cy="60" rx="6" ry="4" fill="none" stroke="#1a1040" stroke-width="2"/>
+    <circle cx="88" cy="25" r="10" fill="none" stroke="#00b894" stroke-width="2.5"/>
+    <circle cx="112" cy="25" r="10" fill="none" stroke="#00b894" stroke-width="2.5"/>
+  </svg>
+  <div class="panel-num">06 / 20</div>
+  <div class="panel-title">Panda Express</div>
+  <div class="panel-en">The American Chinese Empire</div>
+  <div class="panel-body">
+    <p>程正昌(Andrew Cherng) 1983年创立。</p>
+    <span class="stat">2,500+ 店</span>
+    <span class="stat-label">遍布全美，年营收$50亿</span>
+    <p>Orange Chicken年耗鸡肉<span class="highlight">近亿磅</span>。</p>
+    <p>证明了"中式快餐"有巨大市场。美式中餐帝国的效率王者。</p>
+    <div class="quote">老中餐死于"人治"，新中餐活于"系统"。</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 8. 炒·锅气 ========== -->
+<section class="panel theme-vermillion">
+  <svg class="panel-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+    <!-- Wok -->
+    <path d="M40 50 Q100 90 160 50" fill="none" stroke="#fdcb6e" stroke-width="3"/>
+    <line x1="35" y1="50" x2="25" y2="42" stroke="#fdcb6e" stroke-width="2.5"/>
+    <line x1="165" y1="50" x2="175" y2="42" stroke="#fdcb6e" stroke-width="2.5"/>
+    <!-- Flames -->
+    <path d="M60 90 Q65 75 60 65 Q70 72 72 60 Q75 72 80 75 Q78 85 80 90" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+    <path d="M100 92 Q105 78 100 68 Q110 75 112 62 Q115 75 120 78 Q118 88 120 92" fill="none" stroke="#e17055" stroke-width="2"/>
+    <path d="M130 90 Q135 76 130 66 Q140 73 142 62 Q145 73 150 76 Q148 86 150 90" fill="none" stroke="#d63031" stroke-width="2"/>
+    <!-- Steam -->
+    <path d="M70 45 Q75 30 70 20" fill="none" stroke="#ffeaa7" stroke-width="1.5" opacity="0.5"/>
+    <path d="M100 40 Q105 25 100 15" fill="none" stroke="#ffeaa7" stroke-width="1.5" opacity="0.5"/>
+    <path d="M130 45 Q135 30 130 20" fill="none" stroke="#ffeaa7" stroke-width="1.5" opacity="0.5"/>
+  </svg>
+  <div class="panel-num">07 / 20</div>
+  <div class="panel-title">炒 · 锅气</div>
+  <div class="panel-en">Wok Hei · The Breath of the Wok</div>
+  <div class="panel-body">
+    <p>高温 + 快速 + 翻抛 + 锅气</p>
+    <span class="stat">1,200°F</span>
+    <span class="stat-label">铁锅温度 · 梅拉德反应的极致</span>
+    <div class="woodblock-border">
+      <p>法餐灵魂是<span class="highlight">酱汁</span></p>
+      <p>日料灵魂是<span class="highlight">刀工</span></p>
+      <p>中餐灵魂是<span class="highlight">炒</span></p>
+    </div>
+    <p>一口铁锅，一把猛火，几秒钟内完成的化学反应，无法被任何机器替代。</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 9. 米其林之路 ========== -->
+<section class="panel theme-purple">
+  <svg class="panel-svg" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Stars -->
+    <g fill="none" stroke="#fdcb6e" stroke-width="2">
+      <polygon points="60,20 63,30 74,30 66,36 68,46 60,40 52,46 54,36 46,30 57,30"/>
+      <polygon points="100,15 103,25 114,25 106,31 108,41 100,35 92,41 94,31 86,25 97,25"/>
+      <polygon points="140,20 143,30 154,30 146,36 148,46 140,40 132,46 134,36 126,30 137,30"/>
+    </g>
+    <!-- Plate -->
+    <ellipse cx="100" cy="72" rx="50" ry="15" fill="none" stroke="#fd79a8" stroke-width="2.5"/>
+    <ellipse cx="100" cy="72" rx="35" ry="10" fill="none" stroke="#fd79a8" stroke-width="1" opacity="0.4"/>
+  </svg>
+  <div class="panel-num">08 / 20</div>
+  <div class="panel-title">米其林之路</div>
+  <div class="panel-en">The Michelin Path</div>
+  <div class="panel-body">
+    <ul>
+      <li><span class="highlight">Benu</span> 旧金山 · 3星 · $350+ · Corey Lee</li>
+      <li><span class="highlight">A.Wong</span> 伦敦 · 2星 · 英国中餐最高纪录</li>
+      <li><span class="highlight">Mister Jiu's</span> 旧金山 · 1星 · James Beard最佳主厨</li>
+      <li><span class="highlight">Hakkasan</span> 伦敦/全球 · 现代粤菜fine dining</li>
+      <li><span class="highlight">新荣记</span> 东京 · 中餐出海最高端尝试</li>
+    </ul>
+    <div class="quote">用米其林评中餐 = 用英语语法检查中文作文。</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 10. 主厨群像 ========== -->
+<section class="panel theme-pink">
+  <svg class="panel-svg" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+    <!-- Chef hat -->
+    <path d="M70 50 L70 30 Q70 10 100 10 Q130 10 130 30 L130 50" fill="none" stroke="#fd79a8" stroke-width="2.5"/>
+    <rect x="68" y="50" width="64" height="8" rx="2" fill="none" stroke="#fd79a8" stroke-width="2"/>
+    <!-- Knife -->
+    <rect x="150" y="20" width="4" height="35" rx="1" fill="none" stroke="#ffeaa7" stroke-width="1.5"/>
+    <path d="M148 55 L156 55 L154 65 L150 65 Z" fill="none" stroke="#ffeaa7" stroke-width="1.5"/>
+  </svg>
+  <div class="panel-num">09 / 20</div>
+  <div class="panel-title">主厨群像</div>
+  <div class="panel-en">The Chef Generation</div>
+  <div class="panel-body">
+    <div class="person">
+      <div class="person-icon">D</div>
+      <div class="person-info">
+        <div class="person-name">David Chang</div>
+        <div class="person-desc">Momofuku · 2星 · "Ugly Delicious" · 打开了大门</div>
+      </div>
+    </div>
+    <div class="person">
+      <div class="person-icon">B</div>
+      <div class="person-info">
+        <div class="person-name">Brandon Jew</div>
+        <div class="person-desc">Mister Jiu's · 唐人街老酒楼原址 · James Beard</div>
+      </div>
+    </div>
+    <div class="person">
+      <div class="person-icon">L</div>
+      <div class="person-info">
+        <div class="person-name">Lucas Sin</div>
+        <div class="person-desc">Nice Day Chinese · "Chinese-American是一种真正的菜系"</div>
+      </div>
+    </div>
+    <div class="person">
+      <div class="person-icon">J</div>
+      <div class="person-info">
+        <div class="person-name">Jenny Gao</div>
+        <div class="person-desc">Fly By Jing · $50M+零售 · 挑战"异域化"叙事</div>
+      </div>
+    </div>
+    <div class="person">
+      <div class="person-icon">C</div>
+      <div class="person-info">
+        <div class="person-name">Calvin Eng</div>
+        <div class="person-desc">Bonnie's · "Cantonese-American"新定义</div>
+      </div>
+    </div>
+    <div class="quote">小时候觉得中餐丢人 → 现在为中餐骄傲。</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 11. 茶饮 ========== -->
+<section class="panel theme-teal">
+  <svg class="panel-svg" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+    <!-- Bubble tea cup -->
+    <path d="M70 25 L65 85 L135 85 L130 25 Z" fill="none" stroke="#00cec9" stroke-width="2.5"/>
+    <rect x="66" y="20" width="68" height="8" rx="3" fill="none" stroke="#00cec9" stroke-width="2"/>
+    <!-- Straw -->
+    <line x1="115" y1="8" x2="108" y2="45" stroke="#fdcb6e" stroke-width="2.5"/>
+    <!-- Bubbles -->
+    <circle cx="82" cy="72" r="5" fill="none" stroke="#1a1040" stroke-width="2"/>
+    <circle cx="95" cy="75" r="5" fill="none" stroke="#1a1040" stroke-width="2"/>
+    <circle cx="108" cy="73" r="5" fill="none" stroke="#1a1040" stroke-width="2"/>
+    <circle cx="120" cy="70" r="5" fill="none" stroke="#1a1040" stroke-width="2"/>
+    <circle cx="88" cy="62" r="5" fill="none" stroke="#1a1040" stroke-width="2"/>
+    <circle cx="102" cy="64" r="5" fill="none" stroke="#1a1040" stroke-width="2"/>
+    <circle cx="115" cy="62" r="5" fill="none" stroke="#1a1040" stroke-width="2"/>
+    <!-- Lid dome -->
+    <path d="M72 20 Q100 10 128 20" fill="none" stroke="#00cec9" stroke-width="1.5"/>
+  </svg>
+  <div class="panel-num">10 / 20</div>
+  <div class="panel-title">茶饮革命</div>
+  <div class="panel-en">The Bubble Tea Revolution</div>
+  <div class="panel-body">
+    <ul>
+      <li><span class="highlight">蜜雪冰城</span> 45,000+店 · 全球第一</li>
+      <li><span class="highlight">霸王茶姬</span> 5,000+店 · "东方星巴克"</li>
+      <li><span class="highlight">喜茶</span> 3,500+店 · 芝士茶鼻祖</li>
+    </ul>
+    <span class="stat">$80-120亿</span>
+    <span class="stat-label">2030年全球Bubble Tea预估市场</span>
+    <div class="quote">茶饮是中式生活方式的特洛伊木马。</div>
+    <p>食物是低频消费，茶饮是<span class="highlight">每天一杯</span>。频率决定文化渗透力。</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 12. 品牌出海 ========== -->
+<section class="panel theme-cream">
+  <svg class="panel-svg" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Three arrows going outward -->
+    <g stroke-width="2.5" fill="none">
+      <path d="M100 80 L50 30" stroke="#00b894"/>
+      <polygon points="50,30 58,32 54,40" fill="#00b894" stroke="#00b894"/>
+      <path d="M100 80 L100 20" stroke="#e17055"/>
+      <polygon points="100,20 95,30 105,30" fill="#e17055" stroke="#e17055"/>
+      <path d="M100 80 L150 30" stroke="#8e44ad"/>
+      <polygon points="150,30 142,32 146,40" fill="#8e44ad" stroke="#8e44ad"/>
+    </g>
+    <!-- Labels -->
+    <text x="35" y="22" font-size="9" fill="#00b894" font-family="sans-serif">效率</text>
+    <text x="90" y="14" font-size="9" fill="#e17055" font-family="sans-serif">生活</text>
+    <text x="145" y="22" font-size="9" fill="#8e44ad" font-family="sans-serif">高端</text>
+    <!-- Base circle -->
+    <circle cx="100" cy="80" r="8" fill="none" stroke="#1a1040" stroke-width="2"/>
+  </svg>
+  <div class="panel-num">11 / 20</div>
+  <div class="panel-title" style="color:var(--dark)">品牌出海</div>
+  <div class="panel-en">Three Lines in Parallel</div>
+  <div class="panel-body">
+    <div class="woodblock-border">
+      <p><span class="tag">线1</span> 效率进化 — 从Panda Express到新中式快餐</p>
+      <p><span class="tag">线2</span> 生活方式输出 — 海底捞、霸王茶姬</p>
+      <p><span class="tag">线3</span> 高端精品 — 米其林与身份重建</p>
+    </div>
+    <p style="margin-top:16px;font-size:18px">不只是中餐出海，是<span class="highlight">中国生活方式的全球化</span>。</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 13. 海底捞 ========== -->
+<section class="panel theme-vermillion">
+  <svg class="panel-svg" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+    <!-- Hot pot -->
+    <ellipse cx="100" cy="70" rx="55" ry="20" fill="none" stroke="#d63031" stroke-width="2.5"/>
+    <path d="M45 70 L45 50 Q45 40 55 40 L145 40 Q155 40 155 50 L155 70" fill="none" stroke="#d63031" stroke-width="2.5"/>
+    <!-- Divider in pot -->
+    <line x1="100" y1="40" x2="100" y2="70" stroke="#fdcb6e" stroke-width="1.5"/>
+    <!-- Steam clouds -->
+    <path d="M60 35 Q65 25 75 30 Q80 20 90 28" fill="none" stroke="#ffeaa7" stroke-width="1.5" opacity="0.6"/>
+    <path d="M110 32 Q115 22 125 27 Q130 17 140 25" fill="none" stroke="#ffeaa7" stroke-width="1.5" opacity="0.6"/>
+    <!-- Handles -->
+    <path d="M45 55 L35 55" stroke="#d63031" stroke-width="2.5"/>
+    <path d="M155 55 L165 55" stroke="#d63031" stroke-width="2.5"/>
+  </svg>
+  <div class="panel-num">12 / 20</div>
+  <div class="panel-title">海底捞</div>
+  <div class="panel-en">Haidilao · Service Culture Export</div>
+  <div class="panel-body">
+    <span class="stat">1,400+ 店</span>
+    <span class="stat-label">全球门店 · 海外120+</span>
+    <p>太二酸菜鱼 30+ 海外店 · 单品模式。小龙坎/大龙燚 · 火锅底料+门店双轨出海。</p>
+    <p>这些品牌不只在卖食物，是在卖<span class="highlight">"中国式的日常"</span> — 周末和闺蜜去海底捞、下午来杯霸王茶姬、深夜点个酸菜鱼外卖。</p>
+    <div class="quote">品牌 = 信任 = 溢价 = 可复制 = 脱离"夫妻店"宿命。</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 14. 调味料反殖民 ========== -->
+<section class="panel theme-gold">
+  <svg class="panel-svg" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Chili pepper -->
+    <path d="M70 50 Q85 30 95 55 Q100 65 90 70 Q80 72 70 50" fill="none" stroke="#d63031" stroke-width="2.5"/>
+    <path d="M78 42 Q80 30 85 25" fill="none" stroke="#00b894" stroke-width="2"/>
+    <!-- Bottle (soy sauce) -->
+    <rect x="120" y="30" width="24" height="45" rx="3" fill="none" stroke="#fdcb6e" stroke-width="2.5"/>
+    <rect x="126" y="22" width="12" height="10" rx="2" fill="none" stroke="#fdcb6e" stroke-width="2"/>
+    <!-- Spice dots (Sichuan peppercorns) -->
+    <circle cx="45" cy="55" r="4" fill="none" stroke="#e17055" stroke-width="2"/>
+    <circle cx="55" cy="45" r="3" fill="none" stroke="#e17055" stroke-width="2"/>
+    <circle cx="50" cy="65" r="3.5" fill="none" stroke="#e17055" stroke-width="2"/>
+    <!-- Arrow -->
+    <path d="M160 50 L185 50" stroke="#ff6b6b" stroke-width="2"/>
+    <polygon points="185,50 178,46 178,54" fill="#ff6b6b"/>
+  </svg>
+  <div class="panel-num">13 / 20</div>
+  <div class="panel-title">调味料反殖民</div>
+  <div class="panel-en">The Spice Counter-Colonization</div>
+  <div class="panel-body">
+    <p>花椒曾被FDA<span class="highlight">禁止进口</span>（直到2005年!）</p>
+    <p>今天 "mala" 成全球关键词。Trader Joe's卖辣椒油，Whole Foods有郫县豆瓣酱。</p>
+    <ul>
+      <li><span class="highlight">Fly By Jing</span> $50M+零售 · 四川辣椒油征服美国</li>
+      <li><span class="highlight">老干妈</span> · <span class="highlight">李锦记</span> · 全球华人的味觉乡愁</li>
+    </ul>
+    <div class="quote">食材出海比餐厅出海更深远、更不可逆。</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 15. 暗线 ========== -->
+<section class="panel theme-dark" style="background:linear-gradient(170deg,#0d0820 0%,#1a1040 50%,#0d0820 100%)">
+  <svg class="panel-svg" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+    <!-- Underground water veins -->
+    <path d="M10 20 Q50 35 90 20 Q130 5 170 25 Q190 32 200 28" fill="none" stroke="#0984e3" stroke-width="1.5" opacity="0.6"/>
+    <path d="M10 35 Q40 50 80 38 Q120 25 160 42 Q180 48 200 40" fill="none" stroke="#fd79a8" stroke-width="1.5" opacity="0.6"/>
+    <path d="M10 50 Q60 60 100 48 Q140 36 180 55 Q195 60 200 58" fill="none" stroke="#fdcb6e" stroke-width="1.5" opacity="0.6"/>
+    <path d="M10 65 Q50 72 90 62 Q130 52 170 68 Q190 75 200 70" fill="none" stroke="#00cec9" stroke-width="1.5" opacity="0.6"/>
+  </svg>
+  <div class="panel-num">14 / 20</div>
+  <div class="panel-title">暗线 · 暗流</div>
+  <div class="panel-en">The Undercurrents</div>
+  <div class="panel-body">
+    <div class="woodblock-border" style="border-color:rgba(253,203,110,0.3)">
+      <p style="margin-bottom:8px"><span class="highlight">暗线1：权力与尊严</span></p>
+      <p style="font-size:15px">排华法案 → 只能开餐馆 → 被迫便宜 → 被看不起 → 恶性循环</p>
+    </div>
+    <div class="woodblock-border" style="border-color:rgba(253,203,110,0.3)">
+      <p style="margin-bottom:8px"><span class="highlight">暗线2：谁定义好吃</span></p>
+      <p style="font-size:15px">米其林 = 法国轮胎公司。中餐的"好"有自己的维度。</p>
+    </div>
+    <div class="woodblock-border" style="border-color:rgba(253,203,110,0.3)">
+      <p style="margin-bottom:8px"><span class="highlight">暗线3：食物是软实力</span></p>
+      <p style="font-size:15px">孔子学院花几十亿效果有限，火锅免费传播不可阻挡。</p>
+    </div>
+    <div class="woodblock-border" style="border-color:rgba(253,203,110,0.3)">
+      <p style="margin-bottom:8px"><span class="highlight">暗线4：代际断裂与重连</span></p>
+      <p style="font-size:15px">COVID反亚裔仇恨犯罪飙升 <span class="highlight">150%+</span></p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 16. 数字化武器 ========== -->
+<section class="panel theme-blue">
+  <svg class="panel-svg" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Circuit / digital pattern -->
+    <rect x="40" y="25" width="120" height="50" rx="4" fill="none" stroke="#0984e3" stroke-width="2.5"/>
+    <line x1="60" y1="25" x2="60" y2="75" stroke="#0984e3" stroke-width="1" opacity="0.4"/>
+    <line x1="100" y1="25" x2="100" y2="75" stroke="#0984e3" stroke-width="1" opacity="0.4"/>
+    <line x1="140" y1="25" x2="140" y2="75" stroke="#0984e3" stroke-width="1" opacity="0.4"/>
+    <line x1="40" y1="50" x2="160" y2="50" stroke="#0984e3" stroke-width="1" opacity="0.4"/>
+    <!-- Nodes -->
+    <circle cx="60" cy="50" r="4" fill="none" stroke="#fdcb6e" stroke-width="2"/>
+    <circle cx="100" cy="50" r="4" fill="none" stroke="#fdcb6e" stroke-width="2"/>
+    <circle cx="140" cy="50" r="4" fill="none" stroke="#fdcb6e" stroke-width="2"/>
+    <!-- Arrow: 15 -> 5 -->
+    <text x="50" y="18" font-size="10" fill="#ff6b6b" font-family="sans-serif">15人</text>
+    <path d="M85 15 L115 15" stroke="#fdcb6e" stroke-width="1.5"/>
+    <polygon points="115,15 110,12 110,18" fill="#fdcb6e"/>
+    <text x="120" y="18" font-size="10" fill="#00b894" font-family="sans-serif">5人</text>
+  </svg>
+  <div class="panel-num">15 / 20</div>
+  <div class="panel-title">数字化武器</div>
+  <div class="panel-en">Digital Arsenal</div>
+  <div class="panel-body">
+    <p>中国餐饮数字化领先全球 <span class="highlight">5-10年</span>。</p>
+    <ul>
+      <li>中央厨房 + 预制菜 + 冷链 → 出品标准化</li>
+      <li>数字化点餐 + AI排班 + 数据定价 → 运营智能化</li>
+      <li>Ghost kitchen + 外卖平台 → 轻资产扩张</li>
+    </ul>
+    <span class="stat">15人 → 5人</span>
+    <span class="stat-label">一个店的人力精简 · 坪效翻倍</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 17. 咖啡到茶饮 ========== -->
+<section class="panel theme-teal">
+  <svg class="panel-svg" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Coffee cup (left) -->
+    <rect x="25" y="35" width="35" height="35" rx="4" fill="none" stroke="#e17055" stroke-width="2.5"/>
+    <path d="M60 42 Q72 42 72 52 Q72 62 60 62" fill="none" stroke="#e17055" stroke-width="2"/>
+    <path d="M30 30 Q35 20 42 30 Q48 20 55 30" fill="none" stroke="#e17055" stroke-width="1.5" opacity="0.5"/>
+    <!-- VS -->
+    <text x="88" y="58" font-size="14" fill="#fdcb6e" font-family="Playfair Display,serif" font-weight="bold">vs</text>
+    <!-- Tea cup (right) -->
+    <path d="M130 35 L125 70 L175 70 L170 35 Z" fill="none" stroke="#00cec9" stroke-width="2.5"/>
+    <path d="M135 46 Q150 38 165 46" fill="none" stroke="#00cec9" stroke-width="1" opacity="0.5"/>
+    <path d="M138 30 Q142 20 148 30 Q153 20 158 30 Q163 20 168 30" fill="none" stroke="#00cec9" stroke-width="1.5" opacity="0.5"/>
+  </svg>
+  <div class="panel-num">16 / 20</div>
+  <div class="panel-title">咖啡到茶饮</div>
+  <div class="panel-en">From Coffee to Chinese Tea</div>
+  <div class="panel-body">
+    <p>星巴克定义了"第三空间"。霸王茶姬/喜茶正在用中式茶饮<span class="highlight">抢夺</span>这个位置。</p>
+    <div class="woodblock-border">
+      <p>蜜雪冰城 <span class="highlight">45,000</span> 店</p>
+      <p style="font-size:20px;margin:8px 0">></p>
+      <p>星巴克 <span class="highlight">39,000</span> 店</p>
+    </div>
+    <p>咖啡 = 生产力 / 西方现代性</p>
+    <p>茶 = 5000年历史 / 东方美学 / 区域多样性</p>
+    <p>新茶饮 = 茶的底蕴 + 咖啡馆的社交性 + Z世代的颜值审美</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 18. 定义权之争 ========== -->
+<section class="panel theme-cream">
+  <svg class="panel-svg" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Scales of justice / balance -->
+    <line x1="100" y1="15" x2="100" y2="45" stroke="#1a1040" stroke-width="2.5"/>
+    <line x1="50" y1="40" x2="150" y2="40" stroke="#1a1040" stroke-width="2.5"/>
+    <!-- Left pan -->
+    <path d="M35 60 Q50 50 65 60 L60 75 Q50 80 40 75 Z" fill="none" stroke="#d63031" stroke-width="2"/>
+    <line x1="50" y1="40" x2="50" y2="55" stroke="#1a1040" stroke-width="1.5"/>
+    <text x="38" y="70" font-size="8" fill="#d63031" font-family="sans-serif">米其林</text>
+    <!-- Right pan -->
+    <path d="M135 50 Q150 40 165 50 L160 65 Q150 70 140 65 Z" fill="none" stroke="#00b894" stroke-width="2"/>
+    <line x1="150" y1="40" x2="150" y2="45" stroke="#1a1040" stroke-width="1.5"/>
+    <text x="136" y="60" font-size="8" fill="#00b894" font-family="sans-serif">黑珍珠</text>
+    <!-- Triangle base -->
+    <polygon points="100,45 92,55 108,55" fill="none" stroke="#1a1040" stroke-width="2"/>
+  </svg>
+  <div class="panel-num">17 / 20</div>
+  <div class="panel-title" style="color:var(--dark)">定义权之争</div>
+  <div class="panel-en">Who Defines "Good"?</div>
+  <div class="panel-body">
+    <p>米其林执念 vs 黑珍珠 · 大众点评</p>
+    <p>中餐哲学：<span class="highlight">食医同源</span> · <span class="highlight">时令</span> · <span class="highlight">五味调和</span></p>
+    <div class="quote">价格天花板：中餐怎么能卖$200？ — 这个质疑来自华人自己。</div>
+    <p>日料omakase $500没人质疑，中餐tasting menu $150就"太贵了"。打破天花板需要的不是更好的厨师，是一次集体的<span class="highlight">文化自信革命</span>。</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 19. 未来 ========== -->
+<section class="panel theme-blue" style="background:linear-gradient(170deg,#0a1a3d 0%,#1a1040 100%)">
+  <svg class="panel-svg" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Globe -->
+    <circle cx="100" cy="50" r="35" fill="none" stroke="#0984e3" stroke-width="2.5"/>
+    <ellipse cx="100" cy="50" rx="18" ry="35" fill="none" stroke="#0984e3" stroke-width="1.5" opacity="0.5"/>
+    <line x1="65" y1="50" x2="135" y2="50" stroke="#0984e3" stroke-width="1" opacity="0.4"/>
+    <path d="M70 35 Q100 30 130 35" fill="none" stroke="#0984e3" stroke-width="1" opacity="0.4"/>
+    <path d="M70 65 Q100 70 130 65" fill="none" stroke="#0984e3" stroke-width="1" opacity="0.4"/>
+    <!-- Chopsticks across globe -->
+    <line x1="55" y1="80" x2="135" y2="20" stroke="#fdcb6e" stroke-width="2.5"/>
+    <line x1="60" y1="82" x2="140" y2="22" stroke="#fdcb6e" stroke-width="2.5"/>
+  </svg>
+  <div class="panel-num">18 / 20</div>
+  <div class="panel-title">未来 · 终极命题</div>
+  <div class="panel-en">The Ultimate Question</div>
+  <div class="panel-body">
+    <p style="font-size:20px">中餐能否诞生全球品牌？</p>
+    <span class="stat">45,000家</span>
+    <span class="stat-label">老店升级 = 万亿级市场</span>
+    <div class="woodblock-border">
+      <p>标准化 vs 灵魂</p>
+      <p style="font-size:15px;margin-top:8px">用供应链标准化"底料"，用厨师个性化"灵魂"。火锅证明了这一点 — 底料工厂化，但现切毛肚那一刀，永远需要人。</p>
+    </div>
+    <div class="quote">最大的对手不是日料法餐，是中国人自己的文化不自信。</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 20. 尾声 ========== -->
+<section class="panel theme-dark" style="justify-content:center;text-align:center;min-height:100vh;background:linear-gradient(170deg,#1a1040 0%,#0d0820 60%,#1a0a2d 100%)">
+  <svg class="panel-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+    <!-- Scroll / long scroll unrolling -->
+    <rect x="30" y="25" width="140" height="70" rx="3" fill="none" stroke="#fdcb6e" stroke-width="2"/>
+    <circle cx="30" cy="60" r="8" fill="none" stroke="#fdcb6e" stroke-width="2"/>
+    <circle cx="170" cy="60" r="8" fill="none" stroke="#fdcb6e" stroke-width="2"/>
+    <!-- Brush strokes inside scroll -->
+    <line x1="50" y1="40" x2="90" y2="40" stroke="#ff6b6b" stroke-width="1.5"/>
+    <line x1="50" y1="50" x2="120" y2="50" stroke="#0984e3" stroke-width="1.5"/>
+    <line x1="50" y1="60" x2="110" y2="60" stroke="#00b894" stroke-width="1.5"/>
+    <line x1="50" y1="70" x2="100" y2="70" stroke="#e17055" stroke-width="1.5"/>
+    <line x1="50" y1="80" x2="130" y2="80" stroke="#fd79a8" stroke-width="1.5"/>
+  </svg>
+  <div class="panel-num" style="letter-spacing:5px">FINALE · 20 / 20</div>
+  <div class="panel-title" style="font-size:34px;color:var(--cream)">尾声</div>
+  <div class="panel-en" style="font-size:15px">An Identity Scroll</div>
+  <div style="width:60px;height:2px;background:var(--gold);margin:20px auto"></div>
+  <div class="panel-body" style="text-align:center;max-width:320px;margin:0 auto">
+    <p style="font-size:18px;line-height:1.8">食物直接作用于舌头，<br>最底层的<span class="highlight">文化接口</span>。</p>
+    <p style="margin-top:16px;font-size:16px;line-height:1.8">从唐人街到米其林，<br>从外卖盒到黑珍珠。</p>
+    <div style="width:40px;height:1px;background:var(--gold);margin:20px auto;opacity:0.5"></div>
+    <p style="font-size:20px;color:var(--cream);line-height:1.6">这不是食物的故事，<br>是<span class="highlight">身份认同</span>的长卷。</p>
+    <p style="margin-top:32px;font-size:13px;color:rgba(255,255,255,0.35)">中餐全球化地图 · 完</p>
+  </div>
+</section>
+
+<script>
+// Generate film strip perforation holes
+function generateHoles(){
+  const h=document.documentElement.scrollHeight;
+  const left=document.getElementById('filmLeft');
+  const right=document.getElementById('filmRight');
+  let html='';
+  for(let y=15;y<h;y+=28){
+    html+=`<div class="film-hole" style="top:${y}px"></div>`;
+  }
+  left.innerHTML=html;
+  right.innerHTML=html;
+}
+generateHoles();
+window.addEventListener('resize',generateHoles);
+
+// Regenerate on scroll if content height changes
+let lastHeight=0;
+const observer=new MutationObserver(()=>{
+  const h=document.documentElement.scrollHeight;
+  if(h!==lastHeight){lastHeight=h;generateHoles();}
+});
+observer.observe(document.body,{childList:true,subtree:true});
+
+// Also regenerate after full load
+window.addEventListener('load',()=>{setTimeout(generateHoles,500)});
+</script>
+</body>
+</html>

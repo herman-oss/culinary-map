@@ -1,0 +1,2285 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中餐全球化 · Hockney × 浮世绘 · 二十幕长卷</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0069b4;overflow-x:auto;overflow-y:hidden;height:100vh;cursor:grab}
+body:active{cursor:grabbing}
+
+.scroll-canvas{display:flex;height:100vh;width:2000vw;position:relative}
+
+/* Each panel = one "film frame" */
+.panel{width:100vw;height:100vh;position:relative;overflow:hidden;flex-shrink:0}
+
+/* Film strip perforations */
+.perf-top,.perf-bottom{position:fixed;left:0;width:2000vw;height:18px;z-index:100;display:flex;gap:0;
+  background:#111}
+.perf-top{top:0}
+.perf-bottom{bottom:0}
+.perf-hole{width:14px;height:10px;background:#333;border-radius:2px;margin:4px 18px}
+
+/* Ukiyo-e style outlines */
+.ukiyo-outline{stroke:#1a1040;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ukiyo-outline-thin{stroke:#1a1040;stroke-width:1.5;fill:none;stroke-linecap:round}
+.ukiyo-outline-thick{stroke:#1a1040;stroke-width:3.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* Hockney palette */
+:root{
+  --pool-blue:#0984e3;
+  --sky-blue:#74b9ff;
+  --deep-blue:#0652DD;
+  --coral:#ff6b6b;
+  --vermillion:#d63031;
+  --gold:#fdcb6e;
+  --bright-gold:#f9ca24;
+  --green:#00b894;
+  --teal:#00cec9;
+  --pink:#fd79a8;
+  --orange:#e17055;
+  --indigo:#2d3436;
+  --cream:#ffeaa7;
+  --white:#dfe6e9;
+}
+
+/* Ukiyo-e cloud pattern */
+.yokogumo{position:absolute;opacity:0.12}
+.yokogumo rect{fill:#fff}
+
+/* Panel divider */
+.panel-divider{position:absolute;right:0;top:0;bottom:0;width:3px;background:#1a1040;opacity:0.15;z-index:10}
+
+/* ========== TEXT LABELS ========== */
+@import url('https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&family=ZCOOL+XiaoWei&family=Playfair+Display:wght@400;700&display=swap');
+
+.map-label{position:absolute;z-index:8;pointer-events:none}
+.map-label-cn{font-family:'ZCOOL XiaoWei',serif;color:#1a1040;line-height:1.4;
+  text-shadow:1px 1px 0 rgba(0,0,0,0.6),-1px -1px 0 rgba(0,0,0,0.6),1px -1px 0 rgba(0,0,0,0.6),-1px 1px 0 rgba(0,0,0,0.6)}
+.map-label-en{font-family:'Playfair Display',Georgia,serif;color:#1a1040;line-height:1.3;font-weight:700;letter-spacing:1px;
+  text-shadow:1px 1px 0 rgba(0,0,0,0.6),-1px -1px 0 rgba(0,0,0,0.6),1px -1px 0 rgba(0,0,0,0.6),-1px 1px 0 rgba(0,0,0,0.6)}
+.title-cn{font-family:'ZCOOL QingKe HuangYou',cursive}
+
+/* Vertical text */
+.vertical-text{writing-mode:vertical-rl;text-orientation:mixed}
+
+/* Label with background pill */
+.pill-label{padding:4px 14px;border-radius:20px;display:inline-block;white-space:nowrap}
+
+/* Stamp-style label (hanko) */
+.hanko{border:2.5px solid;padding:6px 10px;font-family:'ZCOOL QingKe HuangYou',cursive;
+  transform:rotate(-4deg);display:inline-block;line-height:1}
+
+/* Floating annotation with line */
+.anno{position:absolute;z-index:8}
+.anno-line{stroke-dasharray:4,4;opacity:0.3}
+
+/* Ghost text — hidden to avoid overlap */
+.ghost-text{display:none}
+
+</style>
+</head>
+<body>
+
+<div class="perf-top" id="perfTop"></div>
+<div class="perf-bottom" id="perfBottom"></div>
+
+<div class="scroll-canvas" id="canvas">
+
+<!-- ================================================================ -->
+<!-- PANEL 1: 序曲 · 开篇 Title Card -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(180deg,#0a0520 0%,#1a1040 25%,#2d3a8c 55%,#0984e3 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <radialGradient id="moon-glow-1" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#ffeaa7" stop-opacity="0.9"/>
+        <stop offset="50%" stop-color="#fdcb6e" stop-opacity="0.3"/>
+        <stop offset="100%" stop-color="#1a1040" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <!-- Deep indigo sky -->
+    <rect width="1000" height="600" fill="#0a0520"/>
+    <!-- Stars -->
+    <g fill="#fff" opacity="0.5">
+      <circle cx="80" cy="60" r="1.5"/><circle cx="200" cy="40" r="2"/><circle cx="350" cy="80" r="1.8"/>
+      <circle cx="500" cy="30" r="1.5"/><circle cx="650" cy="55" r="2.2"/><circle cx="780" cy="45" r="1.5"/>
+      <circle cx="900" cy="70" r="2"/><circle cx="150" cy="110" r="1.2"/><circle cx="420" cy="95" r="1.8"/>
+      <circle cx="720" cy="100" r="1.5"/><circle cx="50" cy="150" r="1"/><circle cx="960" cy="120" r="1.3"/>
+    </g>
+    <!-- Yokogumo clouds -->
+    <g opacity="0.08">
+      <rect x="0" y="160" width="350" height="6" rx="3" fill="#fff"/>
+      <rect x="400" y="155" width="250" height="5" rx="2.5" fill="#fff"/>
+      <rect x="700" y="165" width="300" height="6" rx="3" fill="#fff"/>
+      <rect x="100" y="175" width="200" height="4" rx="2" fill="#fff"/>
+    </g>
+    <!-- Huge Moon -->
+    <circle cx="500" cy="200" r="150" fill="url(#moon-glow-1)"/>
+    <circle cx="500" cy="200" r="120" fill="#ffeaa7" opacity="0.7"/>
+    <circle cx="500" cy="200" r="120" class="ukiyo-outline" stroke-width="2" opacity="0.3"/>
+    <circle cx="500" cy="200" r="105" fill="none" stroke="rgba(249,202,36,0.2)" stroke-width="1"/>
+    <!-- Moon craters -->
+    <circle cx="465" cy="175" r="15" fill="rgba(253,203,110,0.6)" stroke="rgba(26,16,64,0.1)" stroke-width="1"/>
+    <circle cx="530" cy="220" r="10" fill="rgba(253,203,110,0.5)" stroke="rgba(26,16,64,0.08)" stroke-width="1"/>
+    <circle cx="490" cy="240" r="8" fill="rgba(253,203,110,0.4)"/>
+    <!-- Water at bottom -->
+    <path d="M0,480 Q100,465 200,480 Q300,495 400,480 Q500,465 600,480 Q700,495 800,480 Q900,465 1000,480 L1000,600 L0,600Z" fill="rgba(9,132,227,0.3)"/>
+    <path d="M0,500 Q120,488 240,500 Q360,512 480,500 Q600,488 720,500 Q840,512 960,500" class="ukiyo-outline-thin" opacity="0.1"/>
+    <!-- Reflection on water -->
+    <ellipse cx="500" cy="530" rx="80" ry="40" fill="rgba(255,234,167,0.08)"/>
+    <!-- Gentle wave texture -->
+    <g stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none">
+      <path d="M0,510 Q100,505 200,510 Q300,515 400,510 Q500,505 600,510 Q700,515 800,510 Q900,505 1000,510"/>
+      <path d="M0,540 Q100,536 200,540 Q300,544 400,540 Q500,536 600,540 Q700,544 800,540"/>
+      <path d="M0,565 Q150,560 300,565 Q450,570 600,565 Q750,560 900,565"/>
+    </g>
+  </svg>
+
+  <div class="ghost-text" style="top:15%;left:5%;font-size:35vh;color:rgba(255,234,167,0.06)">序</div>
+
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(255,234,167,0.9);color:#ffeaa7;font-size:28px">序曲</div>
+  </div>
+  <div class="map-label" style="top:18%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn title-cn" style="font-size:58px;color:#ffeaa7;text-align:center;letter-spacing:12px">中餐全球化地图</div>
+    <div class="map-label-en" style="font-size:18px;color:rgba(255,234,167,0.8);margin-top:6px;letter-spacing:4px;text-align:center">THE GLOBALIZATION OF CHINESE CUISINE</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.7);margin-top:4px;text-align:center;letter-spacing:2px">从唐人街到米其林 · A Subjective Map</div>
+  </div>
+  <div class="map-label" style="top:52%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(255,107,107,0.9);text-align:center;line-height:1.8">核心命题：中餐如何从<br>"世界上最多但最被看不起的菜系"<br>变成"下一个寿司"？</div>
+  </div>
+  <div class="map-label" style="bottom:18%;left:6%;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.7);line-height:1.8">暗线：人变了 → 需求变了 → 餐桌变了<br>→ 世界对中餐的认知变了</div>
+  </div>
+  <div class="map-label" style="bottom:20%;right:6%;transform:rotate(2deg);text-align:right">
+    <div class="pill-label" style="background:rgba(255,255,255,0.06);padding:6px 16px">
+      <span class="map-label-en" style="font-size:16px;color:rgba(255,234,167,0.7)">HOCKNEY × UKIYO-E SCROLL</span>
+    </div>
+  </div>
+  <div class="map-label vertical-text" style="top:18%;right:6%;font-size:24px;color:rgba(255,234,167,0.4)">
+    <span class="map-label-cn">浮世绘长卷</span>
+  </div>
+  <div class="map-label" style="bottom:10%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.65);text-align:center;letter-spacing:6px">← 横向滚动 · SCROLL →</div>
+  </div>
+  <div class="map-label" style="bottom:5%;right:4%">
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.65)">四条暗线 · 二十幅画卷 · 一部中餐出海史</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 2: 唐人街 · Chinatown (based on original Panel 1) -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(180deg,#0984e3 0%,#74b9ff 35%,#0984e3 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <pattern id="wave-pattern" x="0" y="0" width="40" height="20" patternUnits="userSpaceOnUse">
+        <path d="M0,10 Q10,0 20,10 Q30,20 40,10" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none"/>
+      </pattern>
+      <linearGradient id="ukiyo-sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1a1040"/><stop offset="30%" stop-color="#2d3a8c"/>
+        <stop offset="60%" stop-color="#0984e3"/><stop offset="100%" stop-color="#74b9ff"/>
+      </linearGradient>
+      <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#0984e3"/><stop offset="100%" stop-color="#0652DD"/>
+      </linearGradient>
+    </defs>
+    <rect width="1000" height="600" fill="url(#ukiyo-sky)"/>
+    <rect width="1000" height="600" fill="url(#wave-pattern)"/>
+    <!-- Yokogumo clouds -->
+    <g opacity="0.2">
+      <rect x="0" y="50" width="300" height="6" rx="3" fill="#fff"/>
+      <rect x="350" y="45" width="200" height="5" rx="2.5" fill="#fff"/>
+      <rect x="600" y="55" width="250" height="6" rx="3" fill="#fff"/>
+      <rect x="100" y="62" width="180" height="4" rx="2" fill="#fff"/>
+      <rect x="700" y="65" width="150" height="5" rx="2.5" fill="#fff"/>
+    </g>
+    <!-- Moon -->
+    <circle cx="820" cy="100" r="55" fill="#ffeaa7"/>
+    <circle cx="820" cy="100" r="55" class="ukiyo-outline" stroke-width="2"/>
+    <circle cx="820" cy="100" r="48" fill="none" stroke="rgba(249,202,36,0.3)" stroke-width="1"/>
+    <!-- Great Wave -->
+    <path d="M-20,380 Q50,280 120,300 Q160,310 180,280 Q200,250 230,260 Q270,270 290,240 Q310,210 340,220 Q370,230 390,200 Q410,170 440,180 Q460,188 470,170 C480,155 490,160 495,150 C500,140 510,145 520,160 Q540,180 560,200 Q600,250 650,300 Q700,340 750,360 Q800,375 900,380 L1020,380 L1020,600 L-20,600Z" fill="#0984e3"/>
+    <path d="M-20,380 Q50,280 120,300 Q160,310 180,280 Q200,250 230,260 Q270,270 290,240 Q310,210 340,220 Q370,230 390,200 Q410,170 440,180 Q460,188 470,170 C480,155 490,160 495,150 C500,140 510,145 520,160 Q540,180 560,200 Q600,250 650,300 Q700,340 750,360 Q800,375 900,380 L1020,380" class="ukiyo-outline-thick" stroke="#1a1040"/>
+    <!-- Wave foam claws -->
+    <g fill="#dfe6e9" stroke="#1a1040" stroke-width="1.5">
+      <path d="M470,170 Q465,155 455,148 Q448,144 452,152 Q458,162 465,168"/>
+      <path d="M480,160 Q472,142 462,135 Q455,130 460,140 Q468,155 475,162"/>
+      <path d="M495,150 Q490,132 482,125 Q476,120 480,130 Q486,142 492,150"/>
+      <path d="M510,155 Q508,138 500,128 Q494,122 498,132 Q504,145 508,155"/>
+      <path d="M440,180 Q432,168 425,163 Q420,160 424,166 Q430,175 436,180"/>
+      <path d="M520,160 Q518,148 525,140 Q530,135 528,142 Q524,152 522,160"/>
+    </g>
+    <!-- Secondary wave -->
+    <path d="M-20,420 Q100,380 200,400 Q300,420 400,390 Q500,360 600,380 Q700,400 800,390 Q900,380 1020,400 L1020,600 L-20,600Z" fill="#0652DD" opacity="0.6"/>
+    <!-- Wave texture -->
+    <g stroke="#74b9ff" stroke-width="1" fill="none" opacity="0.3">
+      <path d="M0,400 Q100,370 200,390 Q300,410 400,380 Q500,350 600,370"/>
+      <path d="M50,430 Q150,400 250,420 Q350,440 450,410 Q550,380 650,400"/>
+      <path d="M100,460 Q200,440 300,455 Q400,470 500,445 Q600,420 700,440"/>
+    </g>
+    <rect x="0" y="400" width="1000" height="200" fill="url(#wave-pattern)" opacity="0.5"/>
+    <!-- Chinatown Gate -->
+    <g transform="translate(620,240)">
+      <rect x="0" y="30" width="18" height="100" fill="#d63031"/><rect x="0" y="30" width="18" height="100" class="ukiyo-outline"/>
+      <rect x="132" y="30" width="18" height="100" fill="#d63031"/><rect x="132" y="30" width="18" height="100" class="ukiyo-outline"/>
+      <path d="M-15,30 Q75,-10 165,30" fill="#d63031"/><path d="M-15,30 Q75,-10 165,30" class="ukiyo-outline"/>
+      <path d="M-10,25 Q75,-5 160,25" fill="none" stroke="#fdcb6e" stroke-width="2"/>
+      <path d="M-8,18 Q75,-15 158,18" fill="#c0392b"/><path d="M-8,18 Q75,-15 158,18" class="ukiyo-outline-thin"/>
+      <circle cx="75" cy="-12" r="6" fill="#fdcb6e" stroke="#1a1040" stroke-width="1.5"/>
+      <!-- Lanterns -->
+      <g transform="translate(40,40)">
+        <rect x="-1" y="-10" width="2" height="10" fill="#1a1040"/>
+        <ellipse cx="0" cy="8" rx="8" ry="11" fill="#ff6b6b"/><ellipse cx="0" cy="8" rx="8" ry="11" class="ukiyo-outline-thin"/>
+        <rect x="-5" y="-1" width="10" height="3" rx="1" fill="#fdcb6e" stroke="#1a1040" stroke-width="1"/>
+      </g>
+      <g transform="translate(110,40)">
+        <rect x="-1" y="-10" width="2" height="10" fill="#1a1040"/>
+        <ellipse cx="0" cy="8" rx="8" ry="11" fill="#ff6b6b"/><ellipse cx="0" cy="8" rx="8" ry="11" class="ukiyo-outline-thin"/>
+        <rect x="-5" y="-1" width="10" height="3" rx="1" fill="#fdcb6e" stroke="#1a1040" stroke-width="1"/>
+      </g>
+    </g>
+    <!-- Takeout boxes -->
+    <g transform="translate(100,340)">
+      <path d="M0,20 L8,0 L42,0 L50,20 L45,40 L5,40Z" fill="#ffeaa7"/><path d="M0,20 L8,0 L42,0 L50,20 L45,40 L5,40Z" class="ukiyo-outline"/>
+      <path d="M15,0 Q25,-12 35,0" stroke="#1a1040" stroke-width="2" fill="none"/>
+    </g>
+    <g transform="translate(300,370) scale(0.8)">
+      <path d="M0,20 L8,0 L42,0 L50,20 L45,40 L5,40Z" fill="#ffeaa7"/><path d="M0,20 L8,0 L42,0 L50,20 L45,40 L5,40Z" class="ukiyo-outline"/>
+      <path d="M15,0 Q25,-12 35,0" stroke="#1a1040" stroke-width="2" fill="none"/>
+    </g>
+    <!-- Fortune cookies -->
+    <g transform="translate(180,390) rotate(-15)">
+      <path d="M0,8 Q10,-2 20,8 Q10,18 0,8Z" fill="#f9ca24" stroke="#1a1040" stroke-width="1.5"/>
+      <rect x="8" y="2" width="8" height="1.5" fill="#fff" rx="0.5"/>
+    </g>
+    <!-- Spray dots -->
+    <g fill="#dfe6e9" opacity="0.6">
+      <circle cx="460" cy="175" r="2.5"/><circle cx="475" cy="168" r="2"/><circle cx="445" cy="182" r="1.8"/>
+      <circle cx="500" cy="162" r="2.2"/><circle cx="430" cy="190" r="1.5"/><circle cx="515" cy="170" r="1.8"/>
+    </g>
+  </svg>
+
+  <div class="ghost-text" style="bottom:8%;right:2%;font-size:28vh;color:rgba(255,234,167,0.12)">唐人街</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(255,107,107,0.8);color:#ff6b6b;font-size:32px">第一幕</div>
+  </div>
+  <div class="map-label" style="top:80px;left:30px">
+    <div class="map-label-cn" style="font-size:54px;color:#ffeaa7">老中餐 · 唐人街时代</div>
+    <div class="map-label-en" style="font-size:19px;color:rgba(255,234,167,0.9);margin-top:4px;letter-spacing:2px">CHINATOWN ERA · 1849 – 1990s · 150年底层生存</div>
+  </div>
+  <div class="map-label" style="top:24%;left:3%;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:26px;color:rgba(255,234,167,0.65)">1849 淘金热 → 第一批华人</div>
+    <div class="map-label-cn" style="font-size:30px;color:#ff6b6b;margin-top:4px;transform:rotate(1deg)">1882 排华法案 → 只能开餐馆</div>
+    <div class="map-label-cn" style="font-size:23px;color:rgba(255,234,167,0.9);margin-top:4px">1896 杂碎因李鸿章访美走红</div>
+  </div>
+  <div class="map-label" style="top:48%;left:4%">
+    <div class="pill-label" style="background:rgba(26,16,64,0.4);backdrop-filter:blur(4px);padding:8px 18px">
+      <span class="map-label-cn" style="font-size:26px;color:#ffeaa7;font-weight:bold">45,000+ 中餐馆</span>
+    </div>
+    <div class="map-label-en" style="font-size:16px;color:rgba(255,234,167,0.8);margin-top:6px">> McDonald's + Burger King + Wendy's combined</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8);margin-top:4px">70%夫妻经营 · $200亿+年市场 · 利润微薄</div>
+  </div>
+  <div class="map-label vertical-text" style="top:18%;right:32%;font-size:26px;color:rgba(255,234,167,0.35)">
+    <span class="map-label-cn">金山 GOLD MOUNTAIN</span>
+  </div>
+  <div class="map-label" style="bottom:22%;left:5%">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(255,234,167,0.85)">鄙视链底层</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.7);margin-top:4px;line-height:1.6">法餐 > 意餐 > 日料 > ... > 中餐外卖<br>便宜 · 油腻 · MSG · brown sauce</div>
+  </div>
+  <div class="map-label" style="top:38%;left:4%;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.8);line-height:1.6">1940s-50s战后扩展到郊区<br>开始适应美国口味 → 更甜更炸更浓酱</div>
+  </div>
+  <div class="map-label" style="top:38%;right:3%;text-align:right;transform:rotate(-3deg)">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(255,234,167,0.85)">经典菜品</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8);margin-top:4px;line-height:1.6">左宗棠鸡 · Orange Chicken<br>咕咾肉 · 宫保鸡丁(变甜版)<br>签语饼 · 蟹肉云吞 · 蛋卷<br>炒面 · 酸辣汤 · 芙蓉蛋</div>
+  </div>
+  <div class="map-label" style="bottom:35%;left:30%;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(223,230,233,0.8)">名店：Nom Wah 1920 · Sam Wo 1912 · Jing Fong · Hakkasan</div>
+  </div>
+  <div class="map-label" style="bottom:22%;left:5%">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(255,234,167,0.85)">七种胃</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7);margin-top:4px;line-height:1.6">中国胃华人 · 犹太裔圣诞传统<br>好奇老外 · 穷学生 · 深夜觅食者</div>
+  </div>
+  <div class="map-label" style="top:55%;left:5%;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8)">视觉符号：红灯笼 · 金龙浮雕 · 牌坊<br>霓虹"CHINESE FOOD" · 鱼缸 · 关公像</div>
+  </div>
+  <div class="map-label" style="bottom:6%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(255,255,255,0.4);text-align:center">无处不在，却无人尊重<br><span style="font-size:16px;opacity:0.6">不是中国人选择了这种美学 · 是生存在种族歧视下的唯一出路 · 味觉殖民150年</span></div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 3: 经典菜品 · Classic Dishes -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(180deg,#f9ca24 0%,#fdcb6e 30%,#e17055 70%,#d63031 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <radialGradient id="plate-shine" cx="40%" cy="35%" r="50%">
+        <stop offset="0%" stop-color="#fff" stop-opacity="0.3"/><stop offset="100%" stop-color="#dfe6e9" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <rect width="1000" height="600" fill="#f9ca24" opacity="0.3"/>
+    <!-- Yokogumo -->
+    <g opacity="0.1">
+      <rect x="50" y="30" width="300" height="6" rx="3" fill="#fff"/>
+      <rect x="400" y="25" width="250" height="5" rx="2.5" fill="#fff"/>
+      <rect x="700" y="35" width="200" height="6" rx="3" fill="#fff"/>
+    </g>
+    <!-- Giant plate -->
+    <ellipse cx="500" cy="320" rx="260" ry="180" fill="#dfe6e9"/>
+    <ellipse cx="500" cy="320" rx="260" ry="180" class="ukiyo-outline-thick"/>
+    <ellipse cx="500" cy="320" rx="230" ry="155" fill="#fff" opacity="0.5"/>
+    <ellipse cx="500" cy="320" rx="230" ry="155" class="ukiyo-outline-thin" opacity="0.3"/>
+    <ellipse cx="500" cy="320" rx="260" ry="180" fill="url(#plate-shine)"/>
+    <!-- Blue willow pattern rim -->
+    <g stroke="#0984e3" stroke-width="1.5" fill="none" opacity="0.2">
+      <ellipse cx="500" cy="320" rx="250" ry="172"/>
+      <ellipse cx="500" cy="320" rx="245" ry="168"/>
+    </g>
+    <!-- Left Chicken (General Tso's) -->
+    <g transform="translate(360,260)">
+      <ellipse cx="40" cy="30" rx="45" ry="35" fill="#d63031" opacity="0.8"/>
+      <ellipse cx="40" cy="30" rx="45" ry="35" class="ukiyo-outline"/>
+      <!-- Chicken pieces -->
+      <rect x="15" y="15" width="18" height="14" rx="4" fill="#c0392b" stroke="#1a1040" stroke-width="1"/>
+      <rect x="38" y="10" width="20" height="16" rx="5" fill="#e17055" stroke="#1a1040" stroke-width="1"/>
+      <rect x="28" y="30" width="16" height="12" rx="4" fill="#d63031" stroke="#1a1040" stroke-width="1"/>
+      <rect x="50" y="28" width="14" height="14" rx="4" fill="#c0392b" stroke="#1a1040" stroke-width="1"/>
+      <!-- Chili garnish -->
+      <path d="M20,48 Q28,42 36,48" fill="#ff6b6b" stroke="#1a1040" stroke-width="1"/>
+      <!-- Sesame seeds -->
+      <circle cx="30" cy="20" r="1.5" fill="#ffeaa7"/><circle cx="48" cy="25" r="1.5" fill="#ffeaa7"/>
+      <circle cx="55" cy="38" r="1.5" fill="#ffeaa7"/><circle cx="35" cy="40" r="1.5" fill="#ffeaa7"/>
+    </g>
+    <!-- Orange Chicken (right) -->
+    <g transform="translate(550,280)">
+      <ellipse cx="40" cy="30" rx="50" ry="38" fill="#e17055" opacity="0.8"/>
+      <ellipse cx="40" cy="30" rx="50" ry="38" class="ukiyo-outline"/>
+      <rect x="12" y="12" width="20" height="15" rx="5" fill="#e17055" stroke="#1a1040" stroke-width="1"/>
+      <rect x="35" y="8" width="22" height="18" rx="6" fill="#f39c12" stroke="#1a1040" stroke-width="1"/>
+      <rect x="22" y="30" width="18" height="14" rx="5" fill="#e17055" stroke="#1a1040" stroke-width="1"/>
+      <rect x="48" y="32" width="16" height="12" rx="4" fill="#f39c12" stroke="#1a1040" stroke-width="1"/>
+      <!-- Orange slice -->
+      <path d="M65,20 Q75,15 78,25 Q75,32 65,28Z" fill="#f9ca24" stroke="#1a1040" stroke-width="1"/>
+    </g>
+    <!-- Fortune Cookie (center top) -->
+    <g transform="translate(470,200)">
+      <path d="M0,15 Q15,-5 30,15 Q15,35 0,15Z" fill="#f9ca24" stroke="#1a1040" stroke-width="2"/>
+      <rect x="10" y="8" width="14" height="2.5" fill="#fff" rx="1" opacity="0.7"/>
+      <path d="M15,15 L15,22" stroke="#1a1040" stroke-width="1" opacity="0.3"/>
+    </g>
+    <!-- Egg Roll (bottom left) -->
+    <g transform="translate(400,380) rotate(-20)">
+      <rect x="0" y="0" width="50" height="18" rx="9" fill="#f9ca24" stroke="#1a1040" stroke-width="1.5"/>
+      <ellipse cx="50" cy="9" rx="3" ry="9" fill="#e17055" stroke="#1a1040" stroke-width="1"/>
+    </g>
+    <!-- Chopsticks -->
+    <rect x="680" y="150" width="5" height="280" rx="2.5" fill="#f9ca24" stroke="#1a1040" stroke-width="1.5" transform="rotate(15,682,290)"/>
+    <rect x="700" y="155" width="5" height="275" rx="2.5" fill="#f9ca24" stroke="#1a1040" stroke-width="1.5" transform="rotate(12,702,292)"/>
+    <!-- Steam -->
+    <g opacity="0.15">
+      <rect x="420" y="180" width="80" height="6" rx="3" fill="#fff"/>
+      <rect x="460" y="165" width="100" height="7" rx="3.5" fill="#fff"/>
+      <rect x="440" y="150" width="70" height="5" rx="2.5" fill="#fff"/>
+    </g>
+  </svg>
+
+  <div class="ghost-text" style="top:5%;right:3%;font-size:30vh;color:rgba(26,16,64,0.08)">菜</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(214,48,49,0.9);color:#d63031;font-size:28px">经典</div>
+  </div>
+  <div class="map-label" style="top:75px;left:30px">
+    <div class="map-label-cn" style="font-size:50px;color:#2d3436">经典菜品 · 文化翻译</div>
+    <div class="map-label-en" style="font-size:18px;color:rgba(45,52,54,0.8);margin-top:4px;letter-spacing:2px">CULTURAL TRANSLATION ON A PLATE</div>
+  </div>
+  <div class="map-label" style="top:20%;right:3%;transform:rotate(2deg);text-align:right">
+    <div class="map-label-cn" style="font-size:30px;color:rgba(45,52,54,0.9)">左宗棠鸡</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(45,52,54,0.8);margin-top:4px;line-height:1.6">彭长贵1970s台湾发明<br>纽约Shun Lee改造 → 全美之王</div>
+  </div>
+  <div class="map-label" style="top:22%;left:3%;transform:rotate(-3deg)">
+    <div class="map-label-cn" style="font-size:26px;color:rgba(45,52,54,0.9)">Orange Chicken</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(45,52,54,0.8);margin-top:3px">Panda Express灵魂<br>年耗鸡肉近亿磅</div>
+  </div>
+  <div class="map-label" style="top:48%;left:3%">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(45,52,54,0.85);line-height:1.7">签语饼 — 日裔发明 · 中国没有<br>蟹肉云吞 — 含奶油奶酪 · 完全美国发明<br>杂碎 Chop Suey — 已近消亡</div>
+  </div>
+  <div class="map-label" style="top:50%;right:4%;text-align:right;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(45,52,54,0.8);line-height:1.7">咕咾肉 · 宫保鸡丁(变甜版)<br>西兰花牛肉 · 芝麻鸡<br>炒面(脆版) · 蛋卷 · 酸辣汤</div>
+  </div>
+  <div class="map-label" style="bottom:18%;left:5%;transform:rotate(1deg)">
+    <div class="pill-label" style="background:rgba(26,16,64,0.2);padding:6px 14px">
+      <span class="map-label-cn" style="font-size:19px;color:#2d3436">MSG恐慌：1968年一封信 → 偏见延续至今</span>
+    </div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(45,52,54,0.7);margin-top:4px">Doritos和帕玛森芝士里也有MSG</div>
+  </div>
+  <div class="map-label" style="bottom:6%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(45,52,54,0.8);text-align:center">不是中国人选择了这种美学 · 是生存在种族歧视下的唯一出路</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 4: 四种原型 · Four Restaurant Archetypes -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(180deg,#c0392b 0%,#d63031 30%,#e17055 60%,#fdcb6e 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <rect width="1000" height="600" fill="rgba(192,57,43,0.1)"/>
+    <!-- Yokogumo -->
+    <g opacity="0.1">
+      <rect x="0" y="40" width="280" height="6" rx="3" fill="#ffeaa7"/>
+      <rect x="350" y="35" width="220" height="5" rx="2.5" fill="#ffeaa7"/>
+      <rect x="650" y="42" width="300" height="6" rx="3" fill="#ffeaa7"/>
+    </g>
+    <!-- Building 1: 外卖店 -->
+    <g transform="translate(60,180)">
+      <rect x="0" y="0" width="160" height="220" rx="4" fill="#d63031" stroke="#1a1040" stroke-width="2.5"/>
+      <rect x="10" y="10" width="60" height="40" rx="3" fill="rgba(255,234,167,0.3)" stroke="#1a1040" stroke-width="1.5"/>
+      <rect x="90" y="15" width="55" height="70" rx="3" fill="#fdcb6e" stroke="#1a1040" stroke-width="1.5"/>
+      <text x="117" y="55" fill="#d63031" font-family="Noto Serif JP" font-size="9" text-anchor="middle" font-weight="bold">OPEN</text>
+      <!-- Awning -->
+      <path d="M-5,-5 L165,-5 L160,15 L-2,15Z" fill="#e17055" stroke="#1a1040" stroke-width="1.5"/>
+      <path d="M10,15 Q25,25 40,15 Q55,25 70,15 Q85,25 100,15 Q115,25 130,15 Q145,25 155,15" stroke="#d63031" stroke-width="1.5" fill="none"/>
+      <!-- Counter -->
+      <rect x="10" y="120" width="140" height="8" rx="2" fill="#fdcb6e" stroke="#1a1040" stroke-width="1"/>
+      <!-- Neon sign -->
+      <text x="80" y="160" fill="#ffeaa7" font-family="Noto Serif JP" font-size="11" text-anchor="middle" opacity="0.7">CHINESE FOOD</text>
+      <text x="80" y="195" fill="#ffeaa7" font-family="Noto Serif JP" font-size="9" text-anchor="middle" opacity="0.5">WE DELIVER</text>
+    </g>
+    <!-- Building 2: 大酒楼 -->
+    <g transform="translate(280,140)">
+      <rect x="0" y="0" width="180" height="260" rx="4" fill="#c0392b" stroke="#1a1040" stroke-width="2.5"/>
+      <!-- Curved roof -->
+      <path d="M-10,-10 Q90,-40 190,-10" fill="#8b0000" stroke="#1a1040" stroke-width="2"/>
+      <path d="M-5,-5 Q90,-30 185,-5" fill="none" stroke="#fdcb6e" stroke-width="1.5"/>
+      <!-- Round table -->
+      <ellipse cx="90" cy="140" rx="50" ry="20" fill="none" stroke="#fdcb6e" stroke-width="2"/>
+      <circle cx="90" cy="135" r="12" fill="rgba(253,203,110,0.3)" stroke="#fdcb6e" stroke-width="1"/>
+      <!-- Dim sum steam -->
+      <g opacity="0.3" fill="none" stroke="#fff" stroke-width="1.5">
+        <path d="M70,120 Q68,110 70,100"/><path d="M90,118 Q88,108 90,98"/><path d="M110,120 Q108,110 110,100"/>
+      </g>
+      <!-- Lanterns -->
+      <g transform="translate(30,10)">
+        <ellipse cx="0" cy="0" rx="8" ry="11" fill="#ff6b6b" stroke="#1a1040" stroke-width="1.5"/>
+      </g>
+      <g transform="translate(150,10)">
+        <ellipse cx="0" cy="0" rx="8" ry="11" fill="#ff6b6b" stroke="#1a1040" stroke-width="1.5"/>
+      </g>
+      <text x="90" y="200" fill="rgba(255,234,167,0.5)" font-family="Ma Shan Zheng" font-size="16" text-anchor="middle">婚宴满月</text>
+    </g>
+    <!-- Building 3: 自助餐 -->
+    <g transform="translate(520,200)">
+      <rect x="0" y="0" width="160" height="200" rx="4" fill="#e17055" stroke="#1a1040" stroke-width="2.5"/>
+      <!-- Buffet line -->
+      <rect x="15" y="60" width="130" height="12" rx="3" fill="rgba(255,234,167,0.25)" stroke="#ffeaa7" stroke-width="1"/>
+      <rect x="20" y="48" width="25" height="14" rx="2" fill="#d63031" stroke="#1a1040" stroke-width="1"/>
+      <rect x="50" y="48" width="25" height="14" rx="2" fill="#00b894" stroke="#1a1040" stroke-width="1"/>
+      <rect x="80" y="48" width="25" height="14" rx="2" fill="#fdcb6e" stroke="#1a1040" stroke-width="1"/>
+      <rect x="110" y="48" width="25" height="14" rx="2" fill="#0984e3" stroke="#1a1040" stroke-width="1"/>
+      <!-- Sneeze guard -->
+      <path d="M20,48 L20,30 L135,30 L135,48" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none"/>
+      <!-- Price tag -->
+      <text x="80" y="105" fill="#fdcb6e" font-family="Noto Serif JP" font-size="22" text-anchor="middle" font-weight="bold">$8</text>
+      <text x="80" y="125" fill="rgba(255,234,167,0.5)" font-family="Ma Shan Zheng" font-size="13" text-anchor="middle">无限取</text>
+      <text x="80" y="170" fill="rgba(255,234,167,0.4)" font-family="Ma Shan Zheng" font-size="11" text-anchor="middle">纯美国现象</text>
+    </g>
+    <!-- Building 4: Panda Express -->
+    <g transform="translate(740,160)">
+      <rect x="0" y="0" width="180" height="240" rx="4" fill="#d63031" stroke="#1a1040" stroke-width="2.5"/>
+      <!-- Panda face -->
+      <circle cx="90" cy="80" r="45" fill="#fff" stroke="#1a1040" stroke-width="2"/>
+      <ellipse cx="65" cy="65" rx="18" ry="15" fill="#1a1040"/>
+      <ellipse cx="115" cy="65" rx="18" ry="15" fill="#1a1040"/>
+      <circle cx="70" cy="68" r="5" fill="#fff"/><circle cx="110" cy="68" r="5" fill="#fff"/>
+      <circle cx="71" cy="69" r="2.5" fill="#1a1040"/><circle cx="111" cy="69" r="2.5" fill="#1a1040"/>
+      <ellipse cx="90" cy="88" rx="6" ry="4" fill="#1a1040"/>
+      <!-- Panda ears -->
+      <circle cx="55" cy="42" r="12" fill="#1a1040"/><circle cx="125" cy="42" r="12" fill="#1a1040"/>
+      <text x="90" y="155" fill="#fdcb6e" font-family="Noto Serif JP" font-size="14" text-anchor="middle" font-weight="bold">PANDA EXPRESS</text>
+      <text x="90" y="180" fill="rgba(255,234,167,0.5)" font-family="Ma Shan Zheng" font-size="12" text-anchor="middle">2500+店 · $50亿</text>
+      <text x="90" y="210" fill="rgba(255,234,167,0.4)" font-family="Ma Shan Zheng" font-size="11" text-anchor="middle">美式中餐帝国</text>
+    </g>
+    <!-- Ground line -->
+    <path d="M0,400 L1000,400" stroke="#1a1040" stroke-width="1" opacity="0.15"/>
+    <!-- Street -->
+    <rect x="0" y="400" width="1000" height="200" fill="rgba(26,16,64,0.08)"/>
+  </svg>
+
+  <div class="ghost-text" style="bottom:5%;left:5%;font-size:26vh;color:rgba(253,203,110,0.1)">四</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(253,203,110,0.7);color:#fdcb6e;font-size:28px">原型</div>
+  </div>
+  <div class="map-label" style="top:72px;left:30px">
+    <div class="map-label-cn" style="font-size:46px;color:#ffeaa7">四种原型 · 餐厅生态</div>
+    <div class="map-label-en" style="font-size:18px;color:rgba(255,234,167,0.85);margin-top:4px;letter-spacing:2px">FOUR ARCHETYPES OF CHINESE RESTAURANTS</div>
+  </div>
+  <div class="map-label" style="bottom:30%;left:3%">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.85)">郊区外卖店 · 柜台点餐 · 编号点菜</div>
+  </div>
+  <div class="map-label" style="bottom:25%;left:30%;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.85)">大酒楼 · 红色装潢 · 推车点心</div>
+  </div>
+  <div class="map-label" style="bottom:20%;left:55%;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.85)">中式自助餐 · 一个文化奇观</div>
+  </div>
+  <div class="map-label" style="bottom:15%;right:4%;text-align:right">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.85)">P.F. Chang's · "升级版美式中餐"</div>
+  </div>
+  <div class="map-label" style="bottom:6%;left:50%;transform:translateX(-50%)">
+    <div class="pill-label" style="background:rgba(0,0,0,0.2);padding:6px 16px">
+      <span class="map-label-cn" style="font-size:19px;color:#ffeaa7">年消耗30亿外卖纸盒 · $200亿+年市场</span>
+    </div>
+  </div>
+  <div class="map-label vertical-text" style="top:15%;right:5%;font-size:22px;color:rgba(255,234,167,0.4)">
+    <span class="map-label-cn">红灯笼 · 金龙浮雕 · 牌坊</span>
+  </div>
+  <div class="map-label" style="top:20%;left:35%;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:26px;color:rgba(255,234,167,0.9)">45,000+ 中餐馆</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.8);margin-top:2px">> 麦当劳+汉堡王+温蒂之和</div>
+  </div>
+  <div class="map-label" style="top:16%;left:58%;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8);line-height:1.5">70%夫妻经营 · 利润微薄<br>大学城中餐 · 便宜大份 · 深夜营业</div>
+  </div>
+  <div class="map-label" style="bottom:38%;left:4%;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7)">犹太裔圣诞传统 · 中餐馆不关门</div>
+  </div>
+  <div class="map-label" style="bottom:38%;right:4%;text-align:right;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7)">穷学生/蓝领 · $7 combo = 人间真理</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 5: 新中餐崛起 · Act 2 Opening -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(180deg,#e17055 0%,#f9ca24 30%,#74b9ff 70%,#0984e3 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <!-- Sunrise gradient -->
+    <rect width="1000" height="600" fill="rgba(0,0,0,0)"/>
+    <!-- Sun rising -->
+    <circle cx="500" cy="350" r="160" fill="#f9ca24" opacity="0.5"/>
+    <circle cx="500" cy="350" r="120" fill="#ffeaa7" opacity="0.4"/>
+    <circle cx="500" cy="350" r="80" fill="#fff" opacity="0.3"/>
+    <!-- Yokogumo -->
+    <g opacity="0.12">
+      <rect x="100" y="150" width="300" height="7" rx="3.5" fill="#fff"/>
+      <rect x="500" y="145" width="250" height="6" rx="3" fill="#fff"/>
+      <rect x="200" y="165" width="200" height="5" rx="2.5" fill="#fff"/>
+      <rect x="650" y="160" width="280" height="6" rx="3" fill="#fff"/>
+    </g>
+    <!-- Modern city skyline -->
+    <g>
+      <rect x="80" y="300" width="40" height="160" rx="2" fill="rgba(9,132,227,0.4)" stroke="#1a1040" stroke-width="1.5"/>
+      <rect x="130" y="260" width="55" height="200" rx="2" fill="rgba(0,184,148,0.4)" stroke="#1a1040" stroke-width="1.5"/>
+      <rect x="200" y="280" width="35" height="180" rx="2" fill="rgba(253,203,110,0.5)" stroke="#1a1040" stroke-width="1.5"/>
+      <rect x="250" y="240" width="60" height="220" rx="2" fill="rgba(214,48,49,0.3)" stroke="#1a1040" stroke-width="1.5"/>
+      <rect x="320" y="270" width="45" height="190" rx="2" fill="rgba(0,206,201,0.4)" stroke="#1a1040" stroke-width="1.5"/>
+      <rect x="650" y="250" width="50" height="210" rx="2" fill="rgba(253,121,168,0.3)" stroke="#1a1040" stroke-width="1.5"/>
+      <rect x="710" y="280" width="40" height="180" rx="2" fill="rgba(9,132,227,0.4)" stroke="#1a1040" stroke-width="1.5"/>
+      <rect x="760" y="260" width="55" height="200" rx="2" fill="rgba(225,112,85,0.4)" stroke="#1a1040" stroke-width="1.5"/>
+      <rect x="830" y="290" width="35" height="170" rx="2" fill="rgba(0,184,148,0.3)" stroke="#1a1040" stroke-width="1.5"/>
+      <rect x="880" y="250" width="50" height="210" rx="2" fill="rgba(253,203,110,0.4)" stroke="#1a1040" stroke-width="1.5"/>
+    </g>
+    <!-- Window lights -->
+    <g fill="rgba(255,255,255,0.2)">
+      <rect x="140" y="275" width="8" height="6" rx="1"/><rect x="155" y="275" width="8" height="6" rx="1"/>
+      <rect x="140" y="295" width="8" height="6" rx="1"/><rect x="155" y="295" width="8" height="6" rx="1"/>
+      <rect x="260" y="255" width="8" height="6" rx="1"/><rect x="275" y="255" width="8" height="6" rx="1"/>
+      <rect x="260" y="275" width="8" height="6" rx="1"/><rect x="275" y="275" width="8" height="6" rx="1"/>
+    </g>
+    <!-- Ground reflection -->
+    <rect x="0" y="460" width="1000" height="140" fill="rgba(9,132,227,0.15)"/>
+    <g stroke="rgba(255,255,255,0.06)" stroke-width="1" fill="none">
+      <path d="M0,480 Q200,475 400,480 Q600,485 800,480 Q900,477 1000,480"/>
+      <path d="M0,510 Q200,506 400,510 Q600,514 800,510"/>
+    </g>
+    <!-- Birds -->
+    <g stroke="#1a1040" stroke-width="2" fill="none" opacity="0.25">
+      <path d="M400,100 Q410,90 420,100"/><path d="M430,90 Q440,80 450,90"/>
+      <path d="M415,85 Q425,75 435,85"/><path d="M445,95 Q455,85 465,95"/>
+    </g>
+  </svg>
+
+  <div class="ghost-text" style="top:8%;left:3%;font-size:32vh;color:rgba(255,255,255,0.08)">拐</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(45,52,54,0.9);color:#2d3436;font-size:32px">第二幕</div>
+  </div>
+  <div class="map-label" style="top:80px;left:30px">
+    <div class="map-label-cn" style="font-size:54px;color:#2d3436">拐点 · 新中餐崛起</div>
+    <div class="map-label-en" style="font-size:18px;color:rgba(45,52,54,0.8);margin-top:4px;letter-spacing:2px">THE TURNING POINT · 1978 – 2015</div>
+  </div>
+  <div class="map-label" style="top:22%;right:4%;text-align:right;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:26px;color:rgba(45,52,54,0.9)">改革开放 · 经济腾飞</div>
+    <div class="map-label-cn" style="font-size:19px;color:rgba(45,52,54,0.8);margin-top:4px;line-height:1.6">五代移民 × 五种胃 × 五种"中餐"定义<br>人群迭代改写一切</div>
+  </div>
+  <div class="map-label" style="top:26%;left:4%;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(45,52,54,0.85)">寿司路径</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(45,52,54,0.8);margin-top:3px;line-height:1.6">1970s 便宜怪鱼 → 1990s 时尚健康<br>→ 2010s omakase $500/位<br>中餐大概在1990s的寿司阶段</div>
+  </div>
+  <div class="map-label" style="top:50%;left:4%">
+    <div class="pill-label" style="background:rgba(45,52,54,0.2);padding:6px 14px">
+      <span class="map-label-cn" style="font-size:21px;color:#2d3436">人变了 → 一切就变了</span>
+    </div>
+  </div>
+  <div class="map-label" style="top:55%;right:4%;text-align:right;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(45,52,54,0.8);line-height:1.7">社交媒体翻转 · TikTok/小红书<br>算法替代口碑<br>一碗好看的酸辣粉 > 100个孔子学院</div>
+  </div>
+  <div class="map-label" style="bottom:22%;left:5%;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(45,52,54,0.8)">Anthony Bourdain成都那期 → 改变一代人对中餐的认知</div>
+  </div>
+  <div class="map-label vertical-text" style="top:15%;right:30%;font-size:24px;color:rgba(45,52,54,0.4)">
+    <span class="map-label-cn">日出东方</span>
+  </div>
+  <div class="map-label" style="bottom:6%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(45,52,54,0.7);text-align:center">"正宗"从来不固定 · American Chinese food本身就是一种"正宗"</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 6: 人变了 · New Diners -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(180deg,#fd79a8 0%,#ff6b6b 40%,#e17055 80%,#fdcb6e 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <rect width="1000" height="600" fill="rgba(0,0,0,0)"/>
+    <!-- Yokogumo -->
+    <g opacity="0.1">
+      <rect x="50" y="40" width="250" height="6" rx="3" fill="#fff"/>
+      <rect x="400" y="35" width="300" height="5" rx="2.5" fill="#fff"/>
+      <rect x="800" y="42" width="150" height="6" rx="3" fill="#fff"/>
+    </g>
+    <!-- Silhouette 1: 唐人街移民 -->
+    <g transform="translate(80,200)">
+      <circle cx="40" cy="0" r="30" fill="#1a1040" opacity="0.6"/>
+      <rect x="15" y="30" width="50" height="120" rx="5" fill="#1a1040" opacity="0.6"/>
+      <rect x="5" y="50" width="20" height="60" rx="3" fill="#1a1040" opacity="0.5" transform="rotate(-10,15,80)"/>
+      <rect x="55" y="50" width="20" height="60" rx="3" fill="#1a1040" opacity="0.5" transform="rotate(10,65,80)"/>
+      <!-- Wok in hand -->
+      <path d="M-5,90 Q15,110 35,90" fill="none" stroke="#fdcb6e" stroke-width="2" opacity="0.4"/>
+    </g>
+    <!-- Silhouette 2: 技术移民 -->
+    <g transform="translate(230,180)">
+      <circle cx="40" cy="0" r="28" fill="#1a1040" opacity="0.55"/>
+      <rect x="17" y="28" width="46" height="130" rx="5" fill="#1a1040" opacity="0.55"/>
+      <!-- Laptop -->
+      <rect x="55" y="80" width="30" height="20" rx="2" fill="rgba(9,132,227,0.4)" stroke="#1a1040" stroke-width="1.5"/>
+    </g>
+    <!-- Silhouette 3: 投资移民 -->
+    <g transform="translate(380,170)">
+      <circle cx="40" cy="0" r="30" fill="#1a1040" opacity="0.5"/>
+      <rect x="15" y="30" width="50" height="140" rx="5" fill="#1a1040" opacity="0.5"/>
+      <!-- Money/briefcase -->
+      <rect x="55" y="90" width="25" height="18" rx="3" fill="rgba(253,203,110,0.5)" stroke="#1a1040" stroke-width="1.5"/>
+    </g>
+    <!-- Silhouette 4: 跨国精英 -->
+    <g transform="translate(530,175)">
+      <circle cx="40" cy="0" r="28" fill="#1a1040" opacity="0.5"/>
+      <rect x="17" y="28" width="46" height="135" rx="5" fill="#1a1040" opacity="0.5"/>
+      <!-- Phone -->
+      <rect x="55" y="60" width="15" height="25" rx="2" fill="rgba(0,206,201,0.4)" stroke="#1a1040" stroke-width="1"/>
+    </g>
+    <!-- Silhouette 5: 留学生/Z世代 -->
+    <g transform="translate(680,185)">
+      <circle cx="40" cy="0" r="26" fill="#1a1040" opacity="0.45"/>
+      <rect x="18" y="26" width="44" height="125" rx="5" fill="#1a1040" opacity="0.45"/>
+      <!-- Boba cup -->
+      <path d="M58,50 L62,30 L75,30 L79,50 L76,65 L61,65Z" fill="rgba(0,184,148,0.4)" stroke="#1a1040" stroke-width="1.5"/>
+      <rect x="68" y="15" width="4" height="20" rx="2" fill="#fd79a8" stroke="#1a1040" stroke-width="1"/>
+    </g>
+    <!-- Silhouette 6: Foodie/Instagram -->
+    <g transform="translate(830,190)">
+      <circle cx="35" cy="0" r="25" fill="#1a1040" opacity="0.4"/>
+      <rect x="14" y="25" width="42" height="120" rx="5" fill="#1a1040" opacity="0.4"/>
+      <!-- Camera -->
+      <rect x="45" y="45" width="20" height="15" rx="3" fill="rgba(255,107,107,0.4)" stroke="#1a1040" stroke-width="1"/>
+      <circle cx="55" cy="52" r="4" fill="rgba(255,255,255,0.3)"/>
+    </g>
+    <!-- Ground -->
+    <rect x="0" y="370" width="1000" height="230" fill="rgba(0,0,0,0.08)"/>
+    <!-- Wave pattern bottom -->
+    <path d="M0,370 Q100,360 200,370 Q300,380 400,370 Q500,360 600,370 Q700,380 800,370 Q900,360 1000,370" class="ukiyo-outline-thin" opacity="0.1"/>
+  </svg>
+
+  <div class="ghost-text" style="bottom:5%;right:3%;font-size:30vh;color:rgba(26,16,64,0.07)">人</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(26,16,64,0.85);color:#1a1040;font-size:28px">迭代</div>
+  </div>
+  <div class="map-label" style="top:75px;left:30px">
+    <div class="map-label-cn" style="font-size:50px;color:#1a1040">人变了</div>
+    <div class="map-label-cn" style="font-size:23px;color:rgba(26,16,64,0.85);margin-top:2px">五代移民 · 核心脉络</div>
+    <div class="map-label-en" style="font-size:18px;color:rgba(26,16,64,0.7);margin-top:4px;letter-spacing:2px">FIVE GENERATIONS × FIVE PALATES</div>
+  </div>
+  <!-- Labels below each silhouette -->
+  <div class="map-label" style="bottom:32%;left:5%;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(26,16,64,0.85)">第一代：唐人街</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(26,16,64,0.7)">福建/广东 · 求生存</div>
+  </div>
+  <div class="map-label" style="bottom:30%;left:20%;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(26,16,64,0.85)">第二代：技术移民</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(26,16,64,0.7)">90年代留学潮 · "这不正宗"</div>
+  </div>
+  <div class="map-label" style="bottom:28%;left:36%;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(26,16,64,0.85)">第三代：投资移民</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(26,16,64,0.7)">带着资本 · 中餐升级推手</div>
+  </div>
+  <div class="map-label" style="bottom:26%;left:52%;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(26,16,64,0.85)">第四代：跨国精英</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(26,16,64,0.7)">不需要"中餐"来怀旧</div>
+  </div>
+  <div class="map-label" style="bottom:24%;left:68%;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(26,16,64,0.85)">第五代：新中产/留学生</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(26,16,64,0.7)">95后/00后 · 品质+社交+颜值</div>
+  </div>
+  <div class="map-label" style="bottom:22%;right:4%;text-align:right;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(26,16,64,0.85)">Foodie · Instagram</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(26,16,64,0.7)">审美升级倒逼产品升级</div>
+  </div>
+  <div class="map-label" style="bottom:10%;left:50%;transform:translateX(-50%)">
+    <div class="pill-label" style="background:rgba(26,16,64,0.15);padding:6px 16px">
+      <span class="map-label-cn" style="font-size:19px;color:#1a1040">喝霸王茶姬长大 · 吃海底捞约会 · 用小红书选餐厅</span>
+    </div>
+  </div>
+  <div class="map-label" style="bottom:4%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(26,16,64,0.7);text-align:center">中国生活方式是原生的 · 不是需要"适应"的异文化</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 7: Panda Express -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(180deg,#8b0000 0%,#d63031 35%,#e17055 70%,#f9ca24 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <rect width="1000" height="600" fill="rgba(0,0,0,0)"/>
+    <g opacity="0.08">
+      <rect x="0" y="30" width="300" height="6" rx="3" fill="#ffeaa7"/>
+      <rect x="400" y="25" width="250" height="5" rx="2.5" fill="#ffeaa7"/>
+      <rect x="700" y="35" width="250" height="6" rx="3" fill="#ffeaa7"/>
+    </g>
+    <!-- Giant Panda Face made of orange chicken pieces -->
+    <g transform="translate(500,280)">
+      <!-- Face outline -->
+      <circle cx="0" cy="0" r="200" fill="#fff" opacity="0.15"/>
+      <circle cx="0" cy="0" r="200" class="ukiyo-outline" stroke-width="3" opacity="0.2"/>
+      <!-- Ears (black) -->
+      <circle cx="-145" cy="-135" r="60" fill="#1a1040" opacity="0.7"/>
+      <circle cx="145" cy="-135" r="60" fill="#1a1040" opacity="0.7"/>
+      <!-- Face (white/cream) -->
+      <circle cx="0" cy="0" r="170" fill="#ffeaa7" opacity="0.25"/>
+      <!-- Eye patches (dark, filled with orange pieces) -->
+      <ellipse cx="-70" cy="-40" rx="55" ry="45" fill="#e17055" opacity="0.7"/>
+      <ellipse cx="-70" cy="-40" rx="55" ry="45" class="ukiyo-outline"/>
+      <ellipse cx="70" cy="-40" rx="55" ry="45" fill="#e17055" opacity="0.7"/>
+      <ellipse cx="70" cy="-40" rx="55" ry="45" class="ukiyo-outline"/>
+      <!-- Orange chicken pieces in eye patches -->
+      <g fill="#f9ca24" stroke="#1a1040" stroke-width="1">
+        <rect x="-95" y="-60" width="18" height="14" rx="5"/><rect x="-72" y="-55" width="20" height="16" rx="6"/>
+        <rect x="-55" y="-35" width="16" height="12" rx="4"/><rect x="-85" y="-38" width="18" height="14" rx="5"/>
+        <rect x="-68" y="-18" width="14" height="12" rx="4"/>
+        <rect x="50" y="-60" width="18" height="14" rx="5"/><rect x="72" y="-52" width="20" height="16" rx="6"/>
+        <rect x="58" y="-35" width="16" height="12" rx="4"/><rect x="85" y="-40" width="14" height="12" rx="4"/>
+        <rect x="68" y="-18" width="16" height="14" rx="5"/>
+      </g>
+      <!-- Eyes (white dots in patches) -->
+      <circle cx="-65" cy="-35" r="18" fill="#fff"/><circle cx="65" cy="-35" r="18" fill="#fff"/>
+      <circle cx="-60" cy="-32" r="9" fill="#1a1040"/><circle cx="60" cy="-32" r="9" fill="#1a1040"/>
+      <!-- Nose -->
+      <ellipse cx="0" cy="30" rx="22" ry="14" fill="#1a1040" opacity="0.6"/>
+      <!-- Mouth -->
+      <path d="M-15,48 Q0,65 15,48" stroke="#1a1040" stroke-width="2.5" fill="none" opacity="0.5"/>
+      <!-- Scattered orange chicken pieces around face -->
+      <g fill="#e17055" stroke="#1a1040" stroke-width="1" opacity="0.5">
+        <rect x="-180" y="-20" width="15" height="12" rx="4" transform="rotate(-20)"/>
+        <rect x="170" y="-10" width="14" height="11" rx="4" transform="rotate(15)"/>
+        <rect x="-150" y="80" width="16" height="13" rx="5" transform="rotate(-10)"/>
+        <rect x="155" y="75" width="13" height="11" rx="4" transform="rotate(25)"/>
+        <rect x="-100" y="130" width="14" height="12" rx="4"/>
+        <rect x="90" y="135" width="15" height="11" rx="4"/>
+      </g>
+    </g>
+  </svg>
+
+  <div class="ghost-text" style="top:3%;right:5%;font-size:22vh;color:rgba(255,234,167,0.08)">熊猫</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(253,203,110,0.7);color:#fdcb6e;font-size:28px">帝国</div>
+  </div>
+  <div class="map-label" style="top:72px;left:30px">
+    <div class="map-label-cn" style="font-size:50px;color:#ffeaa7">Panda Express</div>
+    <div class="map-label-en" style="font-size:18px;color:rgba(255,234,167,0.8);margin-top:4px;letter-spacing:2px">THE AMERICAN CHINESE FOOD EMPIRE</div>
+  </div>
+  <div class="map-label" style="top:20%;left:3%;transform:rotate(-2deg)">
+    <div class="pill-label" style="background:rgba(0,0,0,0.25);padding:8px 18px">
+      <span class="map-label-cn" style="font-size:30px;color:#fdcb6e;font-weight:bold">2,500+ 门店</span>
+    </div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8);margin-top:4px">1983创立 · 100%家族持有</div>
+  </div>
+  <div class="map-label" style="top:20%;right:3%;text-align:right;transform:rotate(2deg)">
+    <div class="pill-label" style="background:rgba(0,0,0,0.25);padding:8px 18px">
+      <span class="map-label-cn" style="font-size:30px;color:#fdcb6e;font-weight:bold">$50亿 年营收</span>
+    </div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8);margin-top:4px">程正昌 Andrew Cherng</div>
+  </div>
+  <div class="map-label" style="top:35%;left:3%">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(255,234,167,0.85)">Orange Chicken = 灵魂</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8);margin-top:3px">年耗鸡肉近亿磅<br>美式中餐最成功的单品</div>
+  </div>
+  <div class="map-label" style="top:38%;right:3%;text-align:right">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.8)">中餐全球化最被低估的案例<br>不是不酷 · 是太成功以至于被忽视</div>
+  </div>
+  <div class="map-label vertical-text" style="top:15%;left:82%;font-size:24px;color:rgba(255,234,167,0.4)">
+    <span class="map-label-cn">美式中餐帝国</span>
+  </div>
+  <div class="map-label" style="bottom:18%;left:4%">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.8)">P.F. Chang's · 1993 · "升级版"</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7);margin-top:2px">白人视角的"好中餐" · 连锁但装高端</div>
+  </div>
+  <div class="map-label" style="top:48%;left:3%;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8);line-height:1.7">Wow Bao · 700+虚拟厨房<br>Junzi Kitchen · 快休闲中餐<br>MiLa · 冷冻水饺DTC · Nice Day</div>
+  </div>
+  <div class="map-label" style="top:50%;right:3%;text-align:right;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8);line-height:1.7">Fly By Jing · $50M+ · 辣椒油DTC<br>Jenny Gao · 从金融到辣椒<br>调味料出海比餐厅更深远</div>
+  </div>
+  <div class="map-label" style="bottom:28%;left:4%;transform:rotate(-3deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.7)">投资视角：$50亿营收 · 0融资 · 100%家族控制<br>快餐界最被低估的商业案例</div>
+  </div>
+  <div class="map-label" style="bottom:28%;right:4%;text-align:right;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.7)">全球对标：麦当劳/Chipotle/达美乐<br>Panda证明中餐可以系统化</div>
+  </div>
+  <div class="map-label" style="bottom:6%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(255,234,167,0.8);text-align:center">Panda不会消失 · 但它的后继者会长得完全不同</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 8: 炒 · Wok Hei (original Panel 2) -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(180deg,#d63031 0%,#e17055 30%,#fdcb6e 70%,#ffeaa7 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <radialGradient id="fire-glow" cx="50%" cy="80%" r="60%">
+        <stop offset="0%" stop-color="#ffeaa7"/><stop offset="50%" stop-color="#fdcb6e" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="#d63031" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="wok-metal" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#636e72"/><stop offset="50%" stop-color="#2d3436"/><stop offset="100%" stop-color="#1a1a2e"/>
+      </linearGradient>
+    </defs>
+    <rect width="1000" height="600" fill="url(#fire-glow)" opacity="0.3"/>
+    <g opacity="0.15">
+      <rect x="0" y="30" width="400" height="8" rx="4" fill="#ffeaa7"/>
+      <rect x="450" y="25" width="300" height="7" rx="3.5" fill="#ffeaa7"/>
+      <rect x="100" y="42" width="250" height="6" rx="3" fill="#fdcb6e"/>
+      <rect x="600" y="38" width="350" height="7" rx="3.5" fill="#ffeaa7"/>
+    </g>
+    <!-- Giant Wok -->
+    <path d="M250,380 Q500,520 750,380" fill="url(#wok-metal)"/>
+    <path d="M250,380 Q500,520 750,380" class="ukiyo-outline-thick"/>
+    <ellipse cx="500" cy="380" rx="250" ry="18" fill="#636e72"/>
+    <ellipse cx="500" cy="380" rx="250" ry="18" class="ukiyo-outline"/>
+    <!-- Handles -->
+    <path d="M255,390 L180,420 L170,415 L248,385" fill="#636e72" stroke="#1a1040" stroke-width="2"/>
+    <path d="M745,390 L820,420 L830,415 L752,385" fill="#636e72" stroke="#1a1040" stroke-width="2"/>
+    <!-- Fire -->
+    <g>
+      <path d="M460,520 Q470,450 480,460 Q490,430 500,440 Q510,410 520,430 Q530,445 540,430 Q555,460 550,520Z" fill="#d63031"/>
+      <path d="M460,520 Q470,450 480,460 Q490,430 500,440 Q510,410 520,430 Q530,445 540,430 Q555,460 550,520Z" class="ukiyo-outline"/>
+      <path d="M475,520 Q485,470 495,475 Q505,450 515,465 Q520,480 530,520Z" fill="#fdcb6e"/>
+      <path d="M490,520 Q498,490 505,495 Q510,510 515,520Z" fill="#ffeaa7"/>
+      <path d="M350,530 Q360,480 370,490 Q380,460 390,475 Q400,500 405,530Z" fill="#e17055"/>
+      <path d="M360,530 Q368,495 378,500 Q385,520 390,530Z" fill="#fdcb6e"/>
+      <path d="M595,530 Q605,475 615,485 Q625,455 635,470 Q645,495 650,530Z" fill="#e17055"/>
+      <path d="M608,530 Q615,492 625,497 Q632,515 638,530Z" fill="#fdcb6e"/>
+    </g>
+    <!-- Food flying -->
+    <g transform="translate(380,250) rotate(-30)">
+      <path d="M0,12 Q8,0 20,5 Q28,8 30,15 Q28,22 20,20 Q12,18 8,22 Q2,20 0,12Z" fill="#e17055" stroke="#1a1040" stroke-width="1.5"/>
+    </g>
+    <g transform="translate(560,220) rotate(20)">
+      <ellipse cx="10" cy="18" rx="8" ry="12" fill="#00b894" stroke="#1a1040" stroke-width="1.5"/>
+    </g>
+    <g transform="translate(440,200) rotate(-45)">
+      <path d="M0,5 Q15,-2 30,5 Q15,12 0,5Z" fill="#d63031" stroke="#1a1040" stroke-width="1.5"/>
+      <path d="M28,5 L35,3" stroke="#00b894" stroke-width="2" stroke-linecap="round"/>
+    </g>
+    <!-- Noodles -->
+    <g stroke="#ffeaa7" stroke-width="3.5" fill="none" stroke-linecap="round">
+      <path d="M420,360 Q400,280 370,200 Q355,160 360,130"/>
+      <path d="M460,365 Q450,290 440,220 Q430,170 425,140"/>
+      <path d="M500,370 Q510,300 530,230 Q545,180 555,145"/>
+      <path d="M540,365 Q560,300 590,240 Q610,190 620,155"/>
+    </g>
+    <!-- Steam -->
+    <g opacity="0.25">
+      <rect x="350" y="310" width="120" height="8" rx="4" fill="#fff"/>
+      <rect x="420" y="295" width="160" height="9" rx="4.5" fill="#fff"/>
+      <rect x="380" y="278" width="100" height="7" rx="3.5" fill="#fff"/>
+      <rect x="460" y="260" width="130" height="8" rx="4" fill="#fff"/>
+      <rect x="400" y="242" width="90" height="6" rx="3" fill="#fff"/>
+    </g>
+    <!-- Sparks -->
+    <g fill="#ffeaa7" opacity="0.7">
+      <circle cx="365" cy="190" r="3"/><circle cx="450" cy="150" r="2.5"/>
+      <circle cx="540" cy="140" r="3"/><circle cx="620" cy="165" r="2"/>
+    </g>
+  </svg>
+
+  <div class="ghost-text" style="top:5%;left:5%;font-size:36vh;color:rgba(255,234,167,0.1)">炒</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(26,16,64,0.9);color:#1a1040;font-size:32px">专题</div>
+  </div>
+  <div class="map-label" style="top:80px;left:30px">
+    <div class="map-label-cn" style="font-size:56px;color:#1a1040">炒</div>
+    <div class="map-label-cn" style="font-size:26px;color:rgba(26,16,64,0.65);margin-top:2px">中餐独有的烹饪哲学</div>
+    <div class="map-label-en" style="font-size:18px;color:rgba(26,16,64,0.8);margin-top:4px;letter-spacing:2px">WOK HEI · THE SOUL OF CHINESE COOKING</div>
+  </div>
+  <div class="map-label" style="top:22%;right:3%;text-align:right">
+    <div class="map-label-cn" style="font-size:30px;color:rgba(26,16,64,0.9)">什么是炒？</div>
+    <div class="map-label-cn" style="font-size:19px;color:rgba(26,16,64,0.8);margin-top:6px;line-height:1.7">高温 + 快速 + 翻抛 + 锅气<br>1200°F铁锅表面 · 梅拉德反应极致</div>
+  </div>
+  <div class="map-label vertical-text" style="top:15%;left:82%;font-size:28px;color:rgba(26,16,64,0.4)">
+    <span class="map-label-cn">锅气 Wok Hei</span>
+  </div>
+  <div class="map-label" style="top:50%;left:3%">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(26,16,64,0.85)">炒的文明史</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(26,16,64,0.8);margin-top:5px;line-height:1.7">汉代雏形 · 宋代铁锅普及<br>燃料稀缺 → 快速烹饪 · 铁锅 = 灵魂</div>
+  </div>
+  <div class="map-label" style="top:38%;right:3%;text-align:right;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(26,16,64,0.8);line-height:1.7">炒(Chǎo) · 爆(Bào) · 煎(Jiān)<br>烧(Shāo) · 炖(Dùn) · 蒸(Zhēng)<br>八大烹饪法 · 铁锅一把通</div>
+  </div>
+  <div class="map-label" style="top:50%;right:3%;text-align:right">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(26,16,64,0.8);line-height:1.6">梅拉德反应 · 焦糖化 · 烟气<br>三者同时发生在0.5秒内<br>这就是"锅气"的科学</div>
+  </div>
+  <div class="map-label" style="bottom:28%;left:5%">
+    <div class="pill-label" style="background:rgba(26,16,64,0.3);padding:8px 18px">
+      <span class="map-label-cn" style="font-size:21px;color:#1a1040">一秒判断 · 三十年功力</span>
+    </div>
+  </div>
+  <div class="map-label" style="bottom:20%;right:4%;text-align:right;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(26,16,64,0.8)">燃料稀缺→快速烹饪→铁锅</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(26,16,64,0.7);margin-top:2px">穷人的智慧 · 变成世界的宝藏</div>
+  </div>
+  <div class="map-label" style="bottom:12%;left:5%;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(26,16,64,0.8)">标准化最大敌人：每个厨师的手感不同</div>
+  </div>
+  <div class="map-label" style="bottom:6%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:26px;color:rgba(26,16,64,0.8);text-align:center">法餐的灵魂是酱汁 · 日料的灵魂是刀工 · 中餐的灵魂是——<span style="font-size:36px;color:rgba(26,16,64,0.9)">炒</span></div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 9: 米其林之路 · Michelin Path -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(135deg,#1a1040 0%,#2d3a8c 50%,#f9ca24 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <rect width="1000" height="600" fill="rgba(0,0,0,0)"/>
+    <!-- Split panel: left French navy, right Chinese gold -->
+    <rect x="0" y="0" width="500" height="600" fill="rgba(26,16,64,0.3)"/>
+    <rect x="500" y="0" width="500" height="600" fill="rgba(249,202,36,0.15)"/>
+    <line x1="500" y1="0" x2="500" y2="600" stroke="#1a1040" stroke-width="2" opacity="0.3"/>
+    <!-- Yokogumo -->
+    <g opacity="0.1">
+      <rect x="50" y="50" width="200" height="5" rx="2.5" fill="#fff"/>
+      <rect x="550" y="45" width="250" height="6" rx="3" fill="#fdcb6e"/>
+      <rect x="300" y="60" width="150" height="4" rx="2" fill="#fff"/>
+      <rect x="750" y="55" width="200" height="5" rx="2.5" fill="#fdcb6e"/>
+    </g>
+    <!-- Left: Michelin Star (French side) -->
+    <g transform="translate(250,250)">
+      <!-- Star shape -->
+      <polygon points="0,-80 18,-25 75,-25 28,10 45,65 0,32 -45,65 -28,10 -75,-25 -18,-25" fill="#d63031" opacity="0.6"/>
+      <polygon points="0,-80 18,-25 75,-25 28,10 45,65 0,32 -45,65 -28,10 -75,-25 -18,-25" class="ukiyo-outline"/>
+      <polygon points="0,-60 14,-20 56,-20 22,8 34,48 0,24 -34,48 -22,8 -56,-20 -14,-20" fill="#ff6b6b" opacity="0.4"/>
+      <!-- M for Michelin -->
+      <text x="0" y="10" fill="#ffeaa7" font-family="Noto Serif JP" font-size="36" text-anchor="middle" font-weight="bold" opacity="0.7">M</text>
+    </g>
+    <!-- Right: Black Pearl -->
+    <g transform="translate(750,250)">
+      <circle cx="0" cy="0" r="70" fill="#1a1040" opacity="0.5"/>
+      <circle cx="0" cy="0" r="70" class="ukiyo-outline"/>
+      <circle cx="0" cy="0" r="55" fill="none" stroke="#fdcb6e" stroke-width="1.5" opacity="0.4"/>
+      <!-- Pearl shine -->
+      <circle cx="-15" cy="-20" r="20" fill="rgba(255,255,255,0.1)"/>
+      <circle cx="-10" cy="-15" r="8" fill="rgba(255,255,255,0.15)"/>
+      <!-- Chinese character -->
+      <text x="0" y="10" fill="#fdcb6e" font-family="Ma Shan Zheng" font-size="32" text-anchor="middle" opacity="0.7">珠</text>
+    </g>
+    <!-- VS divider -->
+    <text x="500" y="270" fill="rgba(255,255,255,0.3)" font-family="Noto Serif JP" font-size="40" text-anchor="middle" font-weight="bold">VS</text>
+    <!-- Decorative wave at bottom -->
+    <path d="M0,500 Q100,485 200,500 Q300,515 400,500 Q500,485 600,500 Q700,515 800,500 Q900,485 1000,500 L1000,600 L0,600Z" fill="rgba(0,0,0,0.15)"/>
+  </svg>
+
+  <div class="ghost-text" style="top:5%;left:3%;font-size:28vh;color:rgba(253,203,110,0.06)">星</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(253,203,110,0.9);color:#fdcb6e;font-size:28px">争锋</div>
+  </div>
+  <div class="map-label" style="top:72px;left:30px">
+    <div class="map-label-cn" style="font-size:46px;color:#ffeaa7">米其林之路</div>
+    <div class="map-label-en" style="font-size:18px;color:rgba(255,234,167,0.8);margin-top:4px;letter-spacing:2px">MICHELIN STAR vs BLACK PEARL</div>
+  </div>
+  <div class="map-label" style="top:22%;left:3%;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(255,234,167,0.85)">Benu · 旧金山 · 3星</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8);margin-top:2px">Corey Lee · $350+ · 中韩欧融合</div>
+  </div>
+  <div class="map-label" style="top:32%;left:3%;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(255,234,167,0.85)">A. Wong · 伦敦 · 2星</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8);margin-top:2px">英国中餐最高纪录</div>
+  </div>
+  <div class="map-label" style="top:38%;left:3%;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8);line-height:1.6">Mister Jiu's · 旧金山 · 1星<br>Empress by Boon · 1星 · 粤菜fine dining<br>Hakkasan · 全球连锁 · 1星<br>新荣记东京 · 1星 · 台州菜<br>Shang Palace · 巴黎 · 1星<br>Imperial Treasure · 新加坡</div>
+  </div>
+  <div class="map-label" style="top:22%;right:3%;text-align:right;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(253,203,110,0.9)">黑珍珠 · 大众点评</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(253,203,110,0.8);margin-top:3px">中国人自己的评价体系</div>
+  </div>
+  <div class="map-label" style="top:35%;right:3%;text-align:right;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(253,203,110,0.8);line-height:1.6">Wing · 伦敦 · 1星 · 新派中餐<br>Alan Yau创立 Hakkasan · 现代粤菜</div>
+  </div>
+  <div class="map-label" style="top:55%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(255,255,255,0.8);text-align:center">用米其林评中餐 = 用英语语法检查中文作文</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,255,255,0.7);margin-top:4px;text-align:center">维度错位 · 中餐的"好"需要自己的语言</div>
+  </div>
+  <div class="map-label" style="bottom:22%;left:5%">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.8)">大董纽约 2017开业 → ~2021关闭</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7);margin-top:2px">温哥华全聚德 · 未达预期 · 国宴光环≠海外成功</div>
+  </div>
+  <div class="map-label" style="bottom:14%;right:5%;text-align:right;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(253,203,110,0.8)">米其林执念：中国人为什么在意<br>法国轮胎公司的评价？</div>
+  </div>
+  <div class="map-label" style="bottom:6%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.7);text-align:center">中餐的好：季节感 · 火候 · 刀工 · 意境 · 食材鲜度</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 10: 主厨群像 · Chef Portraits -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(180deg,#5a3e2b 0%,#8b6914 30%,#d4a017 60%,#fdcb6e 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <rect width="1000" height="600" fill="rgba(0,0,0,0)"/>
+    <g opacity="0.08">
+      <rect x="0" y="40" width="300" height="6" rx="3" fill="#ffeaa7"/>
+      <rect x="400" y="35" width="250" height="5" rx="2.5" fill="#ffeaa7"/>
+      <rect x="700" y="42" width="250" height="6" rx="3" fill="#ffeaa7"/>
+    </g>
+    <!-- Chef silhouettes with chef hats -->
+    <g transform="translate(80,200)">
+      <rect x="15" y="0" width="40" height="20" rx="3" fill="#fff" opacity="0.4" stroke="#1a1040" stroke-width="1.5"/>
+      <circle cx="35" cy="40" r="22" fill="#1a1040" opacity="0.5"/>
+      <rect x="15" y="62" width="40" height="100" rx="4" fill="#1a1040" opacity="0.5"/>
+    </g>
+    <g transform="translate(210,180)">
+      <rect x="18" y="0" width="44" height="22" rx="3" fill="#fff" opacity="0.4" stroke="#1a1040" stroke-width="1.5"/>
+      <circle cx="40" cy="45" r="24" fill="#1a1040" opacity="0.45"/>
+      <rect x="18" y="69" width="44" height="110" rx="4" fill="#1a1040" opacity="0.45"/>
+    </g>
+    <g transform="translate(350,190)">
+      <rect x="16" y="0" width="38" height="18" rx="3" fill="#fff" opacity="0.35" stroke="#1a1040" stroke-width="1.5"/>
+      <circle cx="35" cy="38" r="20" fill="#1a1040" opacity="0.4"/>
+      <rect x="16" y="58" width="38" height="100" rx="4" fill="#1a1040" opacity="0.4"/>
+    </g>
+    <g transform="translate(480,185)">
+      <rect x="17" y="0" width="42" height="20" rx="3" fill="#fff" opacity="0.4" stroke="#1a1040" stroke-width="1.5"/>
+      <circle cx="38" cy="42" r="22" fill="#1a1040" opacity="0.45"/>
+      <rect x="17" y="64" width="42" height="105" rx="4" fill="#1a1040" opacity="0.45"/>
+    </g>
+    <g transform="translate(610,195)">
+      <rect x="15" y="0" width="36" height="18" rx="3" fill="#fff" opacity="0.35" stroke="#1a1040" stroke-width="1.5"/>
+      <circle cx="33" cy="38" r="20" fill="#1a1040" opacity="0.4"/>
+      <rect x="15" y="58" width="36" height="98" rx="4" fill="#1a1040" opacity="0.4"/>
+    </g>
+    <g transform="translate(730,188)">
+      <rect x="16" y="0" width="40" height="20" rx="3" fill="#fff" opacity="0.38" stroke="#1a1040" stroke-width="1.5"/>
+      <circle cx="36" cy="40" r="22" fill="#1a1040" opacity="0.42"/>
+      <rect x="16" y="62" width="40" height="102" rx="4" fill="#1a1040" opacity="0.42"/>
+    </g>
+    <g transform="translate(860,192)">
+      <rect x="14" y="0" width="38" height="18" rx="3" fill="#fff" opacity="0.35" stroke="#1a1040" stroke-width="1.5"/>
+      <circle cx="33" cy="38" r="20" fill="#1a1040" opacity="0.38"/>
+      <rect x="14" y="58" width="38" height="96" rx="4" fill="#1a1040" opacity="0.38"/>
+    </g>
+    <!-- Ground/stage -->
+    <rect x="0" y="400" width="1000" height="200" fill="rgba(0,0,0,0.1)"/>
+    <path d="M0,400 L1000,400" stroke="#fdcb6e" stroke-width="2" opacity="0.2"/>
+  </svg>
+
+  <div class="ghost-text" style="bottom:5%;right:3%;font-size:26vh;color:rgba(253,203,110,0.08)">厨</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(214,48,49,0.85);color:#d63031;font-size:28px">群像</div>
+  </div>
+  <div class="map-label" style="top:72px;left:30px">
+    <div class="map-label-cn" style="font-size:46px;color:#ffeaa7">华裔二代主厨运动</div>
+    <div class="map-label-en" style="font-size:18px;color:rgba(255,234,167,0.8);margin-top:4px;letter-spacing:2px">NOT SURVIVAL · BUT PASSION</div>
+  </div>
+  <!-- Chef names below silhouettes -->
+  <div class="map-label" style="bottom:30%;left:5%;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.85)">David Chang</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7)">Momofuku · 2星</div>
+  </div>
+  <div class="map-label" style="bottom:28%;left:18%;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.85)">Brandon Jew</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7)">Mister Jiu's · 1星</div>
+  </div>
+  <div class="map-label" style="bottom:26%;left:32%">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.85)">Lucas Sin</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7)">Nice Day Chinese</div>
+  </div>
+  <div class="map-label" style="bottom:28%;left:46%;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.85)">Corey Lee</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7)">Benu · 3星</div>
+  </div>
+  <div class="map-label" style="bottom:26%;left:59%">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.85)">Jenny Gao</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7)">Fly By Jing · $50M+</div>
+  </div>
+  <div class="map-label" style="bottom:28%;left:72%;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.85)">Calvin Eng</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7)">Bonnie's · Brooklyn</div>
+  </div>
+  <div class="map-label" style="bottom:26%;right:4%">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.85)">Eric Sze</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7)">886 · 台湾浪潮</div>
+  </div>
+  <div class="map-label" style="top:18%;right:3%;text-align:right;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.85)">Peter Chang · 传统川菜大师</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7);margin-top:2px">从中国到弗吉尼亚小城 · 口碑封神</div>
+  </div>
+  <div class="map-label" style="top:22%;left:4%;transform:rotate(-3deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8);line-height:1.7">A.Wong 2星 · 伦敦 · Andrew Wong<br>Bao London · 台湾刈包 · 排队现象<br>Hakkasan · 高端粤菜全球连锁</div>
+  </div>
+  <div class="map-label" style="top:35%;right:5%;text-align:right;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8)">为什么这一代不同？<br>CIA/Le Cordon Bleu科班训练<br>+华裔身份自觉 · 不再遮掩</div>
+  </div>
+  <div class="map-label" style="top:40%;left:40%;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7)">David Chang: "没人会说意大利菜不正宗"<br>为什么中餐要被authenticity绑架？</div>
+  </div>
+  <div class="map-label" style="bottom:14%;left:50%;transform:translateX(-50%)">
+    <div class="pill-label" style="background:rgba(0,0,0,0.2);padding:6px 16px">
+      <span class="map-label-cn" style="font-size:19px;color:#ffeaa7">父辈谋生 → 他们热爱 · 身份觉醒的一代</span>
+    </div>
+  </div>
+  <div class="map-label" style="bottom:5%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.7);text-align:center">菜单不只是食物 · 是给父母那代人的情书 · 同时也是独立宣言</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 11: 茶饮 (original Panel 3) -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(180deg,#00b894 0%,#00cec9 40%,#74b9ff 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="tea-green" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#00b894"/><stop offset="100%" stop-color="#00cec9"/>
+      </linearGradient>
+      <radialGradient id="boba-pearl" cx="35%" cy="35%">
+        <stop offset="0%" stop-color="#636e72"/><stop offset="100%" stop-color="#2d3436"/>
+      </radialGradient>
+    </defs>
+    <rect width="1000" height="600" fill="url(#tea-green)"/>
+    <g opacity="0.15">
+      <rect x="50" y="40" width="250" height="6" rx="3" fill="#fff"/>
+      <rect x="400" y="35" width="300" height="7" rx="3.5" fill="#fff"/>
+      <rect x="750" y="45" width="200" height="6" rx="3" fill="#fff"/>
+    </g>
+    <!-- Giant Teacup -->
+    <path d="M300,250 L320,480 Q500,530 680,480 L700,250Z" fill="#dfe6e9"/>
+    <path d="M300,250 L320,480 Q500,530 680,480 L700,250Z" class="ukiyo-outline-thick"/>
+    <ellipse cx="500" cy="250" rx="200" ry="25" fill="#fff"/>
+    <ellipse cx="500" cy="250" rx="200" ry="25" class="ukiyo-outline"/>
+    <ellipse cx="500" cy="260" rx="185" ry="20" fill="#00b894" opacity="0.6"/>
+    <!-- Handle -->
+    <path d="M700,300 Q780,300 790,360 Q800,420 730,430" fill="none" stroke="#dfe6e9" stroke-width="22"/>
+    <path d="M700,300 Q780,300 790,360 Q800,420 730,430" class="ukiyo-outline" stroke-width="3"/>
+    <!-- Boba pearls -->
+    <g>
+      <circle cx="420" cy="380" r="14" fill="url(#boba-pearl)"/><circle cx="420" cy="380" r="14" class="ukiyo-outline"/>
+      <circle cx="480" cy="400" r="16" fill="url(#boba-pearl)"/><circle cx="480" cy="400" r="16" class="ukiyo-outline"/>
+      <circle cx="540" cy="390" r="13" fill="url(#boba-pearl)"/><circle cx="540" cy="390" r="13" class="ukiyo-outline"/>
+      <circle cx="460" cy="430" r="15" fill="url(#boba-pearl)"/><circle cx="460" cy="430" r="15" class="ukiyo-outline"/>
+      <circle cx="580" cy="420" r="14" fill="url(#boba-pearl)"/><circle cx="580" cy="420" r="14" class="ukiyo-outline"/>
+    </g>
+    <!-- Steam -->
+    <g opacity="0.2">
+      <rect x="380" y="210" width="100" height="7" rx="3.5" fill="#fff"/>
+      <rect x="440" y="190" width="130" height="8" rx="4" fill="#fff"/>
+      <rect x="400" y="168" width="90" height="6" rx="3" fill="#fff"/>
+      <rect x="470" y="145" width="110" height="7" rx="3.5" fill="#fff"/>
+    </g>
+    <!-- Straw -->
+    <rect x="560" y="100" width="10" height="180" rx="5" fill="#fd79a8"/>
+    <rect x="560" y="100" width="10" height="180" rx="5" class="ukiyo-outline"/>
+    <!-- Wave bottom -->
+    <path d="M0,560 Q50,545 100,560 Q150,575 200,560 Q250,545 300,560 Q350,575 400,560 Q450,545 500,560 Q550,575 600,560 Q650,545 700,560 Q750,575 800,560 Q850,545 900,560 Q950,575 1000,560 L1000,600 L0,600Z" fill="rgba(0,0,0,0.08)"/>
+    <!-- Trojan Horse boba -->
+    <g transform="translate(80,380)">
+      <circle cx="30" cy="230" r="10" fill="none" stroke="#2d3436" stroke-width="2.5"/>
+      <circle cx="100" cy="230" r="10" fill="none" stroke="#2d3436" stroke-width="2.5"/>
+      <rect x="15" y="215" width="100" height="8" rx="2" fill="#e17055" stroke="#1a1040" stroke-width="1.5"/>
+      <path d="M25,212 L30,80 Q65,70 100,80 L105,212Z" fill="#dfe6e9" stroke="#1a1040" stroke-width="2"/>
+      <path d="M33,100 Q65,92 97,100 L102,195 Q65,205 28,195Z" fill="#00b894" opacity="0.3"/>
+      <circle cx="55" cy="155" r="5" fill="#2d3436" stroke="#1a1040" stroke-width="1"/>
+      <circle cx="75" cy="160" r="6" fill="#2d3436" stroke="#1a1040" stroke-width="1"/>
+      <circle cx="60" cy="175" r="5" fill="#2d3436" stroke="#1a1040" stroke-width="1"/>
+      <path d="M35,80 Q28,45 32,20 Q35,10 42,15 L45,25 Q40,40 38,65" fill="#dfe6e9" stroke="#1a1040" stroke-width="2"/>
+      <path d="M32,20 Q22,15 18,22 Q16,28 22,30 Q28,32 32,28" fill="#dfe6e9" stroke="#1a1040" stroke-width="1.5"/>
+      <circle cx="23" cy="22" r="2" fill="#1a1040"/>
+    </g>
+  </svg>
+
+  <div class="ghost-text" style="bottom:5%;right:5%;font-size:34vh;color:rgba(0,100,0,0.1)">茶</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(45,52,54,0.85);color:#2d3436;font-size:32px">特别篇</div>
+  </div>
+  <div class="map-label" style="top:80px;left:30px">
+    <div class="map-label-cn" style="font-size:50px;color:#2d3436">从咖啡到茶饮</div>
+    <div class="map-label-en" style="font-size:18px;color:rgba(45,52,54,0.8);margin-top:4px;letter-spacing:2px">THE THIRD SPACE WAR · COFFEE vs TEA</div>
+  </div>
+  <div class="map-label" style="top:20%;right:3%;text-align:right">
+    <div class="map-label-cn" style="font-size:26px;color:rgba(45,52,54,0.9)">品牌版图</div>
+    <div class="map-label-cn" style="font-size:19px;color:rgba(45,52,54,0.8);margin-top:6px;line-height:1.8">蜜雪冰城 45,000+ · 全球第一<br>古茗 10,000+ · 霸王茶姬 5,000+<br>喜茶 3,500+ · 奈雪 1,500+</div>
+  </div>
+  <div class="map-label" style="top:30%;left:3%">
+    <div class="pill-label" style="background:rgba(0,0,0,0.2);padding:8px 18px">
+      <span class="map-label-cn" style="font-size:23px;color:#2d3436;font-weight:bold">蜜雪冰城 45,000 > 星巴克 39,000</span>
+    </div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(45,52,54,0.8);margin-top:6px">没有人谈论这件事</div>
+  </div>
+  <div class="map-label vertical-text" style="top:12%;right:35%;font-size:26px;color:rgba(45,52,54,0.4)">
+    <span class="map-label-cn">东方星巴克</span>
+  </div>
+  <div class="map-label" style="bottom:22%;left:22%;transform:rotate(-3deg)">
+    <div class="map-label-cn" style="font-size:30px;color:rgba(45,52,54,0.9)">特洛伊木马</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(45,52,54,0.8);margin-top:4px">频率决定文化渗透力<br>每天一杯 · 文化基础设施就建好了</div>
+  </div>
+  <div class="map-label" style="top:20%;left:3%;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(45,52,54,0.85);line-height:1.7">霸王茶姬 · 4000+店 · 东南亚300+<br>喜茶 HEYTEA · 奈雪的茶 · 上市<br>古茗 · 沪上阿姨 · 茶百道</div>
+  </div>
+  <div class="map-label" style="top:38%;right:3%;text-align:right;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(45,52,54,0.8);line-height:1.7">台湾系：CoCo · 日出茶太<br>贡茶 · 鲜茶道 · 全球先行者<br>Luckin Coffee · 反面教训+重生</div>
+  </div>
+  <div class="map-label" style="bottom:15%;left:5%;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(45,52,54,0.8)">第三空间争夺战<br>星巴克卖的是空间 · 茶饮卖的是社交货币</div>
+  </div>
+  <div class="map-label" style="bottom:4%;right:5%">
+    <div class="map-label-en" style="font-size:16px;color:rgba(45,52,54,0.7);letter-spacing:2px">¥3,000亿+ MARKET · DAILY FREQUENCY</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 12: 品牌出海 (original Panel 4) -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(180deg,#fdcb6e 0%,#f9ca24 30%,#e17055 60%,#d63031 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="sunset" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#ffeaa7"/><stop offset="30%" stop-color="#fdcb6e"/>
+        <stop offset="60%" stop-color="#e17055"/><stop offset="100%" stop-color="#d63031"/>
+      </linearGradient>
+    </defs>
+    <rect width="1000" height="600" fill="url(#sunset)"/>
+    <!-- Sun -->
+    <circle cx="500" cy="200" r="130" fill="#ffeaa7" opacity="0.6"/>
+    <circle cx="500" cy="200" r="100" fill="#fff" opacity="0.3"/>
+    <circle cx="500" cy="200" r="65" fill="#ffeaa7" opacity="0.4"/>
+    <g opacity="0.12">
+      <rect x="300" y="150" width="400" height="7" rx="3.5" fill="#d63031"/>
+      <rect x="350" y="165" width="300" height="6" rx="3" fill="#d63031"/>
+    </g>
+    <!-- Wok boats -->
+    <g transform="translate(350,340)">
+      <path d="M0,30 Q150,80 300,30" fill="#2d3436"/><path d="M0,30 Q150,80 300,30" class="ukiyo-outline-thick"/>
+      <rect x="140" y="-80" width="6" height="110" rx="3" fill="#f9ca24" stroke="#1a1040" stroke-width="1.5"/>
+      <path d="M146,-75 Q200,-60 160,-10 Q146,-5 143,-10 Q120,-50 146,-75Z" fill="#dfe6e9" opacity="0.8"/>
+      <path d="M146,-75 Q200,-60 160,-10 Q146,-5 143,-10 Q120,-50 146,-75Z" class="ukiyo-outline"/>
+      <path d="M143,-80 L143,-90 L165,-85Z" fill="#d63031" stroke="#1a1040" stroke-width="1"/>
+    </g>
+    <g transform="translate(100,380) scale(0.6)">
+      <path d="M0,30 Q100,65 200,30" fill="#2d3436"/><path d="M0,30 Q100,65 200,30" class="ukiyo-outline"/>
+      <rect x="90" y="-50" width="5" height="80" rx="2.5" fill="#f9ca24" stroke="#1a1040" stroke-width="1.5"/>
+      <path d="M95,-45 Q135,-35 110,10 Q95,15 92,10 Q78,-25 95,-45Z" fill="#dfe6e9" opacity="0.7"/>
+      <path d="M95,-45 Q135,-35 110,10 Q95,15 92,10 Q78,-25 95,-45Z" class="ukiyo-outline"/>
+    </g>
+    <g transform="translate(720,370) scale(0.5)">
+      <path d="M0,30 Q100,65 200,30" fill="#2d3436"/><path d="M0,30 Q100,65 200,30" class="ukiyo-outline"/>
+      <rect x="90" y="-40" width="4" height="70" rx="2" fill="#f9ca24" stroke="#1a1040" stroke-width="1.5"/>
+      <path d="M94,-35 Q125,-28 108,10 Q94,13 92,10 Q82,-18 94,-35Z" fill="#dfe6e9" opacity="0.7"/>
+      <path d="M94,-35 Q125,-28 108,10 Q94,13 92,10 Q82,-18 94,-35Z" class="ukiyo-outline"/>
+    </g>
+    <!-- Waves -->
+    <path d="M-20,440 Q80,410 160,440 Q240,470 320,440 Q400,410 480,440 Q560,470 640,440 Q720,410 800,440 Q880,470 960,440 L1020,440 L1020,600 L-20,600Z" fill="rgba(214,48,49,0.4)"/>
+    <path d="M-20,480 Q100,455 200,480 Q300,505 400,480 Q500,455 600,480 Q700,505 800,480 Q900,455 1020,480 L1020,600 L-20,600Z" fill="rgba(214,48,49,0.5)"/>
+    <!-- Birds -->
+    <g stroke="#2d3436" stroke-width="2" fill="none" opacity="0.3">
+      <path d="M690,100 Q700,90 710,100"/><path d="M720,90 Q730,80 740,90"/>
+      <path d="M705,85 Q715,75 725,85"/><path d="M735,95 Q745,85 755,95"/>
+    </g>
+  </svg>
+
+  <div class="ghost-text" style="bottom:8%;left:3%;font-size:28vh;color:rgba(255,255,255,0.1)">出海</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(45,52,54,0.9);color:#2d3436;font-size:32px">第三幕</div>
+  </div>
+  <div class="map-label" style="top:78px;left:30px">
+    <div class="map-label-cn" style="font-size:50px;color:#2d3436">品牌中餐出海</div>
+    <div class="map-label-en" style="font-size:18px;color:rgba(45,52,54,0.85);margin-top:4px;letter-spacing:2px">CHINESE BRANDS GO GLOBAL</div>
+  </div>
+  <div class="map-label" style="top:18%;right:3%;text-align:right;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:26px;color:rgba(45,52,54,0.9)">三条线并行</div>
+    <div class="map-label-cn" style="font-size:19px;color:rgba(45,52,54,0.8);margin-top:6px;line-height:1.8">线1 效率进化 · 鼎泰丰 · MìLà<br>线2 生活方式输出 · 海底捞 · 太二<br>线3 高端精品 · Benu · A.Wong</div>
+  </div>
+  <div class="map-label" style="top:28%;left:4%;transform:rotate(-3deg)">
+    <div class="map-label-cn" style="font-size:30px;color:rgba(45,52,54,0.85)">不只是中餐出海</div>
+    <div class="map-label-cn" style="font-size:23px;color:rgba(214,48,49,0.85);margin-top:2px">是中国生活方式的全球化</div>
+  </div>
+  <div class="map-label" style="top:45%;left:3%">
+    <div class="pill-label" style="background:rgba(45,52,54,0.25);padding:8px 18px">
+      <span class="map-label-cn" style="font-size:23px;color:#2d3436">海底捞 1400+店 · 海外120+</span>
+    </div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(45,52,54,0.8);margin-top:6px;line-height:1.6">太二酸菜鱼 · 小龙坎 · 马记永<br>Fly By Jing $50M+ · Wow Bao 700+虚拟厨房</div>
+  </div>
+  <div class="map-label" style="top:45%;right:3%;text-align:right;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(45,52,54,0.8);line-height:1.6">鼎泰丰 190+店/14国 · 小笼包全球标准化<br>Junzi Kitchen · 耶鲁起家 · 北方煎饼<br>Nice Day Chinese · Lucas Sin · "better takeout"<br>MìLà 冷冻水饺DTC · 融资$10M+</div>
+  </div>
+  <div class="map-label" style="bottom:18%;left:4%;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(45,52,54,0.7)">消费这些品牌 = 不必放弃自己的生活方式</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(45,52,54,0.6)">= 一种文化身份的确认</div>
+  </div>
+  <div class="map-label" style="bottom:12%;left:40%">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(255,234,167,0.85)">品牌 = 信任 = 溢价 = 可复制</div>
+  </div>
+  <div class="map-label" style="bottom:6%;right:5%">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.8)">孔子学院花几十亿效果有限 · 火锅免费传播不可阻挡</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 13: 海底捞 · 全球版图 -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(180deg,#8b0000 0%,#d63031 40%,#b87333 70%,#8b6914 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <rect width="1000" height="600" fill="rgba(0,0,0,0)"/>
+    <g opacity="0.08">
+      <rect x="0" y="40" width="300" height="6" rx="3" fill="#ffeaa7"/>
+      <rect x="400" y="35" width="250" height="5" rx="2.5" fill="#ffeaa7"/>
+    </g>
+    <!-- Simplified world map outlines -->
+    <g fill="rgba(255,234,167,0.1)" stroke="rgba(255,234,167,0.2)" stroke-width="1.5">
+      <!-- Americas -->
+      <path d="M100,150 Q120,130 160,140 Q180,200 170,260 Q160,300 140,340 Q130,360 135,380 L145,420 Q130,440 120,420 Q100,380 90,340 Q80,280 90,220Z"/>
+      <!-- Europe/Africa -->
+      <path d="M440,130 Q460,120 490,130 Q510,140 520,160 Q510,200 500,240 Q490,280 480,320 Q470,360 460,400 Q450,380 440,340 Q430,280 435,220Z"/>
+      <!-- Asia -->
+      <path d="M550,120 Q600,100 680,110 Q720,120 750,140 Q770,170 760,210 Q740,250 720,280 Q700,300 680,310 Q650,320 620,310 Q590,290 570,260 Q550,220 540,180 Q540,150 550,120Z"/>
+      <!-- Australia -->
+      <path d="M720,380 Q750,370 780,380 Q800,400 790,420 Q770,430 740,420 Q720,410 720,380Z"/>
+    </g>
+    <!-- Hotpot dots on map (red glowing circles) -->
+    <g>
+      <!-- China cluster -->
+      <circle cx="680" cy="180" r="15" fill="#d63031" opacity="0.8"><animate attributeName="r" dur="3s" values="15;18;15" repeatCount="indefinite"/></circle>
+      <circle cx="680" cy="180" r="15" class="ukiyo-outline-thin" opacity="0.4"/>
+      <!-- SE Asia -->
+      <circle cx="700" cy="260" r="8" fill="#d63031" opacity="0.6"/>
+      <circle cx="720" cy="280" r="6" fill="#d63031" opacity="0.5"/>
+      <!-- Japan/Korea -->
+      <circle cx="740" cy="170" r="7" fill="#d63031" opacity="0.6"/>
+      <!-- US -->
+      <circle cx="140" cy="200" r="8" fill="#d63031" opacity="0.6"/>
+      <circle cx="120" cy="220" r="6" fill="#d63031" opacity="0.5"/>
+      <!-- Europe -->
+      <circle cx="470" cy="160" r="7" fill="#d63031" opacity="0.6"/>
+      <circle cx="490" cy="150" r="5" fill="#d63031" opacity="0.5"/>
+      <!-- Australia -->
+      <circle cx="760" cy="400" r="5" fill="#d63031" opacity="0.5"/>
+    </g>
+    <!-- Steam rising from main dot -->
+    <g opacity="0.2">
+      <rect x="660" y="140" width="40" height="5" rx="2.5" fill="#fff"/>
+      <rect x="670" y="128" width="30" height="4" rx="2" fill="#fff"/>
+      <rect x="665" y="118" width="25" height="3" rx="1.5" fill="#fff"/>
+    </g>
+    <!-- Giant hotpot in center-bottom -->
+    <g transform="translate(400,380)">
+      <ellipse cx="100" cy="0" rx="150" ry="20" fill="#636e72" stroke="#1a1040" stroke-width="2.5"/>
+      <path d="M-50,0 Q100,80 250,0" fill="#2d3436" stroke="#1a1040" stroke-width="2"/>
+      <!-- Divider in pot -->
+      <path d="M100,-15 L100,50" stroke="#636e72" stroke-width="3"/>
+      <!-- Red broth -->
+      <ellipse cx="50" cy="5" rx="60" ry="12" fill="#d63031" opacity="0.5"/>
+      <!-- Clear broth -->
+      <ellipse cx="155" cy="5" rx="55" ry="12" fill="#ffeaa7" opacity="0.3"/>
+      <!-- Handles -->
+      <path d="M-55,5 L-75,5" stroke="#636e72" stroke-width="6" stroke-linecap="round"/>
+      <path d="M255,5 L275,5" stroke="#636e72" stroke-width="6" stroke-linecap="round"/>
+      <!-- Steam -->
+      <g opacity="0.3">
+        <rect x="30" y="-25" width="50" height="5" rx="2.5" fill="#fff"/>
+        <rect x="120" y="-28" width="60" height="5" rx="2.5" fill="#fff"/>
+        <rect x="60" y="-38" width="40" height="4" rx="2" fill="#fff"/>
+      </g>
+    </g>
+  </svg>
+
+  <div class="ghost-text" style="top:3%;right:3%;font-size:24vh;color:rgba(255,234,167,0.07)">锅</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(253,203,110,0.9);color:#fdcb6e;font-size:28px">火锅</div>
+  </div>
+  <div class="map-label" style="top:72px;left:30px">
+    <div class="map-label-cn" style="font-size:46px;color:#ffeaa7">海底捞 · 全球版图</div>
+    <div class="map-label-en" style="font-size:18px;color:rgba(255,234,167,0.8);margin-top:4px;letter-spacing:2px">HAIDILAO GLOBAL MAP · 1400+ STORES</div>
+  </div>
+  <div class="map-label" style="top:20%;left:3%;transform:rotate(-1deg)">
+    <div class="pill-label" style="background:rgba(0,0,0,0.3);padding:8px 18px">
+      <span class="map-label-cn" style="font-size:26px;color:#fdcb6e">全球 1400+ · 海外 120+</span>
+    </div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8);margin-top:4px">Super Hi上市 · 服务文化输出</div>
+  </div>
+  <div class="map-label" style="top:22%;right:3%;text-align:right;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(255,234,167,0.85)">太二酸菜鱼 海外30+</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8);margin-top:2px">九毛九旗下 · 单品模式</div>
+  </div>
+  <div class="map-label" style="top:35%;left:3%">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.8)">小龙坎 · 大龙燚 · 火锅底料+门店双轨</div>
+  </div>
+  <div class="map-label" style="top:35%;right:3%;text-align:right">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.8)">鼎泰丰 190+店/14国</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7);margin-top:2px">小笼包 → 全球标准化产品</div>
+  </div>
+  <div class="map-label" style="bottom:15%;left:5%">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.8)">马记永/陈香贵 · 兰州拉面品牌化</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7);margin-top:2px">瑞幸咖啡 · 万店之后出海东南亚</div>
+  </div>
+  <div class="map-label" style="top:42%;left:3%;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.85)">张勇 · 白手起家 · 服务即产品</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7);margin-top:2px">甩面表演 · 美甲等位 · 极致服务文化<br>让外国人也排队三小时</div>
+  </div>
+  <div class="map-label" style="top:44%;right:3%;text-align:right;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.85)">火锅底料 · 供应链出海</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7);margin-top:2px">小龙坎/大龙燚 · 门店+零售双轨<br>底料比门店走得更远更快</div>
+  </div>
+  <div class="map-label vertical-text" style="top:15%;right:8%;font-size:22px;color:rgba(255,234,167,0.4)">
+    <span class="map-label-cn">生活方式输出</span>
+  </div>
+  <div class="map-label" style="bottom:22%;right:5%;text-align:right;transform:rotate(-3deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8)">孔子学院花几十亿效果有限<br>火锅免费传播不可阻挡</div>
+  </div>
+  <div class="map-label" style="bottom:5%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.7);text-align:center">消费这些品牌 = 不必放弃自己的生活方式 = 文化身份的确认</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 14: 调味料反殖民 -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(180deg,#8b6914 0%,#b87333 35%,#d4a017 65%,#ffeaa7 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <rect width="1000" height="600" fill="rgba(0,0,0,0)"/>
+    <g opacity="0.1">
+      <rect x="50" y="35" width="250" height="5" rx="2.5" fill="#fff"/>
+      <rect x="400" y="30" width="300" height="6" rx="3" fill="#fff"/>
+      <rect x="800" y="38" width="150" height="5" rx="2.5" fill="#fff"/>
+    </g>
+    <!-- Bottles/jars as soldiers marching -->
+    <!-- Lao Gan Ma -->
+    <g transform="translate(120,200)">
+      <rect x="0" y="20" width="60" height="90" rx="5" fill="#d63031" stroke="#1a1040" stroke-width="2.5"/>
+      <rect x="5" y="0" width="50" height="25" rx="3" fill="#8b0000" stroke="#1a1040" stroke-width="2"/>
+      <rect x="10" y="40" width="40" height="30" rx="2" fill="#ffeaa7" opacity="0.3"/>
+      <text x="30" y="60" fill="#ffeaa7" font-family="Ma Shan Zheng" font-size="14" text-anchor="middle">老干妈</text>
+    </g>
+    <!-- Sichuan Peppercorn jar -->
+    <g transform="translate(260,210)">
+      <rect x="0" y="15" width="50" height="80" rx="4" fill="#e17055" stroke="#1a1040" stroke-width="2"/>
+      <ellipse cx="25" cy="15" rx="25" ry="8" fill="#c0392b" stroke="#1a1040" stroke-width="1.5"/>
+      <!-- Peppercorns on top -->
+      <circle cx="15" cy="12" r="3" fill="#8b0000"/><circle cx="25" cy="10" r="3" fill="#8b0000"/><circle cx="35" cy="12" r="3" fill="#8b0000"/>
+      <text x="25" y="65" fill="#ffeaa7" font-family="Ma Shan Zheng" font-size="12" text-anchor="middle">花椒</text>
+    </g>
+    <!-- Chili Oil bottle -->
+    <g transform="translate(390,195)">
+      <rect x="0" y="30" width="55" height="85" rx="5" fill="#d63031" stroke="#1a1040" stroke-width="2.5"/>
+      <rect x="15" y="0" width="25" height="35" rx="3" fill="#c0392b" stroke="#1a1040" stroke-width="1.5"/>
+      <rect x="5" y="50" width="45" height="25" rx="2" fill="rgba(255,234,167,0.2)"/>
+      <text x="27" y="68" fill="#ffeaa7" font-family="Ma Shan Zheng" font-size="12" text-anchor="middle">辣椒油</text>
+    </g>
+    <!-- Fly By Jing -->
+    <g transform="translate(530,205)">
+      <rect x="0" y="20" width="50" height="80" rx="25" fill="#ff6b6b" stroke="#1a1040" stroke-width="2"/>
+      <rect x="10" y="0" width="30" height="25" rx="3" fill="#e17055" stroke="#1a1040" stroke-width="1.5"/>
+      <text x="25" y="70" fill="#fff" font-family="Noto Serif JP" font-size="8" text-anchor="middle" font-weight="bold">FBJ</text>
+    </g>
+    <!-- Doubanjiang -->
+    <g transform="translate(660,200)">
+      <rect x="0" y="15" width="60" height="90" rx="5" fill="#8b6914" stroke="#1a1040" stroke-width="2.5"/>
+      <ellipse cx="30" cy="15" rx="30" ry="8" fill="#6b4a00" stroke="#1a1040" stroke-width="1.5"/>
+      <text x="30" y="65" fill="#ffeaa7" font-family="Ma Shan Zheng" font-size="12" text-anchor="middle">豆瓣酱</text>
+    </g>
+    <!-- Lee Kum Kee -->
+    <g transform="translate(800,210)">
+      <rect x="0" y="18" width="55" height="80" rx="4" fill="#5a3e2b" stroke="#1a1040" stroke-width="2"/>
+      <rect x="10" y="0" width="35" height="22" rx="3" fill="#3d2b1f" stroke="#1a1040" stroke-width="1.5"/>
+      <text x="27" y="65" fill="#ffeaa7" font-family="Ma Shan Zheng" font-size="11" text-anchor="middle">李锦记</text>
+    </g>
+    <!-- Ground/shelf -->
+    <rect x="0" y="310" width="1000" height="6" fill="#8b6914" opacity="0.3"/>
+    <!-- Marching lines (soldiers) -->
+    <g stroke="#1a1040" stroke-width="1" opacity="0.1">
+      <line x1="150" y1="310" x2="150" y2="340"/><line x1="285" y1="310" x2="285" y2="340"/>
+      <line x1="417" y1="310" x2="417" y2="340"/><line x1="555" y1="310" x2="555" y2="340"/>
+      <line x1="690" y1="310" x2="690" y2="340"/><line x1="827" y1="310" x2="827" y2="340"/>
+    </g>
+  </svg>
+
+  <div class="ghost-text" style="bottom:8%;right:3%;font-size:22vh;color:rgba(139,105,20,0.1)">料</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(214,48,49,0.85);color:#d63031;font-size:28px">反殖民</div>
+  </div>
+  <div class="map-label" style="top:72px;left:30px">
+    <div class="map-label-cn" style="font-size:46px;color:#2d3436">调味料反殖民</div>
+    <div class="map-label-en" style="font-size:18px;color:rgba(45,52,54,0.8);margin-top:4px;letter-spacing:2px">CONDIMENT COUNTER-COLONIZATION</div>
+  </div>
+  <div class="map-label" style="top:20%;right:3%;text-align:right;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(45,52,54,0.85)">花椒曾被FDA禁止进口</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(45,52,54,0.8);margin-top:2px">直到2005! 今天"mala"成全球关键词</div>
+  </div>
+  <div class="map-label" style="bottom:42%;left:4%;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(45,52,54,0.85)">Trader Joe's卖辣椒油</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(45,52,54,0.8);margin-top:2px">Whole Foods有郫县豆瓣酱</div>
+  </div>
+  <div class="map-label" style="bottom:38%;right:4%;text-align:right">
+    <div class="pill-label" style="background:rgba(45,52,54,0.15);padding:6px 14px">
+      <span class="map-label-cn" style="font-size:19px;color:#2d3436">Fly By Jing · $50M+ 零售</span>
+    </div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(45,52,54,0.7);margin-top:3px">Jenny Gao · Whole Foods/Target</div>
+  </div>
+  <div class="map-label" style="bottom:32%;left:4%;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(45,52,54,0.7);line-height:1.6">老干妈 · 李锦记 · 海天酱油<br>MSG在Doritos和帕玛森芝士里也有<br>但只有中餐馆被迫挂"NO MSG"牌</div>
+  </div>
+  <div class="map-label" style="bottom:28%;right:4%;text-align:right;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(45,52,54,0.7)">1968一封信→"中餐馆综合症"<br>大量研究证伪 → 偏见延续至今</div>
+  </div>
+  <div class="map-label" style="bottom:18%;left:5%">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(45,52,54,0.85)">中国调味料在反向殖民西方厨房</div>
+  </div>
+  <div class="map-label" style="bottom:6%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(45,52,54,0.8);text-align:center">食材出海比餐厅出海更深远更不可逆</div>
+  </div>
+  <div class="map-label vertical-text" style="top:15%;right:25%;font-size:24px;color:rgba(45,52,54,0.4)">
+    <span class="map-label-cn">辣椒油 · 花椒 · 豆瓣酱</span>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 15: 隐线 · 暗流 Dark Panel -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(180deg,#0a0520 0%,#1a1040 40%,#2d3436 70%,#1a1040 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <rect width="1000" height="600" fill="#0a0520"/>
+    <!-- Lightning cracks -->
+    <g stroke="#a29bfe" stroke-width="2.5" fill="none" opacity="0.4">
+      <path d="M300,0 L310,80 L280,120 L320,200 L290,260"/>
+      <path d="M700,0 L690,70 L720,140 L680,200 L710,280"/>
+    </g>
+    <g stroke="#fd79a8" stroke-width="1.5" fill="none" opacity="0.25">
+      <path d="M500,0 L510,60 L490,100 L515,180"/>
+      <path d="M150,50 L160,120 L140,160"/>
+      <path d="M850,30 L840,90 L860,140"/>
+    </g>
+    <!-- Cracks in ground -->
+    <g stroke="rgba(214,48,49,0.3)" stroke-width="2" fill="none">
+      <path d="M0,450 L100,440 L200,455 L350,435 L500,450 L650,440 L800,455 L1000,445"/>
+      <path d="M200,455 L220,500 L250,520"/><path d="M500,450 L510,490 L530,530"/>
+      <path d="M650,440 L670,480 L680,520"/>
+    </g>
+    <!-- Yokogumo dark -->
+    <g opacity="0.06">
+      <rect x="0" y="80" width="300" height="6" rx="3" fill="#a29bfe"/>
+      <rect x="400" y="75" width="250" height="5" rx="2.5" fill="#fd79a8"/>
+      <rect x="700" y="85" width="250" height="6" rx="3" fill="#a29bfe"/>
+    </g>
+    <!-- Dark waves at bottom -->
+    <path d="M0,520 Q100,505 200,520 Q300,535 400,520 Q500,505 600,520 Q700,535 800,520 Q900,505 1000,520 L1000,600 L0,600Z" fill="rgba(26,16,64,0.5)"/>
+  </svg>
+
+  <div class="ghost-text" style="top:8%;left:5%;font-size:30vh;color:rgba(162,155,254,0.06)">暗</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(162,155,254,0.85);color:#a29bfe;font-size:28px">暗线</div>
+  </div>
+  <div class="map-label" style="top:72px;left:30px">
+    <div class="map-label-cn" style="font-size:46px;color:#a29bfe">隐线 · 暗流</div>
+    <div class="map-label-en" style="font-size:18px;color:rgba(162,155,254,0.8);margin-top:4px;letter-spacing:2px">THE UNDERCURRENTS · TENSION & DIGNITY</div>
+  </div>
+  <div class="map-label" style="top:22%;left:3%;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(253,121,168,0.9)">暗线1：权力与尊严</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(253,121,168,0.8);margin-top:4px;line-height:1.7">排华法案→只能开餐馆→被迫便宜→被看不起<br>新中餐的"贵"是迟到150年的尊严恢复<br>价格是最直接的权力声明</div>
+  </div>
+  <div class="map-label" style="top:22%;right:3%;text-align:right;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(162,155,254,0.9)">暗线2：谁定义"好吃"？</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(162,155,254,0.8);margin-top:4px;line-height:1.7">米其林=法国轮胎公司<br>中餐的好有自己的维度<br>季节 · 火候 · 刀工 · 意境</div>
+  </div>
+  <div class="map-label" style="top:50%;left:3%;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(253,203,110,0.85)">暗线3：食物是最诚实的软实力</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(253,203,110,0.7);margin-top:4px;line-height:1.7">海底捞/霸王茶姬的传播是免费自发不可阻挡的<br>一碗好吃的酸辣粉 > 一百个文化推广活动</div>
+  </div>
+  <div class="map-label" style="top:50%;right:3%;text-align:right;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(255,107,107,0.85)">暗线4：代际断裂与重连</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,107,107,0.7);margin-top:4px;line-height:1.7">第一代(生存) → 第二代(嫌弃) → 第三代(觉醒)<br>"小时候带中餐便当去学校很丢人<br>现在要让全世界觉得中国味道很酷"</div>
+  </div>
+  <div class="map-label" style="bottom:32%;left:3%;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(162,155,254,0.65)">鄙视链：法餐>意餐>日料>泰餐>...>中餐外卖(底层)</div>
+  </div>
+  <div class="map-label" style="bottom:28%;right:3%;text-align:right;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,107,107,0.6)">数量最多=最普通 · 最便宜=最不值钱 · 最好吃？无人在意</div>
+  </div>
+  <div class="map-label" style="bottom:22%;left:50%;transform:translateX(-50%)">
+    <div class="pill-label" style="background:rgba(162,155,254,0.15);padding:8px 18px">
+      <span class="map-label-cn" style="font-size:21px;color:#a29bfe">COVID反亚裔仇恨犯罪飙升150%+ · 中餐馆营收暴跌50-80%</span>
+    </div>
+  </div>
+  <div class="map-label" style="bottom:6%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(255,255,255,0.7);text-align:center">食物是种族歧视最日常的战场</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 16: 数字化武器 -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(180deg,#0a0520 0%,#1a2a1a 40%,#00b894 80%,#00cec9 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <rect width="1000" height="600" fill="#0a0520"/>
+    <!-- Circuit board grid -->
+    <g stroke="#00b894" stroke-width="1" opacity="0.15">
+      <line x1="0" y1="100" x2="1000" y2="100"/><line x1="0" y1="200" x2="1000" y2="200"/>
+      <line x1="0" y1="300" x2="1000" y2="300"/><line x1="0" y1="400" x2="1000" y2="400"/>
+      <line x1="0" y1="500" x2="1000" y2="500"/>
+      <line x1="100" y1="0" x2="100" y2="600"/><line x1="200" y1="0" x2="200" y2="600"/>
+      <line x1="300" y1="0" x2="300" y2="600"/><line x1="400" y1="0" x2="400" y2="600"/>
+      <line x1="500" y1="0" x2="500" y2="600"/><line x1="600" y1="0" x2="600" y2="600"/>
+      <line x1="700" y1="0" x2="700" y2="600"/><line x1="800" y1="0" x2="800" y2="600"/>
+      <line x1="900" y1="0" x2="900" y2="600"/>
+    </g>
+    <!-- Circuit nodes -->
+    <g fill="#00b894" opacity="0.3">
+      <circle cx="100" cy="200" r="5"/><circle cx="300" cy="100" r="4"/><circle cx="500" cy="300" r="6"/>
+      <circle cx="700" cy="200" r="5"/><circle cx="200" cy="400" r="4"/><circle cx="400" cy="300" r="5"/>
+      <circle cx="600" cy="400" r="4"/><circle cx="800" cy="300" r="5"/><circle cx="900" cy="100" r="4"/>
+    </g>
+    <!-- Circuit traces (neon paths) -->
+    <g stroke="#00cec9" stroke-width="2" fill="none" opacity="0.3">
+      <path d="M100,200 L200,200 L200,300 L300,300"/>
+      <path d="M300,100 L300,200 L400,200 L400,300"/>
+      <path d="M500,300 L600,300 L600,400 L700,400"/>
+      <path d="M700,200 L800,200 L800,300 L900,300"/>
+    </g>
+    <!-- Kitchen elements overlaid on circuit -->
+    <!-- Wok as chip -->
+    <g transform="translate(420,200)">
+      <rect x="0" y="0" width="160" height="100" rx="5" fill="rgba(0,184,148,0.1)" stroke="#00b894" stroke-width="2"/>
+      <!-- Wok inside -->
+      <path d="M30,70 Q80,95 130,70" fill="none" stroke="#00cec9" stroke-width="2"/>
+      <path d="M50,55 Q80,65 110,55" fill="none" stroke="#00cec9" stroke-width="1.5" opacity="0.5"/>
+      <!-- Flame -->
+      <path d="M70,85 Q75,75 80,78 Q85,70 90,80 Q95,85 95,90" fill="none" stroke="#ff6b6b" stroke-width="1.5" opacity="0.5"/>
+      <!-- Pins -->
+      <g stroke="#00b894" stroke-width="1.5">
+        <line x1="20" y1="0" x2="20" y2="-15"/><line x1="50" y1="0" x2="50" y2="-15"/>
+        <line x1="80" y1="0" x2="80" y2="-15"/><line x1="110" y1="0" x2="110" y2="-15"/>
+        <line x1="140" y1="0" x2="140" y2="-15"/>
+        <line x1="20" y1="100" x2="20" y2="115"/><line x1="50" y1="100" x2="50" y2="115"/>
+        <line x1="80" y1="100" x2="80" y2="115"/><line x1="110" y1="100" x2="110" y2="115"/>
+        <line x1="140" y1="100" x2="140" y2="115"/>
+      </g>
+    </g>
+    <!-- Glowing data pulses -->
+    <g fill="#00cec9" opacity="0.5">
+      <circle cx="150" cy="200" r="3"><animate attributeName="cx" dur="4s" values="150;250;350;450" repeatCount="indefinite"/></circle>
+      <circle cx="650" cy="300" r="3"><animate attributeName="cx" dur="3s" values="650;750;850" repeatCount="indefinite"/></circle>
+    </g>
+  </svg>
+
+  <div class="ghost-text" style="bottom:5%;left:3%;font-size:28vh;color:rgba(0,206,201,0.06)">数</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(0,206,201,0.9);color:#00cec9;font-size:28px">数字</div>
+  </div>
+  <div class="map-label" style="top:72px;left:30px">
+    <div class="map-label-cn" style="font-size:46px;color:#00cec9">数字化武器</div>
+    <div class="map-label-en" style="font-size:18px;color:rgba(0,206,201,0.8);margin-top:4px;letter-spacing:2px">DIGITAL WEAPONS · CIRCUIT MEETS KITCHEN</div>
+  </div>
+  <div class="map-label" style="top:20%;right:3%;text-align:right;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(0,206,201,0.9)">中国餐饮数字化领先5-10年</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(0,206,201,0.8);margin-top:4px;line-height:1.7">外卖28分钟 vs 美国45分钟<br>小红书/抖音种草 · 私域流量<br>AI排班 · 供应链数字化</div>
+  </div>
+  <div class="map-label" style="top:50%;left:3%;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(0,184,148,0.85)">效率革命底层逻辑</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(0,184,148,0.8);margin-top:4px;line-height:1.7">中央厨房 + 预制菜 + 冷链<br>数字化点餐 + AI排班 + 数据定价<br>Ghost kitchen + 外卖平台 → 轻资产</div>
+  </div>
+  <div class="map-label" style="top:55%;right:3%;text-align:right">
+    <div class="pill-label" style="background:rgba(0,206,201,0.15);padding:6px 14px">
+      <span class="map-label-cn" style="font-size:19px;color:#00cec9">一个店从15人→5人 · 坪效翻倍</span>
+    </div>
+  </div>
+  <div class="map-label" style="top:35%;left:3%;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(0,206,201,0.75);line-height:1.6">瑞幸咖啡 21,000+店<br>中国门店数已超星巴克(~7000)<br>数字化运营 · 极致效率</div>
+  </div>
+  <div class="map-label" style="bottom:28%;right:4%;text-align:right;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(0,184,148,0.7)">保留"现做"感知 · 但后台全自动</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(0,184,148,0.6);margin-top:2px">Panda Express不会消失 · 但后继者长得完全不同</div>
+  </div>
+  <div class="map-label" style="bottom:18%;left:5%">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(0,206,201,0.8)">Wow Bao 700+虚拟厨房 · ghost kitchen先锋</div>
+  </div>
+  <div class="map-label" style="bottom:12%;right:5%;text-align:right">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(0,206,201,0.7)">MìLà 冷冻水饺DTC · 融资$10M+<br>"亚洲版Trader Joe's"</div>
+  </div>
+  <div class="map-label" style="bottom:6%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(0,206,201,0.7);text-align:center">老中餐死于"人治" · 新中餐活于"系统"</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 17: 咖啡到茶饮 Coffee → Tea -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(135deg,#5a3e2b 0%,#8b6914 30%,#00b894 70%,#00cec9 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <rect width="1000" height="600" fill="rgba(0,0,0,0)"/>
+    <g opacity="0.1">
+      <rect x="100" y="40" width="250" height="5" rx="2.5" fill="#ffeaa7"/>
+      <rect x="500" y="35" width="300" height="6" rx="3" fill="#fff"/>
+    </g>
+    <!-- Coffee cup (left/brown side) -->
+    <g transform="translate(200,200)">
+      <path d="M0,0 L20,180 Q80,210 140,180 L160,0Z" fill="#5a3e2b" stroke="#1a1040" stroke-width="2.5"/>
+      <ellipse cx="80" cy="0" rx="80" ry="15" fill="#8b6914" stroke="#1a1040" stroke-width="2"/>
+      <ellipse cx="80" cy="8" rx="65" ry="10" fill="#3d2b1f" opacity="0.5"/>
+      <!-- Handle -->
+      <path d="M160,40 Q200,40 210,80 Q220,120 170,130" fill="none" stroke="#5a3e2b" stroke-width="14"/>
+      <path d="M160,40 Q200,40 210,80 Q220,120 170,130" class="ukiyo-outline" stroke-width="2.5"/>
+      <!-- Steam -->
+      <g opacity="0.2">
+        <rect x="40" y="-25" width="40" height="5" rx="2.5" fill="#ffeaa7"/>
+        <rect x="60" y="-38" width="50" height="4" rx="2" fill="#ffeaa7"/>
+      </g>
+    </g>
+    <!-- Arrow/transformation in middle -->
+    <g transform="translate(450,280)">
+      <path d="M0,0 L80,0 L70,-12 L100,0 L70,12 L80,0" fill="#fdcb6e" stroke="#1a1040" stroke-width="2"/>
+    </g>
+    <!-- Tea cup (right/green side) -->
+    <g transform="translate(600,200)">
+      <path d="M0,0 L20,180 Q80,210 140,180 L160,0Z" fill="#00b894" stroke="#1a1040" stroke-width="2.5"/>
+      <ellipse cx="80" cy="0" rx="80" ry="15" fill="#00cec9" stroke="#1a1040" stroke-width="2"/>
+      <ellipse cx="80" cy="8" rx="65" ry="10" fill="#00b894" opacity="0.5"/>
+      <!-- Straw -->
+      <rect x="100" y="-60" width="8" height="80" rx="4" fill="#fd79a8" stroke="#1a1040" stroke-width="1.5"/>
+      <!-- Boba -->
+      <circle cx="60" cy="140" r="8" fill="#2d3436" stroke="#1a1040" stroke-width="1"/>
+      <circle cx="85" cy="150" r="9" fill="#2d3436" stroke="#1a1040" stroke-width="1"/>
+      <circle cx="110" cy="142" r="7" fill="#2d3436" stroke="#1a1040" stroke-width="1"/>
+      <!-- Tea leaves -->
+      <ellipse cx="45" cy="50" rx="8" ry="3" fill="rgba(0,100,0,0.3)" transform="rotate(-20,45,50)"/>
+      <ellipse cx="105" cy="60" rx="7" ry="3" fill="rgba(0,100,0,0.3)" transform="rotate(15,105,60)"/>
+    </g>
+    <!-- Wave at bottom -->
+    <path d="M0,500 Q100,488 200,500 Q300,512 400,500 Q500,488 600,500 Q700,512 800,500 Q900,488 1000,500 L1000,600 L0,600Z" fill="rgba(0,0,0,0.1)"/>
+  </svg>
+
+  <div class="ghost-text" style="bottom:3%;right:3%;font-size:26vh;color:rgba(0,184,148,0.07)">饮</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(0,184,148,0.85);color:#00b894;font-size:28px">转化</div>
+  </div>
+  <div class="map-label" style="top:72px;left:30px">
+    <div class="map-label-cn" style="font-size:46px;color:#ffeaa7">咖啡到茶饮</div>
+    <div class="map-label-en" style="font-size:18px;color:rgba(255,234,167,0.8);margin-top:4px;letter-spacing:2px">COFFEE → TEA · A CIVILIZATIONAL SHIFT</div>
+  </div>
+  <div class="map-label" style="top:20%;left:3%">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(255,234,167,0.85)">咖啡</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8);margin-top:3px;line-height:1.6">~$5000亿市场<br>生产力 · 效率 · 西方现代性<br>星巴克定义"第三空间"</div>
+  </div>
+  <div class="map-label" style="top:20%;right:3%;text-align:right">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(0,206,201,0.9)">茶饮</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(0,206,201,0.8);margin-top:3px;line-height:1.6">~$2000亿市场 · 每天60亿杯<br>5000年历史 · 东方美学<br>品牌化 = 巨大机会</div>
+  </div>
+  <div class="map-label" style="top:50%;left:50%;transform:translateX(-50%)">
+    <div class="pill-label" style="background:rgba(0,0,0,0.2);padding:8px 18px">
+      <span class="map-label-cn" style="font-size:21px;color:#ffeaa7">杯数2倍但客单价低 → 品牌化机会</span>
+    </div>
+  </div>
+  <div class="map-label" style="bottom:25%;left:5%">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,234,167,0.8)">1983 台湾 · 珍珠奶茶诞生</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(255,234,167,0.7);margin-top:2px">2018+ 中国新茶饮爆发</div>
+  </div>
+  <div class="map-label" style="bottom:20%;right:5%;text-align:right">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(0,206,201,0.8)">瑞幸 21,000+店</div>
+    <div class="map-label-cn" style="font-size:16px;color:rgba(0,206,201,0.7);margin-top:2px">中国门店数已超星巴克</div>
+  </div>
+  <div class="map-label" style="top:38%;left:3%;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8);line-height:1.7">4条全球化路径：<br>1. 华人密集区先行(东南亚/北美)<br>2. 大学城/年轻人聚集地<br>3. 旅游城市体验消费<br>4. 本地化改良(降甜/去冰)</div>
+  </div>
+  <div class="map-label" style="top:42%;right:3%;text-align:right;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(0,206,201,0.8);line-height:1.7">蜜雪冰城 · 越南4000+店<br>东南亚总门店超中国外所有品牌<br>$1-2定价 → 降维打击</div>
+  </div>
+  <div class="map-label" style="bottom:32%;left:40%;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.7)">中国能主导世界茶饮吗？<br>历史先例：中国发明茶 · 英国殖民茶 · 中国品牌茶？</div>
+  </div>
+  <div class="map-label" style="bottom:6%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,255,255,0.7);text-align:center">茶还在等自己的"星巴克时刻" — 霸王茶姬可能就是那个答案</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 18: 定义权之争 -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(180deg,#6c5ce7 0%,#a29bfe 40%,#fdcb6e 80%,#f9ca24 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <rect width="1000" height="600" fill="rgba(0,0,0,0)"/>
+    <g opacity="0.1">
+      <rect x="50" y="40" width="250" height="5" rx="2.5" fill="#fff"/>
+      <rect x="400" y="35" width="300" height="6" rx="3" fill="#fff"/>
+      <rect x="800" y="42" width="150" height="5" rx="2.5" fill="#fff"/>
+    </g>
+    <!-- Scales of Justice -->
+    <g transform="translate(500,180)">
+      <!-- Central pillar -->
+      <rect x="-8" y="0" width="16" height="200" rx="3" fill="#fdcb6e" stroke="#1a1040" stroke-width="2"/>
+      <!-- Beam (tilted slightly) -->
+      <rect x="-200" y="-8" width="400" height="12" rx="3" fill="#fdcb6e" stroke="#1a1040" stroke-width="2" transform="rotate(-5)"/>
+      <!-- Fulcrum triangle -->
+      <path d="M-15,0 L15,0 L0,-20Z" fill="#f9ca24" stroke="#1a1040" stroke-width="2"/>
+      <!-- Left plate (Michelin - higher) -->
+      <g transform="translate(-180,10)">
+        <line x1="0" y1="-10" x2="-30" y2="50" stroke="#fdcb6e" stroke-width="2"/>
+        <line x1="0" y1="-10" x2="30" y2="50" stroke="#fdcb6e" stroke-width="2"/>
+        <ellipse cx="0" cy="55" rx="45" ry="12" fill="#d63031" opacity="0.4" stroke="#1a1040" stroke-width="1.5"/>
+        <text x="0" y="60" fill="#ffeaa7" font-family="Noto Serif JP" font-size="14" text-anchor="middle" font-weight="bold" opacity="0.7">MICHELIN</text>
+      </g>
+      <!-- Right plate (Black Pearl - lower, heavier) -->
+      <g transform="translate(180,30)">
+        <line x1="0" y1="-20" x2="-30" y2="40" stroke="#fdcb6e" stroke-width="2"/>
+        <line x1="0" y1="-20" x2="30" y2="40" stroke="#fdcb6e" stroke-width="2"/>
+        <ellipse cx="0" cy="45" rx="45" ry="12" fill="#1a1040" opacity="0.4" stroke="#fdcb6e" stroke-width="1.5"/>
+        <text x="0" y="50" fill="#fdcb6e" font-family="Ma Shan Zheng" font-size="16" text-anchor="middle" opacity="0.7">黑珍珠</text>
+      </g>
+    </g>
+    <!-- Decorative wave -->
+    <path d="M0,480 Q100,468 200,480 Q300,492 400,480 Q500,468 600,480 Q700,492 800,480 Q900,468 1000,480 L1000,600 L0,600Z" fill="rgba(0,0,0,0.08)"/>
+  </svg>
+
+  <div class="ghost-text" style="bottom:5%;left:3%;font-size:26vh;color:rgba(108,92,231,0.08)">权</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(253,203,110,0.9);color:#fdcb6e;font-size:28px">定义</div>
+  </div>
+  <div class="map-label" style="top:72px;left:30px">
+    <div class="map-label-cn" style="font-size:50px;color:#ffeaa7">定义权之争</div>
+    <div class="map-label-en" style="font-size:18px;color:rgba(255,234,167,0.8);margin-top:4px;letter-spacing:2px">WHO DEFINES "GOOD FOOD"?</div>
+  </div>
+  <div class="map-label" style="top:20%;left:3%;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(255,234,167,0.85)">米其林执念</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.8);margin-top:4px;line-height:1.6">中国人为什么这么在意<br>一个法国轮胎公司的评价？</div>
+  </div>
+  <div class="map-label" style="top:20%;right:3%;text-align:right;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(253,203,110,0.9)">中餐哲学输出</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(253,203,110,0.8);margin-top:4px;line-height:1.6">食医同源 · 时令 · 五味调和<br>阴阳平衡 · 一方水土养一方人</div>
+  </div>
+  <div class="map-label" style="top:55%;left:4%;transform:rotate(1deg)">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(255,234,167,0.8)">价格天花板</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.7);margin-top:3px;line-height:1.6">"中餐怎么能卖$200？"<br>日料omakase $500没人质疑<br>打破天花板需要文化自信革命</div>
+  </div>
+  <div class="map-label" style="top:55%;right:4%;text-align:right">
+    <div class="map-label-cn" style="font-size:19px;color:rgba(253,203,110,0.8)">从"被翻译"到"制定标准"</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(253,203,110,0.7);margin-top:3px">不再用Yelp/米其林定义好坏<br>"terroir"的中国版</div>
+  </div>
+  <div class="map-label" style="bottom:14%;left:50%;transform:translateX(-50%)">
+    <div class="pill-label" style="background:rgba(255,255,255,0.1);padding:8px 18px">
+      <span class="map-label-cn" style="font-size:21px;color:#ffeaa7">评价标准仍在别人手里 · 真正的胜利是定义自己的标准</span>
+    </div>
+  </div>
+  <div class="map-label" style="bottom:5%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.65);text-align:center">中餐 × 在地化 = 新物种 · 不再是"不正宗"的贬义</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 19: 未来 (expanded original Panel 5) -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(180deg,#6c5ce7 0%,#a29bfe 40%,#fd79a8 70%,#fdcb6e 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="future-sky2" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#6c5ce7"/><stop offset="40%" stop-color="#a29bfe"/>
+        <stop offset="70%" stop-color="#fd79a8"/><stop offset="100%" stop-color="#fdcb6e"/>
+      </linearGradient>
+    </defs>
+    <rect width="1000" height="600" fill="url(#future-sky2)"/>
+    <!-- Stars -->
+    <g fill="#fff" opacity="0.4">
+      <circle cx="80" cy="50" r="2"/><circle cx="200" cy="80" r="1.5"/><circle cx="350" cy="40" r="2.5"/>
+      <circle cx="500" cy="70" r="1.8"/><circle cx="650" cy="45" r="2"/><circle cx="780" cy="85" r="2.2"/>
+      <circle cx="900" cy="55" r="1.5"/><circle cx="450" cy="95" r="1.8"/>
+    </g>
+    <g opacity="0.1">
+      <rect x="0" y="120" width="300" height="6" rx="3" fill="#fff"/>
+      <rect x="400" y="115" width="250" height="7" rx="3.5" fill="#fff"/>
+      <rect x="700" y="125" width="300" height="6" rx="3" fill="#fff"/>
+    </g>
+    <!-- City Skyline -->
+    <g>
+      <rect x="50" y="280" width="60" height="200" fill="#d63031" rx="3"/><rect x="50" y="280" width="60" height="200" class="ukiyo-outline"/>
+      <rect x="120" y="220" width="50" height="260" fill="#0984e3" rx="3"/><rect x="120" y="220" width="50" height="260" class="ukiyo-outline"/>
+      <rect x="180" y="250" width="70" height="230" fill="#00b894" rx="3"/><rect x="180" y="250" width="70" height="230" class="ukiyo-outline"/>
+      <rect x="260" y="200" width="45" height="280" fill="#fdcb6e" rx="3"/><rect x="260" y="200" width="45" height="280" class="ukiyo-outline"/>
+      <rect x="315" y="240" width="65" height="240" fill="#fd79a8" rx="3"/><rect x="315" y="240" width="65" height="240" class="ukiyo-outline"/>
+      <rect x="390" y="260" width="55" height="220" fill="#e17055" rx="3"/><rect x="390" y="260" width="55" height="220" class="ukiyo-outline"/>
+      <rect x="455" y="210" width="50" height="270" fill="#00cec9" rx="3"/><rect x="455" y="210" width="50" height="270" class="ukiyo-outline"/>
+      <rect x="600" y="270" width="55" height="210" fill="#d63031" rx="3"/><rect x="600" y="270" width="55" height="210" class="ukiyo-outline"/>
+      <rect x="665" y="230" width="60" height="250" fill="#f9ca24" rx="3"/><rect x="665" y="230" width="60" height="250" class="ukiyo-outline"/>
+      <rect x="735" y="250" width="50" height="230" fill="#0984e3" rx="3"/><rect x="735" y="250" width="50" height="230" class="ukiyo-outline"/>
+      <rect x="795" y="280" width="70" height="200" fill="#00b894" rx="3"/><rect x="795" y="280" width="70" height="200" class="ukiyo-outline"/>
+      <rect x="875" y="240" width="55" height="240" fill="#a29bfe" rx="3"/><rect x="875" y="240" width="55" height="240" class="ukiyo-outline"/>
+      <rect x="940" y="260" width="60" height="220" fill="#e17055" rx="3"/><rect x="940" y="260" width="60" height="220" class="ukiyo-outline"/>
+    </g>
+    <!-- Windows -->
+    <g fill="rgba(255,255,255,0.2)">
+      <rect x="60" y="295" width="10" height="8" rx="1"/><rect x="78" y="295" width="10" height="8" rx="1"/>
+      <rect x="60" y="315" width="10" height="8" rx="1"/><rect x="78" y="315" width="10" height="8" rx="1"/>
+      <rect x="130" y="235" width="8" height="6" rx="1"/><rect x="145" y="235" width="8" height="6" rx="1"/>
+      <rect x="130" y="255" width="8" height="6" rx="1"/><rect x="145" y="255" width="8" height="6" rx="1"/>
+    </g>
+    <!-- Giant bowl rising -->
+    <g transform="translate(500,350)">
+      <path d="M-100,0 Q0,80 100,0" fill="#dfe6e9"/><path d="M-100,0 Q0,80 100,0" class="ukiyo-outline-thick"/>
+      <ellipse cx="0" cy="0" rx="100" ry="12" fill="#fff"/><ellipse cx="0" cy="0" rx="100" ry="12" class="ukiyo-outline"/>
+      <ellipse cx="0" cy="5" rx="85" ry="8" fill="#e17055" opacity="0.5"/>
+      <rect x="20" y="-100" width="6" height="120" rx="3" fill="#f9ca24" stroke="#1a1040" stroke-width="1.5" transform="rotate(10,23,-40)"/>
+      <rect x="-26" y="-95" width="6" height="115" rx="3" fill="#f9ca24" stroke="#1a1040" stroke-width="1.5" transform="rotate(-8,-23,-37)"/>
+      <!-- Fireworks -->
+      <g opacity="0.5">
+        <line x1="0" y1="-20" x2="0" y2="-100" stroke="#ffeaa7" stroke-width="3" stroke-linecap="round"/>
+        <line x1="0" y1="-20" x2="-40" y2="-90" stroke="#fd79a8" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="0" y1="-20" x2="40" y2="-90" stroke="#00cec9" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="0" y1="-20" x2="-70" y2="-60" stroke="#fdcb6e" stroke-width="2" stroke-linecap="round"/>
+        <line x1="0" y1="-20" x2="70" y2="-60" stroke="#d63031" stroke-width="2" stroke-linecap="round"/>
+      </g>
+      <g>
+        <circle cx="0" cy="-100" r="5" fill="#ffeaa7" opacity="0.6"/>
+        <circle cx="-40" cy="-90" r="4" fill="#fd79a8" opacity="0.6"/>
+        <circle cx="40" cy="-90" r="4" fill="#00cec9" opacity="0.6"/>
+        <circle cx="-70" cy="-60" r="3.5" fill="#fdcb6e" opacity="0.6"/>
+        <circle cx="70" cy="-60" r="3.5" fill="#d63031" opacity="0.6"/>
+      </g>
+    </g>
+    <!-- Ground water -->
+    <path d="M0,480 L1000,480 L1000,600 L0,600Z" fill="rgba(0,0,0,0.1)"/>
+    <g stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none">
+      <path d="M0,500 Q100,495 200,500 Q300,505 400,500 Q500,495 600,500 Q700,505 800,500 Q900,495 1000,500"/>
+      <path d="M0,520 Q100,516 200,520 Q300,524 400,520 Q500,516 600,520 Q700,524 800,520"/>
+    </g>
+    <!-- Hanabi -->
+    <g opacity="0.3">
+      <circle cx="150" cy="140" r="3" fill="#ff6b6b"/><circle cx="145" cy="130" r="2" fill="#fd79a8"/>
+      <circle cx="155" cy="128" r="2.5" fill="#ffeaa7"/><circle cx="140" cy="140" r="2" fill="#00cec9"/>
+      <circle cx="820" cy="130" r="3" fill="#a29bfe"/><circle cx="815" cy="120" r="2" fill="#fd79a8"/>
+      <circle cx="825" cy="118" r="2.5" fill="#ffeaa7"/><circle cx="830" cy="128" r="2" fill="#ff6b6b"/>
+    </g>
+  </svg>
+
+  <div class="ghost-text" style="top:8%;left:3%;font-size:28vh;color:rgba(255,255,255,0.1);transform:rotate(5deg)">未来</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(255,255,255,0.85);color:#fff;font-size:32px">终局</div>
+  </div>
+  <div class="map-label" style="top:78px;left:30px;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:50px;color:#fff">未来 · 终极命题</div>
+    <div class="map-label-en" style="font-size:18px;color:rgba(255,255,255,0.8);margin-top:4px;letter-spacing:3px">2025 → ∞ · THE ENDGAME</div>
+  </div>
+  <div class="map-label" style="top:18%;right:3%;text-align:right;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:26px;color:rgba(255,255,255,0.9)">全球融合 · 新物种</div>
+    <div class="map-label-cn" style="font-size:19px;color:rgba(255,255,255,0.8);margin-top:6px;line-height:1.7">中餐 × 在地化 = 新物种<br>华裔二代的自然表达 → 新菜系？<br>"中餐外交"：火锅免费传播</div>
+  </div>
+  <div class="map-label" style="top:22%;left:3%;transform:rotate(-3deg)">
+    <div class="map-label-cn" style="font-size:26px;color:rgba(253,203,110,0.9)">产业终局</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,255,255,0.8);margin-top:6px;line-height:1.6">中餐能否诞生全球品牌？<br>供应链全球化 → 中国食材无处不在<br>AI + 中餐 = 标准化底料 + 个性化灵魂</div>
+  </div>
+  <div class="map-label" style="bottom:28%;left:50%;transform:translateX(-50%) rotate(-1deg)">
+    <div class="pill-label" style="background:rgba(255,255,255,0.15);backdrop-filter:blur(4px);padding:10px 24px">
+      <span class="map-label-cn" style="font-size:26px;color:#fff">45,000家老店升级 = 万亿级市场</span>
+    </div>
+  </div>
+  <div class="map-label" style="top:40%;left:3%;transform:rotate(-1deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,255,255,0.7);line-height:1.6">调味料全球化：辣椒油 · 花椒 · 豆瓣酱<br>酱油 · 老干妈 → 不可逆的渗透</div>
+  </div>
+  <div class="map-label" style="top:40%;right:3%;text-align:right;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,255,255,0.7);line-height:1.6">蜜雪冰城45,000店 > 星巴克39,000店<br>中国消费基础设施向全球溢出</div>
+  </div>
+  <div class="map-label" style="bottom:20%;left:6%;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(255,255,255,0.8)">标准化 vs 灵魂</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,255,255,0.7);margin-top:3px">底料工厂化 · 现切毛肚那一刀永远需要人</div>
+  </div>
+  <div class="map-label" style="bottom:14%;right:5%;transform:rotate(-3deg)">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(253,203,110,0.85)">最大的对手不是日料法餐</div>
+    <div class="map-label-cn" style="font-size:21px;color:rgba(255,255,255,0.85);margin-top:2px">是中国人自己的文化不自信</div>
+  </div>
+  <div class="map-label" style="bottom:6%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(253,203,110,0.6);text-align:center">如何既是中国的又是世界的？如何既标准化又不失灵魂？</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PANEL 20: 尾声 · Final Statement -->
+<!-- ================================================================ -->
+<div class="panel" style="background:linear-gradient(180deg,#2d3a8c 0%,#6c5ce7 20%,#fd79a8 50%,#fdcb6e 75%,#ffeaa7 100%)">
+  <div class="panel-divider"></div>
+  <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <rect width="1000" height="600" fill="rgba(0,0,0,0)"/>
+    <!-- Dawn horizon -->
+    <g opacity="0.12">
+      <rect x="0" y="240" width="1000" height="8" rx="4" fill="#fff"/>
+      <rect x="50" y="255" width="900" height="6" rx="3" fill="#fff"/>
+      <rect x="100" y="268" width="800" height="5" rx="2.5" fill="#fff"/>
+    </g>
+    <!-- Sun on horizon -->
+    <circle cx="500" cy="340" r="100" fill="#ffeaa7" opacity="0.6"/>
+    <circle cx="500" cy="340" r="70" fill="#fff" opacity="0.4"/>
+    <circle cx="500" cy="340" r="40" fill="#ffeaa7" opacity="0.5"/>
+    <!-- Horizon line -->
+    <path d="M0,340 L1000,340" stroke="#fdcb6e" stroke-width="2" opacity="0.3"/>
+    <!-- Water below -->
+    <rect x="0" y="340" width="1000" height="260" fill="rgba(0,0,0,0.05)"/>
+    <g stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none">
+      <path d="M0,370 Q100,365 200,370 Q300,375 400,370 Q500,365 600,370 Q700,375 800,370 Q900,365 1000,370"/>
+      <path d="M0,400 Q150,395 300,400 Q450,405 600,400 Q750,395 900,400"/>
+      <path d="M0,430 Q200,426 400,430 Q600,434 800,430"/>
+      <path d="M0,460 Q250,457 500,460 Q750,463 1000,460"/>
+    </g>
+    <!-- Sun reflection on water -->
+    <ellipse cx="500" cy="420" rx="60" ry="50" fill="rgba(255,234,167,0.1)"/>
+    <ellipse cx="500" cy="420" rx="30" ry="25" fill="rgba(255,234,167,0.08)"/>
+    <!-- Rays from sun -->
+    <g stroke="#ffeaa7" stroke-width="1.5" opacity="0.15">
+      <line x1="500" y1="240" x2="500" y2="100"/><line x1="500" y1="240" x2="350" y2="120"/>
+      <line x1="500" y1="240" x2="650" y2="120"/><line x1="500" y1="240" x2="250" y2="180"/>
+      <line x1="500" y1="240" x2="750" y2="180"/>
+    </g>
+    <!-- Stars fading in upper sky -->
+    <g fill="#fff" opacity="0.2">
+      <circle cx="100" cy="40" r="1.5"/><circle cx="250" cy="60" r="1.2"/><circle cx="400" cy="30" r="1.8"/>
+      <circle cx="600" cy="50" r="1.5"/><circle cx="750" cy="35" r="1.3"/><circle cx="900" cy="55" r="1.5"/>
+    </g>
+    <!-- Birds flying toward sunrise -->
+    <g stroke="#1a1040" stroke-width="2" fill="none" opacity="0.2">
+      <path d="M350,200 Q360,190 370,200"/><path d="M380,190 Q390,180 400,190"/>
+      <path d="M365,185 Q375,175 385,185"/><path d="M395,195 Q405,185 415,195"/>
+      <path d="M600,210 Q610,200 620,210"/><path d="M630,200 Q640,190 650,200"/>
+      <path d="M615,195 Q625,185 635,195"/>
+    </g>
+  </svg>
+
+  <div class="ghost-text" style="top:5%;right:5%;font-size:30vh;color:rgba(255,234,167,0.06)">终</div>
+  <div class="map-label" style="top:24px;left:30px">
+    <div class="hanko" style="border-color:rgba(253,203,110,0.9);color:#fdcb6e;font-size:32px">尾声</div>
+  </div>
+  <div class="map-label" style="top:10%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:56px;color:#ffeaa7;text-align:center;letter-spacing:8px">尾声</div>
+    <div class="map-label-en" style="font-size:19px;color:rgba(255,234,167,0.8);margin-top:6px;letter-spacing:4px;text-align:center">EPILOGUE · DAWN</div>
+  </div>
+  <div class="map-label" style="top:28%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:36px;color:rgba(255,255,255,0.9);text-align:center;line-height:1.8">食物直接作用于舌头</div>
+    <div class="map-label-cn" style="font-size:30px;color:rgba(253,203,110,0.85);text-align:center;margin-top:8px">最底层的文化接口</div>
+  </div>
+  <div class="map-label" style="top:48%;left:10%;transform:rotate(-2deg)">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(255,255,255,0.7)">食物不需要翻译</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,255,255,0.65);margin-top:2px">不需要政治正确</div>
+  </div>
+  <div class="map-label" style="top:48%;right:10%;text-align:right;transform:rotate(2deg)">
+    <div class="map-label-cn" style="font-size:21px;color:rgba(255,255,255,0.7)">一碗好吃的酸辣粉</div>
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,255,255,0.65);margin-top:2px">> 一百个文化推广活动</div>
+  </div>
+  <div class="map-label" style="top:62%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-cn" style="font-size:23px;color:rgba(255,234,167,0.8);text-align:center;line-height:1.8">从唐人街到米其林<br>从外卖盒到黑珍珠<br>从排华法案到全球化</div>
+  </div>
+  <div class="map-label" style="bottom:22%;left:50%;transform:translateX(-50%)">
+    <div class="pill-label" style="background:rgba(255,255,255,0.1);padding:10px 24px">
+      <span class="map-label-cn" style="font-size:26px;color:#ffeaa7">这不是食物的故事 · 是身份认同的长卷</span>
+    </div>
+  </div>
+  <div class="map-label" style="bottom:10%;left:5%">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.65)">四条暗线 · 二十幅画卷</div>
+  </div>
+  <div class="map-label" style="bottom:10%;right:5%;text-align:right">
+    <div class="map-label-cn" style="font-size:18px;color:rgba(255,234,167,0.65)">Hockney × 浮世绘</div>
+  </div>
+  <div class="map-label" style="bottom:4%;left:50%;transform:translateX(-50%)">
+    <div class="map-label-en" style="font-size:16px;color:rgba(255,234,167,0.65);letter-spacing:3px;text-align:center">THE GLOBALIZATION OF CHINESE CUISINE · A SUBJECTIVE MAP · FIN</div>
+  </div>
+  <div class="map-label vertical-text" style="top:20%;left:5%;font-size:24px;color:rgba(255,234,167,0.4)">
+    <span class="map-label-cn">黎明</span>
+  </div>
+  <div class="map-label vertical-text" style="top:20%;right:5%;font-size:24px;color:rgba(255,234,167,0.4)">
+    <span class="map-label-cn">希望</span>
+  </div>
+</div>
+
+</div><!-- end scroll-canvas -->
+
+<script>
+// Generate film perforations
+const perfTop = document.getElementById('perfTop');
+const perfBottom = document.getElementById('perfBottom');
+for(let i=0;i<640;i++){
+  perfTop.innerHTML += '<div class="perf-hole"></div>';
+  perfBottom.innerHTML += '<div class="perf-hole"></div>';
+}
+
+// Drag to scroll
+const canvas = document.getElementById('canvas');
+let isDown=false,startX,scrollLeft;
+canvas.addEventListener('mousedown',e=>{isDown=true;startX=e.pageX;scrollLeft=window.scrollX});
+canvas.addEventListener('mouseleave',()=>isDown=false);
+canvas.addEventListener('mouseup',()=>isDown=false);
+canvas.addEventListener('mousemove',e=>{
+  if(!isDown)return;
+  e.preventDefault();
+  const walk=(e.pageX-startX)*1.5;
+  window.scrollTo(scrollLeft-walk,0);
+});
+
+// Keyboard navigation
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight')window.scrollBy({left:window.innerWidth,behavior:'smooth'});
+  if(e.key==='ArrowLeft')window.scrollBy({left:-window.innerWidth,behavior:'smooth'});
+  if(e.code==='Space'&&document.getElementById('playOverlay').style.display==='none'){
+    e.preventDefault();
+    togglePlay();
+  }
+});
+
+// ========== AUTO-PLAY + MUSIC ==========
+let isPlaying=false, audioCtx=null, scrollAnimId=null, masterGain=null, startTime=0, pausedAt=0, pausedScroll=0;
+const PANEL_DURATION=16000, TOTAL_PANELS=20;
+
+function startShow(){
+  document.getElementById('playOverlay').style.display='none';
+  document.getElementById('progressBar').style.display='block';
+  document.getElementById('panelIndicator').style.display='block';
+  document.getElementById('pauseHint').style.display='block';
+  isPlaying=true;
+  window.scrollTo(0,0);
+  initAudio();
+  startTime=performance.now();
+  pausedAt=0;
+  autoScroll();
+}
+
+function togglePlay(){
+  if(isPlaying){
+    isPlaying=false;
+    cancelAnimationFrame(scrollAnimId);
+    pausedAt+=(performance.now()-startTime);
+    pausedScroll=window.scrollX;
+    if(masterGain)masterGain.gain.linearRampToValueAtTime(0,audioCtx.currentTime+0.3);
+    document.getElementById('pauseHint').textContent='PAUSED · Space to resume';
+  } else {
+    isPlaying=true;
+    startTime=performance.now();
+    if(masterGain)masterGain.gain.linearRampToValueAtTime(0.15,audioCtx.currentTime+0.3);
+    document.getElementById('pauseHint').textContent='Space to pause';
+    autoScroll();
+  }
+}
+
+function initAudio(){
+  audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  // Reverb impulse
+  const rate=audioCtx.sampleRate,len=rate*2.5;
+  const impulse=audioCtx.createBuffer(2,len,rate);
+  for(let ch=0;ch<2;ch++){const d=impulse.getChannelData(ch);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.8);}
+  const conv=audioCtx.createConvolver();conv.buffer=impulse;conv.connect(audioCtx.destination);
+  masterGain=audioCtx.createGain();masterGain.gain.value=0.15;
+  masterGain.connect(conv);masterGain.connect(audioCtx.destination);
+
+  let noteIdx=0;
+  function getParams(p){
+    if(p<0.15)return{freqs:[110,131,165,220],tempo:0.35,vol:0.12,type:'sine'};
+    if(p<0.3)return{freqs:[131,165,196,262],tempo:0.4,vol:0.14,type:'sine'};
+    if(p<0.5)return{freqs:[147,185,220,294],tempo:0.5,vol:0.16,type:'triangle'};
+    if(p<0.7)return{freqs:[165,196,247,330],tempo:0.55,vol:0.18,type:'triangle'};
+    if(p<0.85)return{freqs:[185,220,277,370],tempo:0.6,vol:0.2,type:'triangle'};
+    return{freqs:[196,247,294,392],tempo:0.45,vol:0.14,type:'sine'};
+  }
+  function playNote(){
+    if(!audioCtx||audioCtx.state==='closed')return;
+    const sMax=document.documentElement.scrollWidth-window.innerWidth;
+    const prog=window.scrollX/Math.max(sMax,1);
+    const pm=getParams(prog);
+    if(isPlaying){
+      const osc=audioCtx.createOscillator(),g=audioCtx.createGain();
+      osc.type=pm.type;osc.frequency.value=pm.freqs[noteIdx%pm.freqs.length];
+      g.gain.setValueAtTime(pm.vol,audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+3);
+      osc.connect(g);g.connect(masterGain);osc.start();osc.stop(audioCtx.currentTime+3);
+      if(noteIdx%4===0){
+        const dr=audioCtx.createOscillator(),dg=audioCtx.createGain();
+        dr.type='sine';dr.frequency.value=pm.freqs[0]/2;
+        dg.gain.setValueAtTime(pm.vol*0.4,audioCtx.currentTime);
+        dg.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+5);
+        dr.connect(dg);dg.connect(masterGain);dr.start();dr.stop(audioCtx.currentTime+5);
+      }
+      noteIdx++;
+    }
+    setTimeout(playNote,1000/pm.tempo);
+  }
+  playNote();
+}
+
+function autoScroll(){
+  const sMax=document.documentElement.scrollWidth-window.innerWidth;
+  const totalDur=PANEL_DURATION*TOTAL_PANELS;
+  function step(now){
+    if(!isPlaying)return;
+    const elapsed=pausedAt+(now-startTime);
+    const prog=Math.min(elapsed/totalDur,1);
+    window.scrollTo(prog*sMax,0);
+    document.getElementById('progressBar').style.width=(prog*100)+'%';
+    const pn=Math.min(Math.floor(prog*TOTAL_PANELS)+1,TOTAL_PANELS);
+    document.getElementById('panelIndicator').textContent=pn+'/20';
+    if(prog<1)scrollAnimId=requestAnimationFrame(step);
+    else{isPlaying=false;document.getElementById('pauseHint').textContent='FIN';
+      if(audioCtx){masterGain.gain.linearRampToValueAtTime(0,audioCtx.currentTime+3);setTimeout(()=>audioCtx.close(),4000);}
+    }
+  }
+  scrollAnimId=requestAnimationFrame(step);
+}
+</script>
+
+<!-- Play overlay -->
+<div id="playOverlay" onclick="startShow()" style="position:fixed;inset:0;z-index:999;background:rgba(10,5,32,0.94);display:flex;align-items:center;justify-content:center;flex-direction:column;cursor:pointer">
+  <div style="font-family:'ZCOOL QingKe HuangYou',cursive;font-size:80px;color:#ffeaa7;opacity:0.9">&#9654;</div>
+  <div style="font-family:'ZCOOL QingKe HuangYou',cursive;font-size:32px;color:#ffeaa7;margin-top:16px">播放长卷</div>
+  <div style="font-family:'Playfair Display',serif;font-size:14px;color:rgba(255,234,167,0.3);margin-top:10px;letter-spacing:2px">PLAY THE SCROLL &middot; ~5 minutes with music</div>
+  <div style="font-family:'ZCOOL XiaoWei',serif;font-size:13px;color:rgba(255,234,167,0.2);margin-top:30px">20 panels &middot; Hockney &times; Ukiyo-e &middot; Web Audio</div>
+</div>
+
+<!-- Progress bar + indicator -->
+<div id="progressBar" style="position:fixed;bottom:18px;left:0;height:3px;background:linear-gradient(90deg,#ff6b6b,#fdcb6e,#00b894,#0984e3,#a29bfe);z-index:101;width:0;display:none"></div>
+<div id="panelIndicator" style="position:fixed;bottom:26px;right:20px;font-family:'Playfair Display',serif;font-size:12px;color:rgba(255,255,255,0.4);z-index:101;display:none">1/20</div>
+<div id="pauseHint" style="position:fixed;bottom:26px;left:20px;font-family:'Playfair Display',serif;font-size:11px;color:rgba(255,255,255,0.25);z-index:101;display:none">Space to pause</div>
+
+</body>
+</html>
